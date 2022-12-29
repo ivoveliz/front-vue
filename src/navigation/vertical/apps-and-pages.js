@@ -82,6 +82,10 @@ export default [
         title: 'Edit',
         route: { name: 'apps-users-edit', params: { id: 21 } },
       },
+      {
+        title: 'device',
+        route: { name: 'apps-users-device', params: { id: 21 } },
+      },
     ],
   },
   {

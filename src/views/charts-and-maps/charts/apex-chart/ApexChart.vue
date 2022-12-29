@@ -13,8 +13,20 @@
         </b-link>
       </p>
     </b-col>
+    <!-- <b-col cols="4">
+
+      <flat-pickr 
+          :options="fpOptions"
+          v-model="rangePicker"
+          :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+          class="form-control"
+          placeholder="placeholder"
+           
+        />
+    </b-col> -->
     <b-col cols="12">
       <apex-line-area-chart />
+      
     </b-col>
     <b-col cols="12">
       <apex-data-bar-chart />
@@ -59,13 +71,13 @@ import ApexHeatMapChart from './ApexHeatMapChart.vue'
 import ApexDonutChart from './ApexDonutChart.vue'
 import ApexRadialBarChart from './ApexRadialBarChart.vue'
 import ApexRadarChart from './ApexRadarChart.vue'
-
+import flatPickr from 'vue-flatpickr-component'
 export default {
   components: {
     BRow,
     BCol,
     BLink,
-
+    flatPickr,
     ApexLineChart,
     ApexLineAreaChart,
     ApexDataBarChart,
@@ -76,7 +88,7 @@ export default {
     ApexDonutChart,
     ApexRadarChart,
     ApexRadialBarChart,
-  },
+  } 
 }
 </script>
 

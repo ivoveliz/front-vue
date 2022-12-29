@@ -32,10 +32,12 @@ export default {
       })
     },
     fetchWishlistProducts() {
+      console.log("hola222222222")
       return new Promise((resolve, reject) => {
         axios
-          .get('/apps/ecommerce/wishlist')
+          .get('http://localhost:3000/api/organization/MainPage')
           .then(response => resolve(response))
+          //.then(response => console.log(response))
           .catch(error => reject(error))
       })
     },

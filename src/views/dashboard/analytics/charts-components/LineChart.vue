@@ -19,8 +19,10 @@ export default {
   },
   mounted() {
     const dates = this.chartData.map(d => d.date).reverse();
+    const labels = this.chartData.map(d => d.label).reverse();
     const totals = this.chartData.map(d => d.total).reverse();
-
+     console.log(dates )
+     console.log(totals )
     const {
       borderColor,
       pointBorderColor,
@@ -30,11 +32,14 @@ export default {
 
     this.renderChart(
       {
-        labels: dates,
+        labels: [
+   "hola","adios"
+  ],
         datasets: [
           {
-            label: this.label,
-            data: totals,
+            label:"hola",
+            data: [{ x: '22/11/2022-15:55:15', y: 0 },
+    { x: '22/11/2022-15:55:45', y: 0 }],
             borderColor: borderColor,
             pointBorderColor: pointBorderColor,
             pointBackgroundColor: pointBackgroundColor,

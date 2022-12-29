@@ -1,7 +1,5 @@
 <template>
-  <b-card
-    no-body
-  >
+  
     <b-card-body>
       <b-card-title>Permissions</b-card-title>
       <b-card-sub-title>Permission according to roles</b-card-sub-title>
@@ -24,7 +22,7 @@
       </template>
 
     </b-table>
-  </b-card>
+   
 </template>
 
 <script>

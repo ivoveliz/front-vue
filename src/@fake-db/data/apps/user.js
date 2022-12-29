@@ -6,7 +6,7 @@ const data = {
   users: [
     {
       id: 1,
-      fullName: 'Galen Slixby',
+      fullName: 'test1',
       company: 'Yotz PVT LTD',
       role: 'editor',
       username: 'gslixby0',

@@ -18,9 +18,9 @@
         />
         <flat-pickr
           v-model="rangePicker"
-          :config="{ mode: 'range'}"
+          :config="{ inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
           class="form-control flat-picker bg-transparent border-0 shadow-none"
-          placeholder="YYYY-MM-DD"
+          placeholder="Select Date"
         />
       </div>
       <!-- datepicker -->
@@ -56,10 +56,17 @@ export default {
     flatPickr,
   },
   data() {
+    
     return {
       apexChatData,
-      rangePicker: ['2019-05-01', '2019-05-10'],
+       rangePicker: ['2022-05-01', '2022-05-10'],
+       
     }
   },
+  async created() {
+console.log(this.rangePicker)
+
+
+  }
 }
 </script>

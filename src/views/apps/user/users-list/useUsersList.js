@@ -14,16 +14,22 @@ export default function useUsersList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'user', sortable: true },
-    { key: 'email', sortable: true },
-    { key: 'role', sortable: true },
-    {
-      key: 'currentPlan',
-      label: 'Plan',
-      formatter: title,
-      sortable: true,
-    },
-    { key: 'status', sortable: true },
+    { key: 'NamePrimaryGroup', sortable: true },
+    { key: 'IdGroup', sortable: true },
+    { key: 'id', sortable: true },
+    { key: 'SecondaryGroups[0].NameSecondaryGroup', sortable: true },
+    { key: 'SecondaryGroups[1].NameSecondaryGroup', sortable: true },
+    { key: 'SecondaryGroups[2].NameSecondaryGroup', sortable: true },
+    { key: 'SecondaryGroups[0].EntityAsociated[0].EntityName', sortable: true },
+    { key: 'SecondaryGroups[1].EntityAsociated[0].EntityName', sortable: true },
+    { key: 'SecondaryGroups[2].EntityAsociated[0].EntityName', sortable: true },
+    { key: 'SecondaryGroups[0].EntityAsociated[0].Devices[0].NameDevice', sortable: true },
+    { key: 'SecondaryGroups[1].EntityAsociated[0].Devices[0].NameDevice', sortable: true },
+    { key: 'SecondaryGroups[2].EntityAsociated[0].Devices[0].NameDevice', sortable: true },
+    { key: 'SecondaryGroups[0].EntityAsociated[0].Devices[0].State', sortable: true },
+    { key: 'SecondaryGroups[1].EntityAsociated[0].Devices[0].State', sortable: true },
+    { key: 'SecondaryGroups[2].EntityAsociated[0].Devices[0].State', sortable: true },
+
     { key: 'actions' },
   ]
   const perPage = ref(10)
@@ -36,6 +42,8 @@ export default function useUsersList() {
   const roleFilter = ref(null)
   const planFilter = ref(null)
   const statusFilter = ref(null)
+  const id = ref(null)
+ 
 
   const dataMeta = computed(() => {
     const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0
@@ -56,7 +64,7 @@ export default function useUsersList() {
 
   const fetchUsers = (ctx, callback) => {
     store
-      .dispatch('app-user/fetchUsers', {
+      .dispatch('app-user/fetchOrganization', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
@@ -65,11 +73,14 @@ export default function useUsersList() {
         role: roleFilter.value,
         plan: planFilter.value,
         status: statusFilter.value,
+        id:id.value
+        
       })
       .then(response => {
-        const { users, total } = response.data
+        console.log(response.data)
+        const { data, total } = response.data
 
-        callback(users)
+        callback(data)
         totalUsers.value = total
       })
       .catch(() => {
@@ -125,7 +136,7 @@ export default function useUsersList() {
     sortBy,
     isSortDirDesc,
     refUserListTable,
-
+    id,
     resolveUserRoleVariant,
     resolveUserRoleIcon,
     resolveUserStatusVariant,

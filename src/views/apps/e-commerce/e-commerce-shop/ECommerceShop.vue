@@ -11,10 +11,10 @@
                 icon="MenuIcon"
                 class="d-block d-lg-none"
                 size="21"
-                @click="mqShallShowLeftSidebar = true"
+                @click="mqShallShowLeftSidebar = false"
               />
               <div class="search-results">
-                {{ totalProducts }} results found
+                {{ totalProducts }} results encontrados
               </div>
             </div>
             <div class="view-options d-flex">
@@ -216,13 +216,13 @@
     </section>
 
     <!-- Sidebar -->
-    <portal to="content-renderer-sidebar-detached-left">
+    <!-- <portal to="content-renderer-sidebar-detached-left">
       <shop-left-filter-sidebar
         :filters="filters"
         :filter-options="filterOptions"
         :mq-shall-show-left-sidebar.sync="mqShallShowLeftSidebar"
       />
-    </portal>
+    </portal> -->
   </div>
 </template>
 

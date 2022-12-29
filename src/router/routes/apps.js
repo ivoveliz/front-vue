@@ -195,6 +195,16 @@ export default [
     component: () => import('@/views/apps/user/users-view/UsersView.vue'),
   },
   {
+    path: '/apps/table/chart/:id',
+    name: 'apps-table-chart',
+    component: () => import('@/views/apps/user/Table-Chart/UsersView.vue'),
+  },
+  {
+    path: '/apps/users/device/:IdConversor',
+    name: 'apps-users-device',
+    component: () => import('@/views/apps/user/users-device/UsersView.vue'),
+  },
+  {
     path: '/apps/users/edit/:id',
     name: 'apps-users-edit',
     component: () => import('@/views/apps/user/users-edit/UsersEdit.vue'),

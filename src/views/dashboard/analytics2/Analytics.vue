@@ -280,7 +280,7 @@
 </template>
     <div class="row mt-5" v-if="!isLoading">
         <div class="col">
-          <h1 class="text-center">Aes-Oficina222</h1>
+          <h1 class="text-center">{{namedevice}}</h1>
           
         </div>
       </div>
@@ -493,6 +493,8 @@
 </template>
 
 <script>
+import router from '@/router'
+import Ripple from 'vue-ripple-directive'
 import {
   BTable, BAvatar, BBadge, BRow, BCol, BFormGroup, BFormSelect, BPagination, BInputGroup, BFormInput, BInputGroupAppend, BButton,
 } from 'bootstrap-vue'
@@ -531,6 +533,9 @@ export default {
     BInputGroupAppend,
     BButton,
   },
+  directives: {
+    Ripple,
+  },
   data() {
     return {
       selectedContry: 'select_value',
@@ -556,6 +561,7 @@ export default {
         { value: 'Malay', text: 'Malay' },
         { value: 'Russian', text: 'Russian' },
       ],
+      namedevice:"",
       timer: null,
 			updatesCounter: 0,
       chartkey: 0,
@@ -635,6 +641,7 @@ export default {
     },
   },
   async created() {
+    this.namedevice=router.currentRoute.params.id
     this.items=[]
       this.maxvalue=[]
       this.minvalue=[]

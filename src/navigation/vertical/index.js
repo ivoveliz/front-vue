@@ -36,7 +36,8 @@ import others from './others'
 import chartsAndMaps from './charts-and-maps'
 import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
+import bondGyarados from './bond-gyarados'
 
 // Array of sections
-export default [...dashboard]
+export default [...bondGyarados]
 //export default [...dashboard, ...appsAndPages, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others]

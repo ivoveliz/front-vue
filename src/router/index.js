@@ -11,6 +11,7 @@ import pages from './routes/pages'
 import chartsMaps from './routes/charts-maps'
 import formsTable from './routes/forms-tables'
 import others from './routes/others'
+import bond from './routes/bond'
 
 Vue.use(VueRouter)
 
@@ -21,8 +22,9 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    { path: '/', redirect: { name: 'dashboard-analytics2' } },
+    { path: '/', redirect: { name: 'bond-Main-page' } },
     ...apps,
+    ...bond,
     ...dashboard,
     ...pages,
     ...chartsMaps,

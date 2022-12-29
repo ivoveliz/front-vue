@@ -10,10 +10,12 @@
         class="d-flex justify-content-between flex-column"
       >
         <!-- User Avatar & Action Buttons -->
+
         <div class="d-flex justify-content-start">
+          
           <b-avatar
-            :src="userData.avatar"
-            :text="avatarText(userData.fullName)"
+            :src="require('@/assets/images/avatars/10.png')"
+            :text="avatarText(userData.entity)"
             :variant="`light-${resolveUserRoleVariant(userData.role)}`"
             size="104px"
             rounded
@@ -21,7 +23,7 @@
           <div class="d-flex flex-column ml-1">
             <div class="mb-1">
               <h4 class="mb-0">
-                {{ userData.fullName }}
+                {{ userData.entity }}
               </h4>
               <span class="card-text">{{ userData.email }}</span>
             </div>
@@ -43,7 +45,7 @@
         </div>
 
         <!-- User Stats -->
-        <div class="d-flex align-items-center mt-2">
+        <!-- <div class="d-flex align-items-center mt-2">
           <div class="d-flex align-items-center mr-2">
             <b-avatar
               variant="light-primary"
@@ -79,7 +81,7 @@
               <small>Annual Profit</small>
             </div>
           </div>
-        </div>
+        </div> -->
       </b-col>
 
       <!-- Right Col: Table -->
@@ -91,61 +93,73 @@
           <tr>
             <th class="pb-50">
               <feather-icon
-                icon="UserIcon"
+                icon="InfoIcon"
                 class="mr-75"
               />
-              <span class="font-weight-bold">Username</span>
+              <span class="font-weight-bold">Entity</span>
             </th>
             <td class="pb-50">
-              {{ userData.username }}
+              {{ userData.entity}}
             </td>
           </tr>
           <tr>
             <th class="pb-50">
               <feather-icon
-                icon="CheckIcon"
+                icon="InfoIcon"
                 class="mr-75"
               />
-              <span class="font-weight-bold">Status</span>
+              <span class="font-weight-bold">FlowMeter</span>
             </th>
             <td class="pb-50 text-capitalize">
-              {{ userData.status }}
+              {{ userData.FlowMeter }}
             </td>
           </tr>
           <tr>
             <th class="pb-50">
               <feather-icon
-                icon="StarIcon"
+                icon="InfoIcon"
                 class="mr-75"
               />
-              <span class="font-weight-bold">Role</span>
+              <span class="font-weight-bold">Group</span>
             </th>
             <td class="pb-50 text-capitalize">
-              {{ userData.role }}
+              {{ userData.Group }}
             </td>
           </tr>
           <tr>
             <th class="pb-50">
               <feather-icon
-                icon="FlagIcon"
+                icon="InfoIcon"
                 class="mr-75"
               />
-              <span class="font-weight-bold">Country</span>
+              <span class="font-weight-bold">Range</span>
             </th>
             <td class="pb-50">
-              {{ userData.country }}
+              {{ userData.Range }}
             </td>
           </tr>
           <tr>
             <th>
               <feather-icon
-                icon="PhoneIcon"
+                icon="InfoIcon"
                 class="mr-75"
               />
-              <span class="font-weight-bold">Contact</span>
+              <span class="font-weight-bold">Unity</span>
             </th>
             <td>
-              {{ userData.contact }}
+              {{ userData.Unity }}
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <feather-icon
+                icon="InfoIcon"
+                class="mr-75"
+              />
+              <span class="font-weight-bold">status</span>
+            </th>
+            <td>
+              {{ userData.status }}
             </td>
           </tr>
         </table>
@@ -172,6 +186,7 @@ export default {
     },
   },
   setup() {
+     
     const { resolveUserRoleVariant } = useUsersList()
     return {
       avatarText,

@@ -15,7 +15,7 @@
           class="alert-link"
           :to="{ name: 'apps-users-list'}"
         >
-          User List
+          User Lista
         </b-link>
         for other users.
       </div>
@@ -30,7 +30,7 @@
           lg="8"
           md="7"
         >
-          <user-view-user-info-card :user-data="userData" />
+          <UserViewUserInfoCard :user-data="userData" />
         </b-col>
         <b-col
           cols="12"
@@ -38,7 +38,36 @@
           xl="3"
           lg="4"
         >
-          <user-view-user-plan-card />
+          
+
+    <b-card-body>
+      <ul class="list-unstyled my-1">
+        <li>
+      
+      <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      variant="primary"
+      block
+      :to="{ name: 'dashboard-analytics2', params: { id: userData.entity } }"
+    >
+      Real Time Data
+    </b-button>
+        </li>
+        <li class="my-25">
+          <!-- <span class="align-middle">10 GB storage</span> -->
+        </li>
+   
+      </ul>
+      <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      variant="primary"
+      block
+      :to="{ name: 'dashboard-analytics', params: { id: userData.entity } }"
+    >
+      Search Data
+    </b-button>
+    </b-card-body>
+   
         </b-col>
       </b-row>
 
@@ -47,17 +76,28 @@
           cols="12"
           lg="6"
         >
-          <user-view-user-timeline-card />
+        <!-- <b-button
+      v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+      variant="primary"
+      :to="{ name: 'dashboard-analytics2', params: { id: userData.entity } }"
+    >
+      Real time data
+    </b-button> -->
+      
+          <!-- <user-view-user-timeline-card /> -->
         </b-col>
         <b-col
           cols="12"
           lg="6"
         >
-          <user-view-user-permissions-card />
+          <!-- <user-view-user-permissions-card /> -->
+       
         </b-col>
       </b-row>
-
-      <invoice-list />
+      <UsersList2 />
+    
+   
+    
     </template>
 
   </div>
@@ -68,29 +108,39 @@ import store from '@/store'
 import router from '@/router'
 import { ref, onUnmounted } from '@vue/composition-api'
 import {
-  BRow, BCol, BAlert, BLink,
+  BRow, BCol, BAlert, BLink,BCardBody,BCard,
 } from 'bootstrap-vue'
 import InvoiceList from '@/views/apps/invoice/invoice-list/InvoiceList.vue'
 import userStoreModule from '../userStoreModule'
+import UsersList2 from '../users-list/UsersList2.vue'
+import datalist2 from '../users-list/datalist.vue'
 import UserViewUserInfoCard from './UserViewUserInfoCard.vue'
 import UserViewUserPlanCard from './UserViewUserPlanCard.vue'
 import UserViewUserTimelineCard from './UserViewUserTimelineCard.vue'
 import UserViewUserPermissionsCard from './UserViewUserPermissionsCard.vue'
+import { BButton } from 'bootstrap-vue'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
     BRow,
     BCol,
+    BCard,
     BAlert,
     BLink,
-
+    BButton,
+    BCardBody,
     // Local Components
     UserViewUserInfoCard,
     UserViewUserPlanCard,
     UserViewUserTimelineCard,
     UserViewUserPermissionsCard,
-
+    UsersList2,
     InvoiceList,
+    datalist2,
+  },
+  directives: {
+    Ripple,
   },
   setup() {
     const userData = ref(null)
@@ -104,7 +154,7 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
     })
-
+    
     store.dispatch('app-user/fetchUser', { id: router.currentRoute.params.id })
       .then(response => { userData.value = response.data })
       .catch(error => {

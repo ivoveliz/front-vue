@@ -121,6 +121,7 @@ export default {
       { title: 'Users Edit', route: { name: 'apps-users-edit', params: { id: 21 } }, icon: 'UserIcon', isBookmarked: false },
       { title: 'Users List', route: { name: 'apps-users-list' }, icon: 'UserIcon', isBookmarked: false },
       { title: 'Users View', route: { name: 'apps-users-view', params: { id: 21 } }, icon: 'UserIcon', isBookmarked: false },
+      { title: 'Users View1', route: { name: 'apps-users-device', params: { id: 21 } }, icon: 'UserIcon', isBookmarked: false },
       { title: 'Vue Select', route: { name: 'extensions-vue-select' }, icon: 'AlignCenterIcon', isBookmarked: false },
       { title: 'Wishlist', route: { name: 'apps-e-commerce-wishlist' }, icon: 'HeartIcon', isBookmarked: false },
     ],

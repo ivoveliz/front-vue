@@ -14,13 +14,21 @@ export default [
       //   title: 'eCommerce',
       //   route: 'dashboard-ecommerce',
       // },
+      // {
+      //   title: 'Search data',
+      //   route: 'dashboard-analytics',
+      // },
+      // {
+      //   title: 'Real time',
+      //   route: 'dashboard-analytics2',
+      // },
+    
       {
-        title: 'Search data',
-        route: 'dashboard-analytics',
-      },
-      {
-        title: 'Real time',
-        route: 'dashboard-analytics2',
+        title: 'Entity',
+        icon: 'HomeIcon',
+          
+            route: 'apps-users-list',
+       
       }
   //  ],
   //}

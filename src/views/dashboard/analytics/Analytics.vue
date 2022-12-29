@@ -39,6 +39,19 @@
               />
             </b-form-group>
           </b-col>
+
+          <b-col cols="4">
+
+          <flat-pickr 
+              
+              v-model="rangePicker"
+              :config="{inline:true, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              class="form-control"
+              placeholder="placeholder"
+              
+            />
+          </b-col>
+    
           <!-- <b-col md="6">
             <b-form-group
               label="Email"
@@ -500,10 +513,13 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import axios from 'axios';
 import moment from "moment";
 import { codeIconInfo } from './code'
-
+import Ripple from 'vue-ripple-directive'
 import LineChart from "./charts-components/LineChart";
 const isreaload=false
 const isLoading = true;
+import router from '@/router'
+import flatPickr from 'vue-flatpickr-component'
+import store from '@/store'
 
 import { ref } from 'vue';
  
@@ -527,6 +543,10 @@ export default {
     BFormInput,
     BInputGroupAppend,
     BButton,
+    flatPickr
+  },
+  directives: {
+    Ripple,
   },
   data() {
     return {
@@ -618,7 +638,8 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
-      }
+      },
+      rangePicker: ['2022-05-01', '2022-05-10']
     }
   },
   computed: {
@@ -630,27 +651,28 @@ export default {
     },
   },
   async created() {
-    console.log(this.name)
+   // console.log(this.name)
     this.isLoading =  true
     this.notLoading=false
-    
+    console.log(router.currentRoute.params.id)
     const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
       params: {
           "nombre":this.name
   }
 })
-//console.log(data.body)
+console.log(data.body.tasks.IdDevice)
     let id=0 
   data.body.tasks.forEach(d => {
     const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
       const maxvalue = d.MaxVolumen;
       const minvalue = d.MinVolumen;
       const promvalue = d.PromVolumen;
-      
+      const labels=d.IdDevice
+    //console.log(labels)
      id++
      this.maxvalue.push({ date, total: maxvalue});
       this.minvalue.push({ date, total: minvalue });
-      this.promvalue.push({ date, total: promvalue });
+      this.promvalue.push({ date, total: promvalue});
      this.items.push({ date, maxvalue,minvalue,promvalue,id });
    });
    this.totalRows =  this.items.length
@@ -675,7 +697,7 @@ export default {
       this.maxvalue=[]
       this.minvalue=[]
       this.promvalue=[]
-      console.log(this.name)
+      console.log( this.rangePicker)
       const  data1  = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
       params: {
           "nombre":this.name
@@ -696,7 +718,9 @@ data1.data.body.tasks.forEach(d => {
       this.minvalue.push({ date, total: minvalue });
       this.promvalue.push({ date, total: promvalue });
      this.items.push({ date, maxvalue,minvalue,promvalue,id });
+    
    });
+    
    this.totalRows =  this.items.length
    let verificador= this.items.length
    if(verificador>0){
@@ -747,3 +771,6 @@ data1.data.body.tasks.forEach(d => {
 }
 }
 </script>
+<style lang="scss">
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
+</style>

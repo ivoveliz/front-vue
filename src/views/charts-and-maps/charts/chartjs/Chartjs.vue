@@ -45,7 +45,7 @@
       <chartjs-scatter-chart />
     </b-col>
     <b-col cols="12">
-      <chartjs-line-area-chart />
+      <!-- <chartjs-line-area-chart /> -->
     </b-col>
   </b-row>
 </template>

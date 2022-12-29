@@ -12,6 +12,27 @@
           md="4"
           class="mb-md-0 mb-2"
         >
+          <label>Role1</label>
+          <b-form-input  
+                id="i-username"
+                placeholder="Id dispositivo"
+                :reduce="val => val.value"
+            @input="(val) => $emit('update:roleFilter', val)"
+              />
+          <v-select
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :value="roleFilter"
+            :options="roleOptions"
+            class="w-100"
+            :reduce="val => val.value"
+            @input="(val) => $emit('update:roleFilter', val)"
+          />
+        </b-col>
+        <b-col
+          cols="12"
+          md="4"
+          class="mb-md-0 mb-2"
+        >
           <label>Role</label>
           <v-select
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -59,7 +80,7 @@
 
 <script>
 import {
-  BCard, BCardHeader, BCardBody, BRow, BCol,
+  BCard, BCardHeader, BCardBody, BRow, BCol,  BFormInput,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 
@@ -70,6 +91,7 @@ export default {
     BCard,
     BCardHeader,
     BCardBody,
+    BFormInput,
     vSelect,
   },
   props: {

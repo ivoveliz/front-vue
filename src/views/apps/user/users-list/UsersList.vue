@@ -10,14 +10,14 @@
     />
 
     <!-- Filters -->
-    <users-list-filters
+    <!-- <users-list-filters
       :role-filter.sync="roleFilter"
       :plan-filter.sync="planFilter"
       :status-filter.sync="statusFilter"
       :role-options="roleOptions"
       :plan-options="planOptions"
       :status-options="statusOptions"
-    />
+    /> -->
 
     <!-- Table Container Card -->
     <b-card
@@ -62,7 +62,7 @@
                 variant="primary"
                 @click="isAddNewUserSidebarActive = true"
               >
-                <span class="text-nowrap">Add User</span>
+                <span class="text-nowrap">Add New Entity </span>
               </b-button>
             </div>
           </b-col>
@@ -84,24 +84,24 @@
       >
 
         <!-- Column: User -->
-        <template #cell(user)="data">
+        <template #cell(NamePrimaryGroup)="data">
           <b-media vertical-align="center">
             <template #aside>
-              <b-avatar
+              <!-- <b-avatar
                 size="32"
-                :src="data.item.avatar"
-                :text="avatarText(data.item.fullName)"
-                :variant="`light-${resolveUserRoleVariant(data.item.role)}`"
+                :src="data.item.entity"
+                :text="avatarText(data.item.entity)"
+                :variant="`light-${resolveUserRoleVariant(data.item.entity)}`"
                 :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
-              />
+              /> -->
             </template>
             <b-link
-              :to="{ name: 'apps-users-view', params: { id: data.item.id } }"
+              :to="{ name: 'apps-users-view', params: { id: data.item} }"
               class="font-weight-bold d-block text-nowrap"
             >
-              {{ data.item.fullName }}
+              {{ data.item.NamePrimaryGroup}}
             </b-link>
-            <small class="text-muted">@{{ data.item.username }}</small>
+            <small class="text-muted">{{ }}</small>
           </b-media>
         </template>
 
@@ -146,7 +146,7 @@
             </template>
             <b-dropdown-item :to="{ name: 'apps-users-view', params: { id: data.item.id } }">
               <feather-icon icon="FileTextIcon" />
-              <span class="align-middle ml-50">Details</span>
+              <span class="align-middle ml-50">detalles</span>
             </b-dropdown-item>
 
             <b-dropdown-item :to="{ name: 'apps-users-edit', params: { id: data.item.id } }">
