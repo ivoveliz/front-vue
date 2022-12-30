@@ -1,4 +1,5 @@
 <template>
+  
   <section class="grid-view wishlist-items">
     <b-card
       v-for="product in products"
@@ -7,7 +8,7 @@
       no-body
     >
       <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-e-commerce-product-details', params: { slug: product.IdSecondaryGroup} }">
+        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product.Devices} }">
           <b-img
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
@@ -62,12 +63,16 @@
         </b-card-text>
     
          <b-card-text class="item-description">
-          Ultimo Valor m3/h: {{ "127" }}
+          Ultimo Valor m3/h: {{ product.last}}
         </b-card-text>
         <b-card-text class="item-description">
           Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}
         </b-card-text>
         
+
+            <ecommerce-profit-chart :data="data.statisticsProfit" />
+        
+      
       </b-card-body>
 
       <!-- Action Buttons -->
@@ -99,15 +104,35 @@
 <script>
 import { useRouter } from '@core/utils/utils'
 import {
-  BCard, BCardBody, BImg, BCardText, BLink, BButton,
+  BCard, BCardBody, BImg, BCardText, BLink, BButton,BRow, BCol,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
-
+import EcommerceProfitChart from './EcommerceProfitChart.vue'
+import { getUserData } from '@/auth/utils'
 export default {
   components: {
-    BCard, BCardBody, BImg, BCardText, BLink, BButton,
+    BCard, BCardBody, BImg, BCardText, BLink,
+     BButton,EcommerceProfitChart,BRow,BCol,
+
+  },
+  data() {
+    return {
+      data: {},
+    }
+  },
+  created() {
+    // data
+    this.$http.get('/ecommerce/data')
+      .then(response => {
+        this.data = response.data
+        console.log(response.data.statisticsProfit)
+        // ? Your API will return name of logged in user or you might just directly get name of logged in user
+        // ? This is just for demo purpose
+        const userData = getUserData()
+        this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
+      })
   },
   setup() {
     const { handleWishlistCartActionClick } = useEcommerceUi()
@@ -125,17 +150,31 @@ export default {
     }
     const { route } = useRouter()
       //const productSlug = route.value.params.slug
-      const productId = route.value.params.slug
-       
-     
+      let productId = route.value.params.slug
+      //productId[0].last=10
+      
+      
+
       const fetchWishlistProducts = () => {
      if(productId){
+
+      store.dispatch('app-bond/fetchEntityValues', { productId})
+        .then(response => {
+          
+          productId=response 
+          console.log(productId )
+        })
+
       products.value = productId 
       store.dispatch('app-bond/fetchEntityGroup', { productId})
         .then(response => {
        // console.log(response)
         })
      }else{
+      // store.dispatch('app-bond/fetchEntityValues', { productId})
+      //   .then(response => {
+      //     productId[0].last=response 
+      //   })
       store.dispatch('app-bond/fetchEntitySaved', { productId})
         .then(response => {
           products.value = response
@@ -158,5 +197,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~@core/scss/base/pages/app-ecommerce.scss";
+//@import "~@core/scss/base/pages/app-ecommerce.scss";
+@import '@core/scss/vue/pages/dashboard-ecommerce.scss';
+@import '@core/scss/vue/libs/chart-apex.scss';
 </style>

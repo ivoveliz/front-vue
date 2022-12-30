@@ -86,5 +86,28 @@ export default [
       // ],
     },
     
+  },
+  {
+    path: '/bond/entityDetails/',
+    name: 'bond-Entity-details-page',
+    component: () => import('@/views/bond/Entity-details-page/EntityDetailsPage.vue'),
+    meta: {
+      pageTitle: 'Entity Details page',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
   }
 ]

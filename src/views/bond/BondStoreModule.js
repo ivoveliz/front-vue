@@ -1,6 +1,7 @@
 import axios from '@axios'
 let secondaryGroup
 let EntityGroup
+let EntityDetailsGroup
 export default {
   namespaced: true,
   state: {
@@ -54,7 +55,7 @@ export default {
     },
 
     // ------------------------------------------------
-    // Bond Actions
+    // Bond primary group
     // ------------------------------------------------
     fetchOrganization() {
     console.log("hola111111111")
@@ -66,6 +67,10 @@ export default {
           .catch(error => reject(error))
       })
     },
+    
+    // ------------------------------------------------
+    // Bond secondary group
+    // ------------------------------------------------
     fetchSecondaryGroup(ctx, { productId }) {
       secondaryGroup=productId
         return new Promise((resolve, reject) => {
@@ -82,6 +87,11 @@ export default {
            
           })
         },
+
+        
+    // ------------------------------------------------
+    // Bond entity
+    // ------------------------------------------------
         fetchEntityGroup(ctx, { productId }) {
           EntityGroup=productId
             return new Promise((resolve, reject) => {
@@ -98,6 +108,58 @@ export default {
               
               })
             },
+            fetchEntityValues(ctx, { productId }) {
+
+              return new Promise((resolve, reject) => {
+                let count=0
+                productId.forEach((rateName) => { 
+                  count++
+                  console.log(count-1)
+                  productId[count-1].last=count
+
+                }); 
+                resolve(productId)
+              
+              })
+            },
+          
+  
+
+    // ------------------------------------------------
+    // Bond entitydetails
+    // ------------------------------------------------
+            fetchEntityDetailsGroup(ctx, { productId }) {
+              EntityDetailsGroup=productId
+                return new Promise((resolve, reject) => {
+                 
+                  resolve(EntityDetailsGroup)
+                  
+                })
+              },
+              fetchEntityDetailsSaved() {
+     
+                  return new Promise((resolve, reject) => {
+                   
+                    resolve(EntityDetailsGroup)
+                  
+                  })
+                },
+                fetchEntityDetailsValues(ctx, { productId }) {
+    
+                  return new Promise((resolve, reject) => {
+                    let count=0
+                    productId.forEach((rateName) => { 
+                      count++
+                      console.log(count-1)
+                      productId[count-1].last=count
+    
+                    }); 
+                    resolve(productId)
+                  
+                  })
+                },
+
+
 
 
     // ------------------------------------------------
