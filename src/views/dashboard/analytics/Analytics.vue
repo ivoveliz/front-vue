@@ -360,8 +360,8 @@
     </b-row>
 
     
-      <b-col cols="12" v-if="!isLoading">
-          <b-row>
+  <b-col cols="12" v-if="!isLoading">
+  <b-row>
   <b-col
     md="2"
     sm="4"

@@ -1,12 +1,12 @@
 <template>
-  <b-card no-body>
+  <b-card  >
     <b-card-header>
       <!-- title and subtitle -->
       <div>
         <b-card-title class="mb-1">
-          Line Chart
+          Line Chart : {{ data.name }}
         </b-card-title>
-        <b-card-sub-title>Commercial networks</b-card-sub-title>
+        <b-card-sub-title>Commercial networks: {{ data.name }}</b-card-sub-title>
       </div>
       <!--/ title and subtitle -->
 
@@ -31,7 +31,7 @@
         type="area"
         height="400"
         :options="apexChatData.lineAreaChartSpline.chartOptions"
-        :series="apexChatData.lineAreaChartSpline.series"
+        :series="data.series"
       />
     </b-card-body>
   </b-card>
@@ -45,6 +45,7 @@ import VueApexCharts from 'vue-apexcharts'
 import flatPickr from 'vue-flatpickr-component'
 import apexChatData from './apexChartData'
 
+
 export default {
   components: {
     BCard,
@@ -55,16 +56,25 @@ export default {
     BCardSubTitle,
     flatPickr,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     
     return {
       apexChatData,
+      
        rangePicker: ['2022-05-01', '2022-05-10'],
        
     }
   },
   async created() {
-console.log(this.rangePicker)
+
+    
+console.log(data)
 
 
   }

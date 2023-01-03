@@ -2,28 +2,27 @@
   <section class="app-ecommerce-details">
     
       <!-- TEXTO PRINCIPAL-->
-    <div class="col" cols="12">
-          <h1 class="text-center"> Entidad : {{products[0].EntityName}}</h1>
+    <!-- <div class="col" cols="12">
+          <h1 class="text-center"> Entidad : {{products.DestinyEntity}}</h1>
           <b-col cols="12">
           <h1 class="text-center"> - </h1>
           </b-col>
-        </div>
+        </div> -->
      
         <b-row class="match-height">
-   
+        
  <!-- card -->
- <b-col
-        lg="4"
-        md="6"
+ <b-col 
+ cols="6"
+ align-self="baseline"
       >
-        <ecommerce-meetup :data="data.meetup" />
+        <ecommerce-meetup :data="products" />
       </b-col>
 
  <!-- FORMULARIO -->
- <b-col 
-    lg="6"
-     md="3"
-    cols="6"
+
+ <!-- <b-col 
+ cols="6"
             >
         <form-wizard
       color="#7367F0"
@@ -36,7 +35,7 @@
       @on-complete="formSubmitted"
     >
 
-      <!-- account datails tab -->
+    
       <tab-content title="Account Details">
         <b-row>
           <b-col
@@ -100,7 +99,7 @@
         </b-row>
       </tab-content>
 
-      <!-- personal info tab -->
+      
       <tab-content title="Personal Info">
         <b-row>
           <b-col
@@ -168,7 +167,7 @@
         </b-row>
       </tab-content>
 
-      <!-- address -->
+     
       <tab-content title="Address">
         <b-row>
           <b-col
@@ -227,7 +226,7 @@
         </b-row>
       </tab-content>
 
-      <!-- social link -->
+ 
       <tab-content title="Social Links">
         <b-row>
           <b-col
@@ -289,17 +288,184 @@
 
     
 
-  </b-col>
+  </b-col> -->
 </b-row>
    <!-- GRAFICO-->
    <b-col cols="12"
             >
-      <apex-line-area-chart />
+            <b-card  >
+    <b-card-header>
+      <!-- title and subtitle -->
+      <div>
+        <b-card-title class="mb-1">
+          Line Chart 
+        </b-card-title>
+         
+      </div>
+      <!--/ title and subtitle -->
+
+
+      <!-- datepicker -->
+    </b-card-header>
+
+    <b-card-body>
+      <vue-apex-charts
+        type="area"
+        height="400"
+        :options="chartOptions"
+        :series="datachart.series"
+      />
+    </b-card-body>
+  </b-card>
+
+      <!-- <ecommerce-profit-chart :data="datachart" /> -->
     </b-col>
+    <b-col align-self="stretch">
+ <!-- <table-kitchen-sink /> -->
+  <!-- tabla -->
+ <b-col cols="12" >
+  <b-row>
+  <b-col
+    md="2"
+    sm="4"
+    class="my-1"
+  >
+    <b-form-group
+      class="mb-0"
+    >
+      <label class="d-inline-block text-sm-left mr-50">Por pagina</label>
+      <b-form-select
+        id="perPageSelect"
+        v-model="perPage"
+        size="sm"
+        :options="pageOptions"
+        class="w-50"
+      />
+    </b-form-group>
+  </b-col>
+  <b-col
+    md="4"
+    sm="8"
+    class="my-1"
+  >
+    <b-form-group
+      label="Clasificar"
+      label-cols-sm="3"
+      label-align-sm="right"
+      label-size="sm"
+      label-for="sortBySelect"
+      class="mb-0"
+    >
+      <b-input-group size="sm">
+        <b-form-select
+          id="sortBySelect"
+          v-model="sortBy"
+          :options="sortOptions"
+          class="w-75"
+        >
+          <template v-slot:first>
+            <option value="">
+              -- item --
+            </option>
+          </template>
+        </b-form-select>
+        <b-form-select
+          v-model="sortDesc"
+          size="sm"
+          :disabled="!sortBy"
+          class="w-25"
+        >
+          <option :value="false">
+            Asc
+          </option>
+          <option :value="true">
+            Desc
+          </option>
+        </b-form-select>
+      </b-input-group>
+    </b-form-group>
+  </b-col>
+  <b-col
+    md="6"
+    class="my-1"
+  >
+    <b-form-group
+      label="Filtro"
+      label-cols-sm="3"
+      label-align-sm="right"
+      label-size="sm"
+      label-for="filterInput"
+      class="mb-0"
+    >
+      <b-input-group size="sm">
+        <b-form-input
+          id="filterInput"
+          v-model="filter"
+          type="search"
+          placeholder="Filtrar"
+        />
+        <b-input-group-append>
+          <b-button
+            :disabled="!filter"
+            @click="filter = ''"
+          >
+            Clear
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </b-form-group>
+  </b-col>
+
+  <b-col cols="12">
+    <b-table
+    
+      ref="table"
+      striped
+      hover
+      responsive
+      :key="chartkey" 
+      :per-page="perPage"
+      :current-page="currentPage"
+      :items="items"
+      :fields="fields"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :sort-direction="sortDirection"
+      :filter="filter"
+      :filter-included-fields="filterOn"
+      @filtered="onFiltered"
+    >
+      <template #cell(avatar)="data">
+        <b-avatar :src="data.value" />
+      </template>
+
+      <template #cell(status)="data">
+        <b-badge :variant="status[1][data.value]">
+          {{ status[0][data.value] }}
+        </b-badge>
+      </template>
+    </b-table>
+  </b-col>
+
+  <b-col
+    cols="12"
+  >
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      align="center"
+      size="sm"
+      class="my-0"
+    />
+  </b-col>
+</b-row>
+      </b-col>
+</b-col>
   <!-- TARJETA-->
     <div class="grid-view wishlist-items" >
     <b-card
-      v-for="product in products"
+      v-for="product in products.Devices"
       :key="product.id"
       class="ecommerce-card"
       no-body
@@ -358,19 +524,19 @@
         <b-card-text class="item-description">
           {{ product.IdDevice }}
         </b-card-text>
-        <b-card-text class="item-description">
-          Entidad asociada: {{ product.EntityName }}
-        </b-card-text>
+        <!-- <b-card-text class="item-description">
+          Entidad asociada: {{ product.NameDevice }}
+        </b-card-text> -->
         <b-card-text class="item-description">
           Estado: {{ product.State }}
         </b-card-text>
-    
+<!--     
          <b-card-text class="item-description">
-          Ultimo Valor m3/h: {{ product.last}}
+          Ultimo Valor m3/h: {{ product.NameDevice}}
         </b-card-text>
         <b-card-text class="item-description">
           Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}
-        </b-card-text>
+        </b-card-text> -->
        
       </b-card-body>
 
@@ -407,6 +573,7 @@ import {
   BTable,BRow, BCard, BCardBody, BImg, BCardText,
   BLink, BButton,BCol, BFormGroup, BFormSelect, 
   BPagination, BInputGroup, BFormInput, BInputGroupAppend,
+BCardHeader,  BCardTitle, BCardSubTitle,
   
 } from 'bootstrap-vue'
 import store from '@/store'
@@ -417,6 +584,13 @@ import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
 import flatPickr from 'vue-flatpickr-component'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
+import TableKitchenSink from './TableKitchenSink.vue'
+import axios from 'axios';
+import moment from "moment";
+import EcommerceProfitChart from './EcommerceProfitChart.vue'
+import apexChatData from './apexChartData'
+import VueApexCharts from 'vue-apexcharts'
+
 
 export default {
   components: {
@@ -424,24 +598,275 @@ export default {
     ApexLineAreaChart, flatPickr,BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,FormWizard,TabContent,EcommerceMeetup,
+    TableKitchenSink,EcommerceProfitChart, BCardHeader,
+    BCardTitle,VueApexCharts,
   },
   data() {
     return {
+      apexChatData,
       data: {},
+      chartkey: 0,
+      perPage: 5,
+      pageOptions: [ 5, 10,32],
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: '',
+      sortDesc: false,
+      sortDirection: 'asc',
+      filter: null,
+      filterOn: [],
+      infoModal: {
+        id: 'info-modal',
+        title: '',
+        content: '',
+      },
+      fields: [
+        {
+          key: 'id', label: 'Id', sortable: true 
+        },
+        {
+          key: 'date', label: 'Fecha dato', sortable: true },
+        { key: 'maxvalue', label: 'Ruido Máximo', sortable: true },
+        { key: 'minvalue', label: 'Valor Minimo', sortable: true },
+        { key: 'promvalue', label: 'Valor Promedio', sortable: true },
+      
+      ],
+      items: [],
+      datachart: {},
+      chartOptions: {
+      chart: {
+        toolbar: {
+          show: true,
+          offsetX: 0,
+          offsetY: 0,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: false,
+            zoomout: false,
+            pan: false,
+            reset: true | '<img src="/static/icons/reset.png" width="20">',
+            customIcons: []
+          },
+          export: {
+            csv: {
+              filename: undefined,
+              columnDelimiter: ',',
+              headerCategory: 'category',
+              headerValue: 'value',
+              dateFormatter(timestamp) {
+                return new Date(timestamp).toDateString()
+              }
+            },
+            svg: {
+              filename: undefined,
+            },
+            png: {
+              filename: undefined,
+            }
+          },
+          autoSelected: 'zoom' 
+        },
+        zoom: {
+          autoScaleYaxis: true
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        //enabledOnSeries: [1]
+      },
+      stroke: {
+        show: false,
+        curve: 'straight',
+      },
+      legend: {
+        show: true,
+        showForSingleSeries: false,
+        position: 'top',
+        horizontalAlign: 'left',
+        fontSize: '14px',
+        fontFamily: 'Montserrat',
+      },
+      grid: {
+        xaxis: {
+         
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'datetime',
+        
+        //min: new Date('01 Mar 2012').getTime(),
+        tickAmount: 0,
+        tooltip: {
+          enabled: false,
+         },
+        labels: {
+          format: 'HH:mm dd/MM/yy',
+          datetimeUTC: false
+        
+        }
+        
+      },
+      yaxis: {
+        // opposite: isRtl
+        
+      },
+      fill: {
+        opacity: 1,
+        type: 'solid',
+      },
+      tooltip: {
+        //shared: false,
+        enabled: true,
+       // format: 'dd MMM yyyy',
+        x: {
+          show: true,
+          format: 'HH:mm:ss',
+          formatter: undefined,
+      },
+      y: {
+        formatter: undefined,
+        title: {
+            formatter: (seriesName) => seriesName,
+        },
+      }
+      },
+      colors: ["#a4f8cd", "#a4f8cd", "#a4f8cd"],
+    },
 
     }
   },
-  created() {
-    // data
-    this.$http.get('/ecommerce/data')
-      .then(response => {
-        this.data = response.data
+  // created() {
+  //   // data
+  //   this.$http.get('/ecommerce/data')
+  //     .then(response => {
+  //       this.data = response.data
 
-        // ? Your API will return name of logged in user or you might just directly get name of logged in user
-        // ? This is just for demo purpose
-        const userData = getUserData()
-        this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
-      })
+  //       // ? Your API will return name of logged in user or you might just directly get name of logged in user
+  //       // ? This is just for demo purpose
+  //       const userData = getUserData()
+  //       this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
+  //     })
+  // },
+  computed: {
+    sortOptions() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => ({ text: f.label, value: f.key }))
+    },
+  },
+  methods: {
+
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      
+      this.currentPage = 1
+      const series=[]
+      const data1=[]
+      const datef = filteredItems[0].date
+      const maxvaluef= filteredItems[0].Maxvalue
+      const minvaluef=filteredItems[0].Minvalue
+      const promvaluef=filteredItems[0].PromVolumen
+      this.maxvalue.push({ datef, total: maxvaluef});
+      this.minvalue.push({ datef, total: minvaluef });
+      this.promvalue.push({ datef, total: promvaluef });
+      // data1.push([datef, maxvaluef])
+      // series.push({name: 'Value m3/h :', data:data1})
+
+      // this.datachart.series=series
+     
+    },
+getAPIData () {
+
+ // console.log("holaaaaaaaa")
+this.chartkey += 1;
+this.items=[]
+this.maxvalue=[]
+this.minvalue=[]
+this.promvalue=[]
+clearInterval(this.timer)
+axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
+params: {
+    "nombre":"device-ruido1"
+}
+}).then(res => {
+let id=0 
+const series=[]
+    const data1=[]
+res.data.body.tasks.forEach(d => {
+const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
+const maxvalue = d.MaxVolumen;
+const minvalue = d.MinVolumen;
+const promvalue = d.PromVolumen;
+
+const date1=d.TimeStamp
+      
+      id++
+      data1.push([date1, maxvalue])
+this.items.push({ date, maxvalue,minvalue,promvalue,id });
+});
+
+
+this.totalRows =  id
+series.push({name: 'Value m3/h :', data:data1})
+  
+  this.datachart.series=series
+
+ // console.log(this.datachart)
+  this.timer = setInterval(() => {
+    this.getAPIData()
+  }, 55000)
+}).catch(err => {
+  console.log('Error', err)
+})
+}
+  },
+  async created() {
+   
+    this.items=[]
+    this.maxvalue=[]
+      this.minvalue=[]
+      this.promvalue=[]
+      this.datachart= {}
+    const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
+      params: {
+          "nombre":"device-ruido1"
+  }
+})
+//console.log(data.body)
+    let id=0 
+    const series=[]
+    const data1=[]
+    
+  data.body.tasks.forEach(d => {
+    const maxvalue = d.MaxVolumen;
+      const minvalue = d.MinVolumen;
+      const promvalue = d.PromVolumen;
+    const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
+    
+    const date1=d.TimeStamp
+      
+     id++
+     data1.push([date1, maxvalue])
+     this.items.push({ date, maxvalue,minvalue,promvalue,id });
+     
+   });
+   series.push({name: 'Value m3/h :', data:data1})
+  
+   this.datachart.series=series
+   console.log(this.datachart.series)
+ 
+
+   this.totalRows =  id
+  
+   
+   this.getAPIData()
+
   },
   setup() {
     const { handleWishlistCartActionClick } = useEcommerceUi()
@@ -461,10 +886,9 @@ export default {
       //const productSlug = route.value.params.slug
       let productId = route.value.params.slug
       // this.EntityName1="productId[0].EntityName"
-      // console.log(this.EntityName1)
+       //console.log(productId )
       //productId[0].last=10
-      
-      
+      //console.log(this.datachart)
 
       const fetchWishlistProducts = () => {
      if(productId){

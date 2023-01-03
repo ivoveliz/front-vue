@@ -8,7 +8,7 @@
       no-body
     >
       <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product.Devices} }">
+        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product} }">
           <b-img
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
@@ -45,25 +45,29 @@
           </div>
         </div>
         <h6 class="item-name">
-          <b-link
+         Origen Entidad:  {{ product.OriginEntity}}
+          <!-- <b-link
             class="text-body"
             :to="{ name: 'bond-Secondary-page', params: { slug: product.id } }"
           >
             {{ product.EntityName}}
          
-          </b-link>
-          <b-card-text class="item-company">
+          </b-link> -->
+          <!-- <b-card-text class="item-company">
             Temperature<b-link class="ml-25">
               {{ product.temperature }}
             </b-link>
-          </b-card-text>
+          </b-card-text> -->
         </h6>
-        <b-card-text class="item-description">
-          {{ product.IdEntity }}
-        </b-card-text>
+        <h6 class="item-name">
+         Destino Entidad:  {{ product.DestinyEntity}}
+        </h6>
     
          <b-card-text class="item-description">
-          Ultimo Valor m3/h: {{ product.last}}
+          Ultimo Caudal m3/h: {{ product.last}}
+        </b-card-text>
+        <b-card-text class="item-description">
+          Ultimo Valor Totalizador m3/h: {{ product.last}}
         </b-card-text>
         <b-card-text class="item-description">
           Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}
@@ -127,7 +131,7 @@ export default {
     this.$http.get('/ecommerce/data')
       .then(response => {
         this.data = response.data
-        console.log(response.data.statisticsProfit)
+        //console.log(response.data.statisticsProfit)
         // ? Your API will return name of logged in user or you might just directly get name of logged in user
         // ? This is just for demo purpose
         const userData = getUserData()

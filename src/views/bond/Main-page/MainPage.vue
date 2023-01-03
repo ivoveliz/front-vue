@@ -7,7 +7,7 @@
       no-body
     >
       <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Secondary-page', params: { slug: product.SecondaryGroups} }">
+        <b-link :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }">
           <b-img
             :alt="`${product.NamePrimaryGroup}-${product.id}`"
             fluid
@@ -45,18 +45,18 @@
         </div>
         <h6 class="item-name">
           <b-link
-            class="text-body"
+          class="mb-25"
             :to="{ name: 'bond-Secondary-page', params: { slug: product.SecondaryGroups } }"
           >
             {{ product.NamePrimaryGroup }}
           </b-link>
-          <b-card-text class="item-company">
+          <!-- <b-card-text class="item-company">
             By <b-link class="ml-25">
               {{ product.brand }}
             </b-link>
-          </b-card-text>
+          </b-card-text> -->
         </h6>
-        <b-card-text class="item-description">
+        <b-card-text class="item-description" >
           Id Grupo : {{ product.IdGroup }}
         </b-card-text>
 

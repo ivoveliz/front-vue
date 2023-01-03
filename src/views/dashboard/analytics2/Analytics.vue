@@ -796,7 +796,7 @@ res.data.body.tasks.forEach(d => {
 				this.updatesCounter++
 				this.timer = setInterval(() => {
 					this.getAPIData()
-				}, 5000)
+				}, 50000)
 			}).catch(err => {
 				console.log('Error', err)
 			})
