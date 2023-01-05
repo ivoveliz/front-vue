@@ -160,8 +160,24 @@ export default {
                 },
 
 
-
-
+ // ------------------------------------------------
+    // Bond entitydetails values
+    // ------------------------------------------------
+    fetchEntityDetailsValuesDaily(ctx, { entityId }) {
+       
+      
+      const Entity={
+        Entity:entityId
+      }
+      return new Promise((resolve, reject) => {
+        axios
+          .get('http://localhost:3000/api/uplinks/DailyValues', { params: Entity})
+          .then(response => resolve(response))
+          //.then(response => console.log(response))
+          .catch(error => reject(error))
+      })
+      },
+      
     // ------------------------------------------------
     // Product Actions
     // ------------------------------------------------

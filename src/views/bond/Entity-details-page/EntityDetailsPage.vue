@@ -3,7 +3,7 @@
     
       <!-- TEXTO PRINCIPAL-->
     <!-- <div class="col" cols="12">
-          <h1 class="text-center"> Entidad : {{products.DestinyEntity}}</h1>
+          <h1 class="text-center"> Entidad : {{ConsultDateYesterday}}</h1>
           <b-col cols="12">
           <h1 class="text-center"> - </h1>
           </b-col>
@@ -21,7 +21,7 @@
 
  <!-- FORMULARIO -->
 
- <!-- <b-col 
+ <b-col 
  cols="6"
             >
         <form-wizard
@@ -288,17 +288,68 @@
 
     
 
-  </b-col> -->
+  </b-col>
 </b-row>
-   <!-- GRAFICO-->
+   <!-- GRAFICO VALOR INSTANTANEIO-->
    <b-col cols="12"
+            >
+            <b-card  >
+              <b-card-header>
+      <!-- title and legend -->
+      <h4 class="card-title mb-50">
+       Datos Instantaneos
+      </h4>
+      <!--/ title and legend -->
+
+      <!-- button group -->
+      <!-- <b-button-group>
+        <b-button
+          v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+          variant="outline-primary"
+        >
+         6 Horas
+        </b-button>
+        <b-button
+          v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+          variant="outline-primary"
+        >
+          12 Horas
+        </b-button>
+        <b-button
+          v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+          variant="outline-primary"
+        >
+         24 Horas
+        </b-button>
+      </b-button-group> -->
+      <!--/ button group -->
+    </b-card-header>
+
+    <b-card-body>
+      <vue-apex-charts
+        type="area"
+        height="400"
+        :options="chartOptions"
+        :series="datachart.series"
+      />
+    </b-card-body>
+    <h4 class="card-title mb-50">
+      Fecha desde : {{ConsultDateYesterday}} - Fechashasta : {{ConsultDateToday}}
+      </h4>
+    
+  </b-card>
+
+      <!-- <ecommerce-profit-chart :data="datachart" /> -->
+    </b-col>
+<!-- GRAFICO VALOR TOTALIZADOR-->
+    <b-col cols="12"
             >
             <b-card  >
     <b-card-header>
       <!-- title and subtitle -->
       <div>
         <b-card-title class="mb-1">
-          Line Chart 
+          totalizador 
         </b-card-title>
          
       </div>
@@ -313,9 +364,11 @@
         type="area"
         height="400"
         :options="chartOptions"
-        :series="datachart.series"
+        :series="datachartTotalizer.series"
       />
     </b-card-body>
+
+    
   </b-card>
 
       <!-- <ecommerce-profit-chart :data="datachart" /> -->
@@ -573,7 +626,7 @@ import {
   BTable,BRow, BCard, BCardBody, BImg, BCardText,
   BLink, BButton,BCol, BFormGroup, BFormSelect, 
   BPagination, BInputGroup, BFormInput, BInputGroupAppend,
-BCardHeader,  BCardTitle, BCardSubTitle,
+BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup,
   
 } from 'bootstrap-vue'
 import store from '@/store'
@@ -592,6 +645,7 @@ import apexChatData from './apexChartData'
 import VueApexCharts from 'vue-apexcharts'
 
 
+
 export default {
   components: {
     BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
@@ -599,7 +653,7 @@ export default {
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,FormWizard,TabContent,EcommerceMeetup,
     TableKitchenSink,EcommerceProfitChart, BCardHeader,
-    BCardTitle,VueApexCharts,
+    BCardTitle,VueApexCharts, BButtonGroup,
   },
   data() {
     return {
@@ -607,12 +661,12 @@ export default {
       data: {},
       chartkey: 0,
       perPage: 5,
-      pageOptions: [ 5, 10,32],
+      pageOptions: [5, 10,20,60,100,200,500],
       totalRows: 1,
       currentPage: 1,
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
+      sortBy: 'date',
+      sortDesc: true,
+      sortDirection: 'desc',
       filter: null,
       filterOn: [],
       infoModal: {
@@ -622,19 +676,23 @@ export default {
       },
       fields: [
         {
-          key: 'id', label: 'Id', sortable: true 
+         key: 'count', label: 'Id', sortable: true 
         },
         {
           key: 'date', label: 'Fecha dato', sortable: true },
-        { key: 'maxvalue', label: 'Ruido Máximo', sortable: true },
-        { key: 'minvalue', label: 'Valor Minimo', sortable: true },
-        { key: 'promvalue', label: 'Valor Promedio', sortable: true },
+        { key: 'ValueDecodeInstant', label: 'Valor Instaneo m3/h', sortable: true },
+        { key: 'ValueDecodeTote', label: 'Valor totalizador m3/h', sortable: true },
+         
       
       ],
       items: [],
       datachart: {},
+      datachartTotalizer: {},
+      ConsultDateToday: "",
+      ConsultDateYesterday: "",
       chartOptions: {
       chart: {
+        
         toolbar: {
           show: true,
           offsetX: 0,
@@ -790,40 +848,42 @@ this.maxvalue=[]
 this.minvalue=[]
 this.promvalue=[]
 clearInterval(this.timer)
-axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
-params: {
-    "nombre":"device-ruido1"
+
+this.items=[]
+    this.maxvalue=[]
+      this.minvalue=[]
+      this.promvalue=[]
+      this.datachart= {}
+      this.datachartTotalizer= {}
+
+      let entityId=this.products.IdEntity
+
+const fetchEntityDetailsValuesDaily = () => {
+
+store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+ .then(response => {
+  this.datachart=response.data.DataChart
+  this.items=response.data.TableValues
+  this.totalRows =response.data.total
+  this.datachartTotalizer=response.data.DataChartTotalize
+  this.ConsultDateToday =response.data.ConsultDateToday
+  this.ConsultDateYesterday = response.data.ConsultDateYesterday
+     
+
+   console.log ( response.data)
+ })
 }
-}).then(res => {
-let id=0 
-const series=[]
-    const data1=[]
-res.data.body.tasks.forEach(d => {
-const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
-const maxvalue = d.MaxVolumen;
-const minvalue = d.MinVolumen;
-const promvalue = d.PromVolumen;
-
-const date1=d.TimeStamp
-      
-      id++
-      data1.push([date1, maxvalue])
-this.items.push({ date, maxvalue,minvalue,promvalue,id });
-});
-
-
-this.totalRows =  id
-series.push({name: 'Value m3/h :', data:data1})
+fetchEntityDetailsValuesDaily()
+    
   
-  this.datachart.series=series
 
  // console.log(this.datachart)
   this.timer = setInterval(() => {
     this.getAPIData()
-  }, 55000)
-}).catch(err => {
-  console.log('Error', err)
-})
+  }, 30000)//60000
+// }).catch(err => {
+//   console.log('Error', err)
+// })
 }
   },
   async created() {
@@ -833,36 +893,54 @@ series.push({name: 'Value m3/h :', data:data1})
       this.minvalue=[]
       this.promvalue=[]
       this.datachart= {}
-    const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
-      params: {
-          "nombre":"device-ruido1"
-  }
-})
-//console.log(data.body)
-    let id=0 
-    const series=[]
-    const data1=[]
-    
-  data.body.tasks.forEach(d => {
-    const maxvalue = d.MaxVolumen;
-      const minvalue = d.MinVolumen;
-      const promvalue = d.PromVolumen;
-    const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
-    
-    const date1=d.TimeStamp
-      
-     id++
-     data1.push([date1, maxvalue])
-     this.items.push({ date, maxvalue,minvalue,promvalue,id });
-     
-   });
-   series.push({name: 'Value m3/h :', data:data1})
-  
-   this.datachart.series=series
-   console.log(this.datachart.series)
+      this.datachartTotalizer= {}
  
+//     const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
+//       params: {
+//           "nombre":"device-ruido1"
+//   }
+// })
+// //console.log(data.body)
+//     let id=0 
+//     const series=[]
+//     const data1=[]
+    
+//   data.body.tasks.forEach(d => {
+//     const maxvalue = d.MaxVolumen;
+//       const minvalue = d.MinVolumen;
+//       const promvalue = d.PromVolumen;
+//     const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
+    
+//     const date1=d.TimeStamp
+      
+//      id++
+//      data1.push([date1, maxvalue])
+//      this.items.push({ date, maxvalue,minvalue,promvalue,id });
+     
+//    });
+//    series.push({name: 'Value m3/h :', data:data1})
+  
+  //  this.datachart.series=series
+  // this.datachart=DataChart
+  //  console.log(this.datachart.series)
+ 
+  let entityId=this.products.IdEntity
 
-   this.totalRows =  id
+  const fetchEntityDetailsValuesDaily = () => {
+
+store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+ .then(response => {
+  this.datachart=response.data.DataChart
+  this.items=response.data.TableValues
+  this.totalRows =response.data.total
+  this.datachartTotalizer=response.data.DataChartTotalize
+  this.ConsultDateToday =response.data.ConsultDateToday
+  this. ConsultDateYesterday = response.data.ConsultDateYesterday
+   console.log ( response.data)
+ })
+}
+fetchEntityDetailsValuesDaily()
+    
   
    
    this.getAPIData()
@@ -872,6 +950,7 @@ series.push({name: 'Value m3/h :', data:data1})
     const { handleWishlistCartActionClick } = useEcommerceUi()
 
     const products = ref([])
+  
  
 
     const { removeProductFromWishlist } = useEcommerce()
@@ -889,7 +968,7 @@ series.push({name: 'Value m3/h :', data:data1})
        //console.log(productId )
       //productId[0].last=10
       //console.log(this.datachart)
-
+     // console.log(productId )
       const fetchWishlistProducts = () => {
      if(productId){
 
@@ -901,7 +980,7 @@ series.push({name: 'Value m3/h :', data:data1})
         })
 
       products.value = productId 
-      console.log(products )
+     
       store.dispatch('app-bond/fetchEntityDetailsGroup', { productId})
         .then(response => {
        // console.log(response)
@@ -918,12 +997,20 @@ series.push({name: 'Value m3/h :', data:data1})
      }
      //console.log(products.value) 
     }
+    // const fetchEntityDetailsValuesDaily = () => {
 
+    //    store.dispatch('app-bond/fetchEntityDetailsValuesDaily', { productId})
+    //     .then(response => {
+    //       DataChart=response.data.DataChart
+    //       console.log ( response.data.DataChart)
+    //     })
+    // }
+    // fetchEntityDetailsValuesDaily()
     fetchWishlistProducts()
 
     return {
       products,
-
+       
       // UI
       handleWishlistCartActionClick,
       removeProductFromWishlistClick,
