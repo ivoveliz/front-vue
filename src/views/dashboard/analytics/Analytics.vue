@@ -40,7 +40,7 @@
             </b-form-group>
           </b-col>
 
-          <b-col cols="4">
+          <b-col cols="6">
 
           <flat-pickr 
               

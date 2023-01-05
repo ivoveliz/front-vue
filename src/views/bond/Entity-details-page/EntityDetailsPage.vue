@@ -28,262 +28,66 @@
       color="#7367F0"
       :title="null"
       :subtitle="null"
-      layout="vertical"
-      finish-button-text="Submit"
+      layout=""
+      finish-button-text="Descargar"
       back-button-text="Previous"
       class="wizard-vertical mb-3"
       @on-complete="formSubmitted"
     >
 
     
-      <tab-content title="Account Details">
+      <tab-content title="DESCARGA DE INFORMACION PERSONALIZADA"
+      icon="DownloadCloudIcon icon-file-text" >
         <b-row>
-          <b-col
+          <b-col :data="products"
             cols="12"
             class="mb-2"
           >
-            <h5 class="mb-0">
-              Account Details
+          <h5 class="mb-0">
+              Origen Entidad :{{products.OriginEntity}}
             </h5>
             <small class="text-muted">
-              Enter Your Account Details.
+              -
             </small>
+            <h5 class="mb-1">
+              Destino Entidad :{{products.DestinyEntity}}
+            </h5>
+            
           </b-col>
-          <b-col md="6">
+          <!-- <b-col md="7">
             <b-form-group
-              label="Username"
-              label-for="v-username"
-            >
-              <b-form-input
-                id="v-username"
-                placeholder="johndoe"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Email"
-              label-for="v-email"
-            >
-              <b-form-input
-                id="v-email"
-                type="email"
-                placeholder="john.doe@email.com"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Password"
-              label-for="v-password"
-            >
-              <b-form-input
-                id="v-password"
-                type="password"
-                placeholder="Password"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Confirm Password"
-              label-for="v-c-password"
-            >
-              <b-form-input
-                id="v-c-password"
-                type="password"
-                placeholder="Re-type Password"
-              />
-            </b-form-group>
+        label="Entidad"
+        label-for="readOnlyInput"
+      >
+        <b-form-input 
+         v-model="DeviceID"
+          id="readOnlyInput"
+          value="You can't update me :P"
+          readonly
+        />
+      </b-form-group>
+          </b-col> -->
+  
+          <b-col md="7">
+            <flat-pickr 
+              
+              v-model="rangePicker"
+              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              class="form-control"
+              placeholder="Ingrese Rango de fecha y hora"
+              
+            />
+            
           </b-col>
         </b-row>
       </tab-content>
 
       
-      <tab-content title="Personal Info">
-        <b-row>
-          <b-col
-            cols="12"
-            class="mb-2"
-          >
-            <h5 class="mb-0">
-              Personal Info
-            </h5>
-            <small class="text-muted">Enter Your Personal Info.</small>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="First Name"
-              label-for="v-first-name"
-            >
-
-              <b-form-input
-                id="v-first-name"
-                placeholder="John"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Last Name"
-              label-for="v-last-name"
-            >
-              <b-form-input
-                id="v-last-name"
-                placeholder="Doe"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Country"
-              label-for="v-country"
-            >
-              <v-select
-                id="v-country"
-                v-model="selectedContry"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="countryName"
-                :selectable="option => ! option.value.includes('select_value')"
-                label="text"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label-for="v-language"
-              label="Language"
-            >
-              <v-select
-                id="Language"
-                v-model="selectedLanguage"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :selectable="option => ! option.value.includes('select_value')"
-                :options="languageName"
-                label="text"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content>
-
-     
-      <tab-content title="Address">
-        <b-row>
-          <b-col
-            cols="12"
-            class="mb-2"
-          >
-            <h5 class="mb-0">
-              Address
-            </h5>
-            <small class="text-muted">Enter Your Address.</small>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Address"
-              label-for="v-address"
-            >
-              <b-form-input
-                id="v-address"
-                placeholder="98 Borough bridge Road, Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Landmark"
-              label-for="v-landmark"
-            >
-              <b-form-input
-                id="v-landmark"
-                placeholder="Borough bridge"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Pincode"
-              label-for="v-pincode"
-            >
-              <b-form-input
-                id="v-pincode"
-                placeholder="658921"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="City"
-              label-for="v-city"
-            >
-              <b-form-input
-                id="v-city"
-                placeholder="Birmingham"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content>
+       
+ 
 
  
-      <tab-content title="Social Links">
-        <b-row>
-          <b-col
-            cols="12"
-            class="mb-2"
-          >
-            <h5 class="mb-0">
-              Social Links
-            </h5>
-            <small class="text-muted">Enter Your Social Links</small>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Twitter"
-              label-for="v-twitter"
-            >
-              <b-form-input
-                id="v-twitter"
-                placeholder="https://twitter.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Facebook"
-              label-for="v-facebook"
-            >
-              <b-form-input
-                id="v-facebook"
-                placeholder="https://facebook.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="Google+"
-              label-for="v-google-plus"
-            >
-              <b-form-input
-                id="v-google-plus"
-                placeholder="https://plus.google.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col md="6">
-            <b-form-group
-              label="LinkedIn"
-              label-for="v-linked-in"
-            >
-              <b-form-input
-                id="v-linked-in"
-                placeholder="https://linkedin.com/abc"
-              />
-            </b-form-group>
-          </b-col>
-        </b-row>
-      </tab-content>
+   
     </form-wizard>
 
     
@@ -643,6 +447,7 @@ import moment from "moment";
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import apexChatData from './apexChartData'
 import VueApexCharts from 'vue-apexcharts'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 
 
@@ -653,12 +458,14 @@ export default {
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,FormWizard,TabContent,EcommerceMeetup,
     TableKitchenSink,EcommerceProfitChart, BCardHeader,
-    BCardTitle,VueApexCharts, BButtonGroup,
+    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,
   },
   data() {
     return {
       apexChatData,
       data: {},
+      DeviceID:"endev",
+      rangePicker:"",
       chartkey: 0,
       perPage: 5,
       pageOptions: [5, 10,20,60,100,200,500],
@@ -756,16 +563,16 @@ export default {
       },
       xaxis: {
         type: 'datetime',
-        
-        //min: new Date('01 Mar 2012').getTime(),
-        tickAmount: 0,
+      
+        //min: new Date().getTime(),
+        tickAmount: 3,
         tooltip: {
           enabled: false,
          },
         labels: {
-          format: 'HH:mm dd/MM/yy',
-          datetimeUTC: false
-        
+          format: 'HH:mm:ss dd/MM/yy',
+          formatter: undefined,
+          datetimeUTC: false,
         }
         
       },
@@ -783,7 +590,7 @@ export default {
        // format: 'dd MMM yyyy',
         x: {
           show: true,
-          format: 'HH:mm:ss',
+          format: 'HH:mm:ss dd/MM/yy',
           formatter: undefined,
       },
       y: {
@@ -798,18 +605,7 @@ export default {
 
     }
   },
-  // created() {
-  //   // data
-  //   this.$http.get('/ecommerce/data')
-  //     .then(response => {
-  //       this.data = response.data
 
-  //       // ? Your API will return name of logged in user or you might just directly get name of logged in user
-  //       // ? This is just for demo purpose
-  //       const userData = getUserData()
-  //       this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
-  //     })
-  // },
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -819,7 +615,33 @@ export default {
     },
   },
   methods: {
+    async formSubmitted() {
+      console.log( this.rangePicker)
+       
+      let entityId = this.DeviceID
+      console.log(entityId)
+      const fetchEntityDetailsValuesDaily = () => {
 
+store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+ .then(response => {
+  console.log(response)
+     
+  this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Consulta realizada',
+    icon: 'EditIcon',
+    variant: 'success',
+ 
+  },
+})
+    
+ })
+}
+fetchEntityDetailsValuesDaily()
+
+
+},
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       
@@ -870,7 +692,7 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
      
 
-   console.log ( response.data)
+    
  })
 }
 fetchEntityDetailsValuesDaily()
@@ -895,35 +717,7 @@ fetchEntityDetailsValuesDaily()
       this.datachart= {}
       this.datachartTotalizer= {}
  
-//     const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
-//       params: {
-//           "nombre":"device-ruido1"
-//   }
-// })
-// //console.log(data.body)
-//     let id=0 
-//     const series=[]
-//     const data1=[]
-    
-//   data.body.tasks.forEach(d => {
-//     const maxvalue = d.MaxVolumen;
-//       const minvalue = d.MinVolumen;
-//       const promvalue = d.PromVolumen;
-//     const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
-    
-//     const date1=d.TimeStamp
-      
-//      id++
-//      data1.push([date1, maxvalue])
-//      this.items.push({ date, maxvalue,minvalue,promvalue,id });
-     
-//    });
-//    series.push({name: 'Value m3/h :', data:data1})
-  
-  //  this.datachart.series=series
-  // this.datachart=DataChart
-  //  console.log(this.datachart.series)
- 
+
   let entityId=this.products.IdEntity
 
   const fetchEntityDetailsValuesDaily = () => {
@@ -935,7 +729,8 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.totalRows =response.data.total
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
-  this. ConsultDateYesterday = response.data.ConsultDateYesterday
+  this.ConsultDateYesterday = response.data.ConsultDateYesterday
+  this.DeviceID=response.data.Entity
    console.log ( response.data)
  })
 }
@@ -969,6 +764,7 @@ fetchEntityDetailsValuesDaily()
       //productId[0].last=10
       //console.log(this.datachart)
      // console.log(productId )
+     
       const fetchWishlistProducts = () => {
      if(productId){
 
