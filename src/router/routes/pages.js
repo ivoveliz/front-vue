@@ -25,6 +25,8 @@ export default [
     component: () => import('@/views/pages/authentication/Login-v1.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
+      redirectIfLoggedIn: true,
     },
   },
   {

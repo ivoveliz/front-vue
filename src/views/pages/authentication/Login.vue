@@ -285,13 +285,14 @@ export default {
               const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
+              //console.log(userData)
               localStorage.setItem('userData', JSON.stringify(userData))
               this.$ability.update(userData.ability)
 
               // ? This is just for demo purpose as well.
               // ? Because we are showing eCommerce app's cart items count in navbar
               this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
-
+              //console.log(userData.role)
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
                 .then(() => {

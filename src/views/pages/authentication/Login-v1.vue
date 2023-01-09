@@ -13,7 +13,7 @@
         </b-link>
 
         <b-card-title class="mb-1">
-          Welcome to Vuexy! 👋
+          Welcome to wisely! 👋
         </b-card-title>
         <b-card-text class="mb-2">
           Please sign-in to your account and start the adventure
@@ -107,6 +107,7 @@
               type="submit"
               block
               :disabled="invalid"
+              @click="validationForm"
             >
               Sign in
             </b-button>
@@ -164,9 +165,12 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
   BButton, BForm, BFormInput, BFormGroup, BCard, BLink, BCardTitle, BCardText, BInputGroup, BInputGroupAppend, BFormCheckbox,
 } from 'bootstrap-vue'
+import store from '@/store'
+import useJwt from '@/auth/jwt/useJwt'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import { getHomeRouteForLoggedInUser } from '@/auth/utils'
 
 export default {
   components: {
@@ -201,7 +205,65 @@ export default {
     passwordToggleIcon() {
       return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
-  },
+  }, 
+  methods: {
+    validationForm() {
+
+      const Credentials={
+
+email: this.userEmail, 
+password:this.password
+
+}
+
+    
+ const test= {
+    "userData": {
+        "id": 1,
+        "fullName": "Ivo Veliz",
+        "username": "Ivoveliz",
+        "avatar": "require('@/assets/images/avatars/13-small.png')",
+        "email": "admin@demo.com",
+        "role": "admin",
+        "ability": [
+            {
+                "action": "manage",
+                "subject": "all"
+            }
+        ],
+        "extras": {
+            "eCommerceCartItemsCount": 5
+        }
+    },
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjczMzA1MTU2LCJleHAiOjE2NzMzMDU3NTZ9.GtJvLZvyaHC9SjG06gjYx55PJrhkCPb8PVm5NY5S8aU",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjczMzA1MTU2LCJleHAiOjE2NzMzMDU3NTZ9.7ppXQA-dJzAP8eA5dIs3yLZQmKZ74PMqJnonTmevF18"
+}
+const fetchEntityDetailsValuesDaily = async () => {
+
+store.dispatch('app-bond/fetchUser' , {Credentials})
+ .then(response => {
+ console.log(response.data)
+  const { userData } =  response.data
+              useJwt.setToken( response.data.accessToken)
+              useJwt.setRefreshToken(response.data.refreshToken)
+              //console.log(userData)
+              localStorage.setItem('userData', JSON.stringify(userData))
+              this.$ability.update(userData.ability)
+
+              // ? This is just for demo purpose as well.
+              // ? Because we are showing eCommerce app's cart items count in navbar
+              // this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+              //console.log(userData.role)
+              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
+              this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+ })
+}
+fetchEntityDetailsValuesDaily()
+ 
+        
+      
+}
+  }
 }
 </script>
 

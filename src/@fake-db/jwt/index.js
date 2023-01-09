@@ -1,5 +1,8 @@
 import mock from '@/@fake-db/mock'
 import jwt from 'jsonwebtoken'
+import store from '@/store'
+import { ref } from '@vue/composition-api'
+const products = ref([])
 
 const data = {
   users: [
@@ -47,7 +50,8 @@ const data = {
     },
   ],
 }
-
+ 
+ 
 // ! These two secrets shall be in .env file and not in any other file
 const jwtConfig = {
   secret: 'dd5f3089-40c3-403d-af14-d0c228b05cb4',
@@ -57,14 +61,34 @@ const jwtConfig = {
 }
 
 mock.onPost('/jwt/login').reply(request => {
+ 
   const { email, password } = JSON.parse(request.data)
+
+  const Credentials={
+
+    email:email, 
+    password:password
+
+  }
+  
+  const fetchEntityDetailsValuesDaily = async () => {
+
+    store.dispatch('app-bond/fetchUser' , {Credentials})
+     .then(response => {
+      
+      products.value=response.data
+     })
+    }
+    fetchEntityDetailsValuesDaily()
 
   let error = {
     email: ['Something went wrong'],
   }
 
-  const user = data.users.find(u => u.email === email && u.password === password)
+  const user = products.value
+  var parsedobj = JSON.parse(JSON.stringify( products.value))
 
+   
   if (user) {
     try {
       const accessToken = jwt.sign({ id: user.id }, jwtConfig.secret, { expiresIn: jwtConfig.expireTime })
@@ -81,7 +105,7 @@ mock.onPost('/jwt/login').reply(request => {
         accessToken,
         refreshToken,
       }
-
+      console.log(response)
       return [200, response]
     } catch (e) {
       error = e

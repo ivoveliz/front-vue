@@ -451,8 +451,6 @@ import flatPickr from 'vue-flatpickr-component'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
 import TableKitchenSink from './TableKitchenSink.vue'
-import axios from 'axios';
-import moment from "moment";
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import apexChatData from './apexChartData'
 import VueApexCharts from 'vue-apexcharts'
@@ -699,12 +697,6 @@ xlsx(data, settings) // Will download the excel file
 
   }
  
-
- 
-
-
-  
-
   this.$toast({
   component: ToastificationContent,
   props: {
@@ -773,9 +765,7 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
-     
-
-    
+   
  })
 }
 fetchEntityDetailsValuesDaily()

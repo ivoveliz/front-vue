@@ -53,6 +53,20 @@ export default {
           .catch(error => reject(error))
       })
     },
+ // ------------------------------------------------
+    // Bond Users 
+    // ------------------------------------------------
+
+    fetchUser(ctx, { Credentials }) {
+    
+      return new Promise((resolve, reject) => {
+        axios
+          .get('http://localhost:3000/api/users/login', { params: Credentials})
+          .then(response => resolve(response))
+          //.then(response => console.log(response))
+          .catch(error => reject(error))
+      })
+      },
 
     // ------------------------------------------------
     // Bond primary group
@@ -164,8 +178,6 @@ export default {
     // Bond entitydetails values
     // ------------------------------------------------
     fetchEntityDetailsValuesDaily(ctx, { entityId }) {
-       
-      
       const Entity={
         Entity:entityId
       }
