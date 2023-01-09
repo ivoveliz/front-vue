@@ -41,9 +41,9 @@ export default {
       {
         module: 'Admin',
         read: true,
-        write: false,
-        create: false,
-        delete: false,
+        write: true,
+        create: true,
+        delete: true,
       },
       {
         module: 'Staff',

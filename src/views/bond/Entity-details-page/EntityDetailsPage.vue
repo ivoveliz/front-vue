@@ -29,7 +29,7 @@
       :title="null"
       :subtitle="null"
       layout=""
-      finish-button-text="Descargar"
+      finish-button-text="Descargar Informe"
       back-button-text="Previous"
       class="wizard-vertical mb-3"
       @on-complete="formSubmitted"
@@ -53,6 +53,7 @@
               Destino Entidad :{{products.DestinyEntity}}
             </h5>
             
+            
           </b-col>
           <!-- <b-col md="7">
             <b-form-group
@@ -67,27 +68,34 @@
         />
       </b-form-group>
           </b-col> -->
-  
+          <b-col md="7">
+          <v-select
+                id="SelectedFormat"
+                v-model="SelectedFormat"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="Format"
+                :selectable="option => ! option.value.includes('select_value')"
+                label="text"
+              />
+              <small class="text-muted">
+              -
+            </small>
+            </b-col>
           <b-col md="7">
             <flat-pickr 
               
               v-model="rangePicker"
-              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        '}"
               class="form-control"
               placeholder="Ingrese Rango de fecha y hora"
               
             />
             
           </b-col>
+        
         </b-row>
       </tab-content>
 
-      
-       
- 
-
- 
-   
     </form-wizard>
 
     
@@ -131,7 +139,7 @@
 
     <b-card-body>
       <vue-apex-charts
-        type="area"
+        type="line"
         height="400"
         :options="chartOptions"
         :series="datachart.series"
@@ -165,7 +173,7 @@
 
     <b-card-body>
       <vue-apex-charts
-        type="area"
+        type="line"
         height="400"
         :options="chartOptions"
         :series="datachartTotalizer.series"
@@ -436,6 +444,7 @@ BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup,
 import store from '@/store'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
+import vSelect from 'vue-select'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
 import flatPickr from 'vue-flatpickr-component'
@@ -448,7 +457,9 @@ import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import apexChatData from './apexChartData'
 import VueApexCharts from 'vue-apexcharts'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-
+import jspdf from 'jspdf'
+import 'jspdf-autotable'
+import xlsx from "json-as-xlsx"
 
 
 export default {
@@ -457,7 +468,7 @@ export default {
     ApexLineAreaChart, flatPickr,BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,FormWizard,TabContent,EcommerceMeetup,
-    TableKitchenSink,EcommerceProfitChart, BCardHeader,
+    TableKitchenSink,EcommerceProfitChart, BCardHeader,vSelect,
     BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,
   },
   data() {
@@ -466,6 +477,7 @@ export default {
       data: {},
       DeviceID:"endev",
       rangePicker:"",
+      SelectedFormat:"",
       chartkey: 0,
       perPage: 5,
       pageOptions: [5, 10,20,60,100,200,500],
@@ -476,6 +488,12 @@ export default {
       sortDirection: 'desc',
       filter: null,
       filterOn: [],
+      SelectedFormat: 'Seleccionar Formato',
+      Format: [
+        { value: 'PDF', text: 'PDF' },
+        { value: 'Excel', text: 'Excel' },
+     
+      ],
       infoModal: {
         id: 'info-modal',
         title: '',
@@ -542,7 +560,7 @@ export default {
         //enabledOnSeries: [1]
       },
       stroke: {
-        show: false,
+        show: true,
         curve: 'straight',
       },
       legend: {
@@ -616,20 +634,81 @@ export default {
   },
   methods: {
     async formSubmitted() {
-      console.log( this.rangePicker)
-       
-      let entityId = this.DeviceID
+      //console.log( this.rangePicker)
+      let xlsx = require("json-as-xlsx")
+      let entityId = {
+        Entity:this.DeviceID,
+      RangeDate:this.rangePicker
+    }
       console.log(entityId)
       const fetchEntityDetailsValuesDaily = () => {
-
-store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+        let xlsx = require("json-as-xlsx")
+store.dispatch('app-bond/fetchEntityDetailsValuesExport' , { entityId})
  .then(response => {
-  console.log(response)
-     
+  var ConsultDate=response.data.DateConsult
+  console.log(response.data )
+  console.log(this.SelectedFormat.value)
+  let format = this.SelectedFormat.value
+  
+  if( format=="Excel"){
+
+    let data = [
+  {
+    sheet: `Informe`,
+    columns: [
+      { label: "Fecha Dato", value: "Date" }, // Top level data
+      { label: "Valor Instantaneo m3/h", value:"Instant" }, // Custom format
+      { label: "Valor Totalizador m3/h", value: "Totalizer" }, // Run functions
+    ],
+    content: response.data.DataExportCsv
+      // { user: "Andrea", age: 20, more: { phone: "11111111" } },
+      // { user: "Luis", age: 21, more: { phone: "12345678" } },
+    ,
+  },
+  // {
+  //   sheet: "Children",
+  //   columns: [
+  //     { label: "User", value: "user" }, // Top level data
+  //     { label: "Age", value: "age", format: '# "years"' }, // Column format
+  //     { label: "Phone", value: "more.phone", format: "(###) ###-####" }, // Deep props and column format
+  //   ],
+  //   content: [
+  //     { user: "Manuel", age: 16, more: { phone: 9999999900 } },
+  //     { user: "Ana", age: 17, more: { phone: 8765432135 } },
+  //   ],
+  // },
+]
+
+let settings = {
+  fileName: `Informe ${ConsultDate}`, // Name of the resulting spreadsheet
+  extraLength: 3, // A bigger number means that columns will be wider
+  writeMode: "writeFile", // The available parameters are 'WriteFile' and 'write'. This setting is optional. Useful in such cases https://docs.sheetjs.com/docs/solutions/output#example-remote-file
+  writeOptions: {}, // Style options from https://docs.sheetjs.com/docs/api/write-options
+  RTL: false, // Display the columns from right-to-left (the default value is false)
+}
+
+xlsx(data, settings) // Will download the excel file
+    
+  }else{
+    var head = [['Fecha dato', 'Valor Instantaneo m3/h', 'Valor Totalizador m3/h']]
+  var body = response.data.DataExportPdf
+  let doc = new jspdf()
+  doc.autoTable({ head: head, body: body })
+  doc.save(`Informe ${ConsultDate}.pdf`)
+   
+
+  }
+ 
+
+ 
+
+
+  
+
   this.$toast({
   component: ToastificationContent,
   props: {
-    title: 'Consulta realizada',
+    title: 'Documento generado con exito',
     icon: 'EditIcon',
     variant: 'success',
  
@@ -640,6 +719,10 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
 }
 fetchEntityDetailsValuesDaily()
 
+// var head = [['ID', 'Fecha dato', 'Valor Instantaneo m3/h', 'Valor totalizador m3/h']]
+// let doc = new jspdf()
+//       doc.text("hello world",10,10)
+//       doc.save("output.pdf")
 
 },
     onFiltered(filteredItems) {

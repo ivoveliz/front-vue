@@ -177,6 +177,20 @@ export default {
           .catch(error => reject(error))
       })
       },
+      fetchEntityDetailsValuesExport(ctx, { entityId }) {
+       
+      
+        // const Entity={
+        //   Entity:entityId
+        // }
+        return new Promise((resolve, reject) => {
+          axios
+            .get('http://localhost:3000/api/uplinks/exportValues', { params: entityId})
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+        },
       
     // ------------------------------------------------
     // Product Actions
