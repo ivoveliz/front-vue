@@ -1004,74 +1004,96 @@ fetchDeviceDetailsValuesDaily()
 
   },
   setup() {
-    const { handleWishlistCartActionClick } = useEcommerceUi()
-
     const products = ref([])
+    let LocalStorageEntity
+
+const { route } = useRouter()
+      
+      let productId = route.value.params.slug
+     
+      if(productId){
+        products.value = productId 
+        localStorage.setItem('DeviceDetails', JSON.stringify(productId))
+
+
+      }else{
+        LocalStorageEntity=localStorage.getItem('DeviceDetails')
+            LocalStorageEntity=JSON.parse(LocalStorageEntity)
+          console.log( LocalStorageEntity)
+
+        products.value= LocalStorageEntity
+        //products=JSON.parse(products)
+      }
+
+      
+    // const { handleWishlistCartActionClick } = useEcommerceUi()
+
+    // const products = ref([])
   
  
 
-    const { removeProductFromWishlist } = useEcommerce()
-    const removeProductFromWishlistClick = product => {
-      removeProductFromWishlist(product.id)
-        .then(() => {
-          const productIndex = products.value.findIndex(p => p.id === product.id)
-          products.value.splice(productIndex, 1)
-        })
-    }
-    const { route } = useRouter()
-      //const productSlug = route.value.params.slug
-      let productId = route.value.params.slug
-      // this.EntityName1="productId[0].EntityName"
-       //console.log(productId )
-      //productId[0].last=10
-      //console.log(this.datachart)
-     console.log(productId )
-     
-      const fetchWishlistProducts = () => {
-     if(productId){
-
-      // store.dispatch('app-bond/fetchDeviceDetailsValues', { productId})
-      //   .then(response => {
-          
-      //     productId=response 
-          
-      //   })
-
-      products.value = productId 
-     
-      store.dispatch('app-bond/fetchDeviceDetailsGroup', { productId})
-        .then(response => {
-       // console.log(response)
-        })
-     }else{
-      // store.dispatch('app-bond/fetchEntityValues', { productId})
-      //   .then(response => {
-      //     productId[0].last=response 
-      //   })
-      store.dispatch('app-bond/fetchDeviceDetailsSaved', { productId})
-        .then(response => {
-          products.value = response
-        })
-     }
-     //console.log(products.value) 
-    }
-    // const fetchEntityDetailsValuesDaily = () => {
-
-    //    store.dispatch('app-bond/fetchEntityDetailsValuesDaily', { productId})
-    //     .then(response => {
-    //       DataChart=response.data.DataChart
-    //       console.log ( response.data.DataChart)
+    // const { removeProductFromWishlist } = useEcommerce()
+    // const removeProductFromWishlistClick = product => {
+    //   removeProductFromWishlist(product.id)
+    //     .then(() => {
+    //       const productIndex = products.value.findIndex(p => p.id === product.id)
+    //       products.value.splice(productIndex, 1)
     //     })
     // }
-    // fetchEntityDetailsValuesDaily()
-    fetchWishlistProducts()
+    // const { route } = useRouter()
+    //   //const productSlug = route.value.params.slug
+    //   let productId = route.value.params.slug
+    //   // this.EntityName1="productId[0].EntityName"
+    //    //console.log(productId )
+    //   //productId[0].last=10
+    //   //console.log(this.datachart)
+    //  console.log(productId )
+     
+    //   const fetchWishlistProducts = () => {
+    //  if(productId){
+
+    //   // store.dispatch('app-bond/fetchDeviceDetailsValues', { productId})
+    //   //   .then(response => {
+          
+    //   //     productId=response 
+          
+    //   //   })
+
+    //   products.value = productId 
+     
+    //   store.dispatch('app-bond/fetchDeviceDetailsGroup', { productId})
+    //     .then(response => {
+    //    // console.log(response)
+    //     })
+    //  }else{
+    //   // store.dispatch('app-bond/fetchEntityValues', { productId})
+    //   //   .then(response => {
+    //   //     productId[0].last=response 
+    //   //   })
+    //   store.dispatch('app-bond/fetchDeviceDetailsSaved', { productId})
+    //     .then(response => {
+    //       products.value = response
+    //     })
+    //  }
+    //  //console.log(products.value) 
+    // }
+    // // const fetchEntityDetailsValuesDaily = () => {
+
+    // //    store.dispatch('app-bond/fetchEntityDetailsValuesDaily', { productId})
+    // //     .then(response => {
+    // //       DataChart=response.data.DataChart
+    // //       console.log ( response.data.DataChart)
+    // //     })
+    // // }
+    // // fetchEntityDetailsValuesDaily()
+    // fetchWishlistProducts()
 
     return {
       products,
        
       // UI
-      handleWishlistCartActionClick,
-      removeProductFromWishlistClick,
+      // handleWishlistCartActionClick,
+      // removeProductFromWishlistClick,
     }
   },
 }

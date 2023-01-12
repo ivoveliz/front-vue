@@ -1,6 +1,18 @@
 <template>
-  
-  <section class="grid-view wishlist-items">
+     
+  <div class="grid-view wishlist-items"   >
+    <!-- <div class="col">
+          <h1 class="text-center" v-if="!isLoading">CARGANDO DATOS...</h1>
+        </div> -->
+    <!-- <div class="row mt-5">
+     
+      </div>
+      <div class="row mt-5" v-if="isLoading">
+        <div class="col">
+          <h1 class="text-center">Aes-Oficina</h1>
+          
+        </div>
+      </div> -->
     <b-card
       v-for="product in products"
       :key="product.id"
@@ -102,7 +114,7 @@
         </b-button>
       </div> -->
     </b-card>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -115,6 +127,7 @@ import { ref } from '@vue/composition-api'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import { getUserData } from '@/auth/utils'
+const isLoading = ref([])
 export default {
   components: {
     BCard, BCardBody, BImg, BCardText, BLink,
@@ -124,9 +137,11 @@ export default {
   data() {
     return {
       data: {},
+      isLoading,
     }
   },
   created() {
+ 
     // data
     this.$http.get('/ecommerce/data')
       .then(response => {
@@ -139,62 +154,156 @@ export default {
       })
   },
   setup() {
-    const { handleWishlistCartActionClick } = useEcommerceUi()
-
+   
     const products = ref([])
- 
-
-    const { removeProductFromWishlist } = useEcommerce()
-    const removeProductFromWishlistClick = product => {
-      removeProductFromWishlist(product.id)
-        .then(() => {
-          const productIndex = products.value.findIndex(p => p.id === product.id)
-          products.value.splice(productIndex, 1)
-        })
-    }
-    const { route } = useRouter()
-      //const productSlug = route.value.params.slug
+    let LocalStorageEntity
+//     const productsID =  [
+//     {
+//         "OriginEntity": "L-500",
+//         "DestinyEntity": "POR ANDINO",
+//         "IdEntity": "L-500-POR-ANDINO",
+//         "Function": "CONSUMO",
+//         "Ubication": "POR Andino",
+//         "NSerie": "860256565",
+//         "TAG": "",
+//         "Observation": "Alimentacion OR campamento Andino",
+//         "SubArea": "Recursos Salar",
+//         "Area": "CIRS",
+//         "Devices": [
+//             {
+//                 "NameDevice": "endev-01",
+//                 "IdDevice": "EN-1",
+//                 "State": "activate"
+//             },
+//             {
+//                 "NameDevice": "endev-02",
+//                 "IdDevice": "EN-2",
+//                 "State": "desactivate"
+//             }
+//         ],
+//         "last": 1
+//     },
+//     {
+//         "OriginEntity": "TK-1000",
+//         "DestinyEntity": "RETRO LAVADO FILTRO MULTIMEDIA",
+//         "IdEntity": "TK-1000-RETRO-LAVADO-FILTRO-MULTIMEDIA",
+//         "Function": "CONSUMO",
+//         "Ubication": "PTAS Andino",
+//         "NSerie": "D105AD16000",
+//         "TAG": "",
+//         "Observation": "",
+//         "SubArea": "Recursos Salar",
+//         "Area": "CIRS",
+//         "Devices": [
+//             {
+//                 "NameDevice": "endev-02",
+//                 "IdDevice": "EN-2",
+//                 "State": "activate"
+//             }
+//         ],
+//         "last": 2
+//     },
+//     {
+//         "OriginEntity": "TK RETORNO PTAS ANDINO",
+//         "DestinyEntity": "TK-1000",
+//         "IdEntity": "TK-1000-TK-RETORNO-PTAS-ANDINO",
+//         "Function": "Aporte",
+//         "Ubication": "PTAS Andino",
+//         "NSerie": "172825",
+//         "TAG": "",
+//         "Observation": "",
+//         "SubArea": "Recursos Salar",
+//         "Area": "CIRS",
+//         "Devices": [
+//             {
+//                 "NameDevice": "endev-03",
+//                 "IdDevice": "EN-3",
+//                 "State": "activate"
+//             }
+//         ],
+//         "last": 3
+//     }
+// ]
+const { route } = useRouter()
+      
       let productId = route.value.params.slug
-      //productId[0].last=10
+     
+      if(productId){
+        products.value = productId 
+        localStorage.setItem('EntityGroup', JSON.stringify(productId))
+
+
+      }else{
+        LocalStorageEntity=localStorage.getItem('EntityGroup')
+            LocalStorageEntity=JSON.parse(LocalStorageEntity)
+          console.log( LocalStorageEntity)
+
+        products.value= LocalStorageEntity
+        //products=JSON.parse(products)
+      }
+// const fetchWishlistProducts = () => {
+//       store.dispatch('app-bond/fetchEntityGroup')
+//         .then(response => {
+//           console.log(response )
+//           products.value = response
+//         })
+
+           
+//     }
+
+//     fetchWishlistProducts()
+    // const { removeProductFromWishlist } = useEcommerce()
+    // const removeProductFromWishlistClick = product => {
+    //   removeProductFromWishlist(product.id)
+    //     .then(() => {
+    //       const productIndex = products.value.findIndex(p => p.id === product.id)
+    //       products.value.splice(productIndex, 1)
+    //     })
+    // }
+    // const { route } = useRouter()
+    //   //const productSlug = route.value.params.slug
+    //   let productId = route.value.params.slug
+    //   //productId[0].last=10
       
       
 
-      const fetchWishlistProducts = () => {
-     if(productId){
+    //   const fetchWishlistProducts = () => {
+    //  if(productId){
 
-      store.dispatch('app-bond/fetchEntityValues', { productId})
-        .then(response => {
+    //   store.dispatch('app-bond/fetchEntityValues', { productId})
+    //     .then(response => {
           
-          productId=response 
-          console.log(productId )
-        })
+    //       productId=response 
+    //       console.log(productId )
+    //     })
+    //   isLoading.value=false
+    //   products.value = productId 
+    //   isLoading.value=true
+    //   store.dispatch('app-bond/fetchEntityGroup', { productId})
+    //     .then(response => {
+    //    // console.log(response)
+    //     })
+    //  }else{
+    //   // store.dispatch('app-bond/fetchEntityValues', { productId})
+    //   //   .then(response => {
+    //   //     productId[0].last=response 
+    //   //   })
+    //   store.dispatch('app-bond/fetchEntitySaved', { productId})
+    //     .then(response => {
+    //       products.value = response
+    //     })
+    //  }
+    //  //console.log(products.value) 
+    // }
 
-      products.value = productId 
-      store.dispatch('app-bond/fetchEntityGroup', { productId})
-        .then(response => {
-       // console.log(response)
-        })
-     }else{
-      // store.dispatch('app-bond/fetchEntityValues', { productId})
-      //   .then(response => {
-      //     productId[0].last=response 
-      //   })
-      store.dispatch('app-bond/fetchEntitySaved', { productId})
-        .then(response => {
-          products.value = response
-        })
-     }
-     //console.log(products.value) 
-    }
-
-    fetchWishlistProducts()
+    // fetchWishlistProducts()
 
     return {
       products,
 
       // UI
-      handleWishlistCartActionClick,
-      removeProductFromWishlistClick,
+      // handleWishlistCartActionClick,
+      // removeProductFromWishlistClick,
     }
   },
 }
@@ -204,4 +313,5 @@ export default {
 //@import "~@core/scss/base/pages/app-ecommerce.scss";
 @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
 @import '@core/scss/vue/libs/chart-apex.scss';
+@import "~@core/scss/base/pages/app-ecommerce.scss";
 </style>
