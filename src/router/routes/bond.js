@@ -20,28 +20,6 @@ export default [
     },
   },
   {
-    path: '/bond/e-commerce/:slug',
-    name: 'bond-e-commerce-product-details',
-    component: () => import('@/views/bond/e-commerce-product-details/ECommerceProductDetails.vue'),
-    meta: {
-      pageTitle: 'Primary Group Details',
-      contentClass: 'ecommerce-application',
-      breadcrumb: [
-        {
-          text: 'ECommerce',
-        },
-        {
-          text: 'Shop',
-          active: true,
-        },
-        {
-          text: 'primary-grup Details',
-          active: true,
-        },
-      ],
-    },
-  },
-  {
     path: '/bond/secondary/',
     name: 'bond-Secondary-page',
     component: () => import('@/views/bond/Secondary-page/SecondaryPage.vue'),
@@ -108,6 +86,31 @@ export default [
       //   },
       // ],
     },
+    
+    
+  },
+  {
+    path: '/bond/devicesDetails/',
+    name: 'bond-Device-details-page',
+    component: () => import('@/views/bond/Device-details-page/DeviceDetailsPage.vue'),
+    meta: {
+      pageTitle: 'Device Details page',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
     
   }
 ]

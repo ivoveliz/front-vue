@@ -1,0 +1,82 @@
+<template>
+  <b-card  >
+    <b-card-header>
+      <!-- title and subtitle -->
+      <div>
+        <b-card-title class="mb-1">
+          Line Chart : {{ data.name }}
+        </b-card-title>
+        <b-card-sub-title>Commercial networks: {{ data.name }}</b-card-sub-title>
+      </div>
+      <!--/ title and subtitle -->
+
+      <!-- datepicker -->
+      <div class="d-flex align-items-center">
+        <feather-icon
+          icon="CalendarIcon"
+          size="16"
+        />
+        <flat-pickr
+          v-model="rangePicker"
+          :config="{ inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+          class="form-control flat-picker bg-transparent border-0 shadow-none"
+          placeholder="Select Date"
+        />
+      </div>
+      <!-- datepicker -->
+    </b-card-header>
+
+    <b-card-body>
+      <vue-apex-charts
+        type="area"
+        height="400"
+        :options="apexChatData.lineAreaChartSpline.chartOptions"
+        :series="data.series"
+      />
+    </b-card-body>
+  </b-card>
+</template>
+
+<script>
+import {
+  BCard, BCardHeader, BCardBody, BCardTitle, BCardSubTitle,
+} from 'bootstrap-vue'
+import VueApexCharts from 'vue-apexcharts'
+import flatPickr from 'vue-flatpickr-component'
+import apexChatData from './apexChartData'
+
+
+export default {
+  components: {
+    BCard,
+    VueApexCharts,
+    BCardHeader,
+    BCardBody,
+    BCardTitle,
+    BCardSubTitle,
+    flatPickr,
+  },
+  props: {
+    data: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    
+    return {
+      apexChatData,
+      
+       rangePicker: ['2022-05-01', '2022-05-10'],
+       
+    }
+  },
+  async created() {
+
+    
+console.log(data)
+
+
+  }
+}
+</script>

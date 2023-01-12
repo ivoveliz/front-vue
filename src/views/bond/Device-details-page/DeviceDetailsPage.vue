@@ -44,13 +44,13 @@
             class="mb-2"
           >
           <h5 class="mb-0">
-              Origen Entidad :{{products.OriginEntity}}
+             Nombre dispositivo :{{products.NameDevice}}
             </h5>
             <small class="text-muted">
               -
             </small>
             <h5 class="mb-1">
-              Destino Entidad :{{products.DestinyEntity}}
+              ID dispositivo:{{products.IdDevice}}
             </h5>
             
             
@@ -327,108 +327,234 @@
 </b-row>
       </b-col>
 </b-col>
-  <!-- TARJETA-->
-    <div class="grid-view wishlist-items" >
-    <b-card
-      v-for="product in products.Devices"
-      :key="product.id"
-      class="ecommerce-card"
-      no-body
+<h4 class="card-title mb-50">
+    DOWNLINKS
+      </h4>
+
+<b-row class="match-height">
+    <!-- TABLA DOWNLINK-->
+  <b-col align-self="stretch">
+ <!-- <table-kitchen-sink /> -->
+  <!-- tabla -->
+ <b-col cols="12" >
+  <b-row>
+  <b-col
+    md="2"
+    sm="4"
+    class="my-1"
+  >
+    <b-form-group
+      class="mb-0"
     >
-      <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Device-details-page', params: { slug: product} }">
-          <b-img
-            :alt="`${product.EntityName}-${product.IdEntity}`"
-            fluid
-            class="card-img-top"
-            :src="require('@/assets/images/pages/eCommerce/6.png')"
-            
-          />
-        </b-link>
-      </div>
-
-      <!-- Product Details -->
-      <b-card-body>
-        <div class="item-wrapper">
-          <div class="item-rating">
-            <ul class="unstyled-list list-inline">
-              <li
-                v-for="star in 5"
-                :key="star"
-                class="ratings-list-item"
-                :class="{'ml-25': star-1}"
-              >
-                <!-- <feather-icon
-                  icon="StarIcon"
-                  size="16"
-                  :class="[{'fill-current': star <= product.rating}, star <= product.rating ? 'text-warning' : 'text-muted']"
-                /> -->
-              </li>
-            </ul>
-          </div>
-          <div>
-            <!-- <h6 class="item-price">
-              ${{ product.price }}
-            </h6> -->
-          </div>
-        </div>
-        <h6 class="item-name">
-          <b-link
-            class="text-body"
-            :to="{ name: 'bond-Secondary-page', params: { slug: product.id } }"
+      <label class="d-inline-block text-sm-left mr-50">Por pagina</label>
+      <b-form-select
+        id="perPageSelect"
+        v-model="perPageDownlink"
+        size="sm"
+        :options="pageOptionsDownlink"
+        class="w-50"
+      />
+    </b-form-group>
+  </b-col>
+  <b-col
+    md="4"
+    sm="8"
+    class="my-1"
+  >
+    <b-form-group
+      label="Clasificar"
+      label-cols-sm="3"
+      label-align-sm="right"
+      label-size="sm"
+      label-for="sortBySelect"
+      class="mb-0"
+    >
+      <b-input-group size="sm">
+        <b-form-select
+          id="sortBySelect"
+          v-model="sortByDownlink"
+          :options="sortOptionsDownlink"
+          class="w-75"
+        >
+          <template v-slot:first>
+            <option value="">
+              -- item --
+            </option>
+          </template>
+        </b-form-select>
+        <b-form-select
+          v-model="sortDescDownlink"
+          size="sm"
+          :disabled="!sortByDownlink"
+          class="w-25"
+        >
+          <option :value="false">
+            Asc
+          </option>
+          <option :value="true">
+            Desc
+          </option>
+        </b-form-select>
+      </b-input-group>
+    </b-form-group>
+  </b-col>
+  <b-col
+    md="6"
+    class="my-1"
+  >
+    <b-form-group
+      label="Filtro"
+      label-cols-sm="3"
+      label-align-sm="right"
+      label-size="sm"
+      label-for="filterInput"
+      class="mb-0"
+    >
+      <b-input-group size="sm">
+        <b-form-input
+          id="filterInput"
+          v-model="filterDownlink"
+          type="search"
+          placeholder="Filtrar"
+        />
+        <b-input-group-append>
+          <b-button
+            :disabled="!filterDownlink"
+            @click="filterDownlink = ''"
           >
-            {{ product.NameDevice}}
-         
-          </b-link>
-          <b-card-text class="item-company">
-            Temperature<b-link class="ml-25">
-              {{ product.temperature }}
-            </b-link>
-          </b-card-text>
-        </h6>
-        <b-card-text class="item-description">
-          {{ product.IdDevice }}
-        </b-card-text>
-        <!-- <b-card-text class="item-description">
-          Entidad asociada: {{ product.NameDevice }}
-        </b-card-text> -->
-        <b-card-text class="item-description">
-          Estado: {{ product.State }}
-        </b-card-text>
-<!--     
-         <b-card-text class="item-description">
-          Ultimo Valor m3/h: {{ product.NameDevice}}
-        </b-card-text>
-        <b-card-text class="item-description">
-          Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}
-        </b-card-text> -->
-       
-      </b-card-body>
+            Clear
+          </b-button>
+        </b-input-group-append>
+      </b-input-group>
+    </b-form-group>
+  </b-col>
 
-      <!-- Action Buttons -->
-      <!-- <div class="item-options text-center">
-        <b-button
-          variant="light"
-          class="btn-wishlist remove-wishlist"
-          @click="removeProductFromWishlistClick(product)"
-        >
-          <feather-icon icon="XIcon" />
-          <span>Remove</span>
-        </b-button>
-        <b-button
-          variant="primary"
-          class="btn-cart move-cart"
-          @click="handleWishlistCartActionClick(product, removeProductFromWishlistClick)"
-        >
-          <feather-icon
-            icon="ShoppingCartIcon"
-            class="mr-50"
-          />
-          <span>{{ product.isInCart ? 'View In Cart' : 'Move to Cart' }}</span>
-        </b-button>
-      </div> -->
-    </b-card>
-  </div>
+  <b-col cols="12">
+    <b-table
+    
+      ref="table"
+      striped
+      hover
+      responsive
+      :key="chartkeyDownlink" 
+      :per-page="perPageDownlink"
+      :current-page="currentPageDownlink"
+      :items="itemsDownlink"
+      :fields="fieldsDownlink"
+      :sort-by.sync="sortByDownlink"
+      :sort-desc.sync="sortDescDownlink"
+      :sort-direction="sortDirectionDownlink"
+      :filter="filterDownlink"
+      :filter-included-fields="filterOnDownlink"
+ 
+    >
+      <template #cell(avatar)="data">
+        <b-avatar :src="data.value" />
+      </template>
+
+      <template #cell(status)="data">
+        <b-badge :variant="status[1][data.value]">
+          {{ status[0][data.value] }}
+        </b-badge>
+      </template>
+    </b-table>
+  </b-col>
+
+  <b-col
+    cols="12"
+  >
+    <b-pagination
+      v-model="currentPageDownlink"
+      :total-rows="totalRowsDownlink"
+      :per-page="perPageDownlink"
+      align="center"
+      size="sm"
+      class="my-0"
+    />
+  </b-col>
+</b-row>
+      </b-col>
+</b-col>
+  <!-- Dowlink-->
+  <b-col 
+ cols="6"
+            >
+        <form-wizard
+      color="#7367F0"
+      :title="null"
+      :subtitle="null"
+      layout=""
+      finish-button-text="Enviar Downlink"
+      back-button-text="Previous"
+      class="wizard-vertical mb-3"
+      @on-complete="DownlinkSubmitted"
+    >
+
+    
+      <tab-content title="ENVIO DOWNLINK"
+      icon="DownloadCloudIcon icon-file-text" >
+        <b-row>
+          <b-col :data="products"
+            cols="12"
+            class="mb-2"
+          >
+          <h5 class="mb-0">
+             Nombre dispositivo :{{products.NameDevice}}
+            </h5>
+            <small class="text-muted">
+              -
+            </small>
+            <h5 class="mb-1">
+              ID dispositivo:{{products.IdDevice}}
+            </h5>
+            
+            
+          </b-col>
+          <b-col md="7">
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="DownlinkMessage"
+                id="DownlinkMessage"
+                placeholder=" iNGRESE MENSAJE"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col md="7">
+          <!-- <v-select
+                id="SelectedFormat"
+                v-model="SelectedFormat"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="Format"
+                :selectable="option => ! option.value.includes('select_value')"
+                label="text"
+              /> -->
+              <small class="text-muted">
+              -
+            </small>
+            </b-col>
+          <b-col md="7">
+            <!-- <flat-pickr 
+              
+              v-model="rangePicker"
+              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              class="form-control"
+              placeholder="Ingrese Rango de fecha y hora"
+              
+            /> -->
+            
+          </b-col>
+        
+        </b-row>
+      </tab-content>
+
+    </form-wizard>
+
+    
+
+  </b-col>
+</b-row>
   </section>
 </template>
 
@@ -474,18 +600,29 @@ export default {
       apexChatData,
       data: {},
       DeviceID:"endev",
+      DownlinkMessage:"",
       rangePicker:"",
       SelectedFormat:"",
+      chartkeyDownlink: 0,
       chartkey: 0,
       perPage: 5,
+      perPageDownlink: 5,
       pageOptions: [5, 10,20,60,100,200,500],
+      pageOptionsDownlink: [5, 10,20,60,100,200,500],
       totalRows: 1,
+      totalRowsDownlink: 1,
       currentPage: 1,
+      currentPageDownlink: 1,
       sortBy: 'date',
       sortDesc: true,
       sortDirection: 'desc',
+      sortByDownlink: 'date',
+      sortDescDownlink: true,
+      sortDirectionDownlink: 'desc',
       filter: null,
       filterOn: [],
+      filterDownlink: null,
+      filterOnDownlink: [],
       SelectedFormat: 'Seleccionar Formato',
       Format: [
         { value: 'PDF', text: 'PDF' },
@@ -508,7 +645,20 @@ export default {
          
       
       ],
+      fieldsDownlink: [
+        {
+         key: 'countD', label: 'Id', sortable: true 
+        },
+        {
+          key: 'date', label: 'Fecha dato', sortable: true },
+        { key: 'payloadHex', label: 'Valor Payload Hex', sortable: true },
+        { key: 'VertionFirmware', label: 'Vertion Firmware', sortable: true },
+        { key: 'State', label: 'State', sortable: true },
+         
+      
+      ],
       items: [],
+      itemsDownlink:[],
       datachart: {},
       datachartTotalizer: {},
       ConsultDateToday: "",
@@ -629,19 +779,26 @@ export default {
         .filter(f => f.sortable)
         .map(f => ({ text: f.label, value: f.key }))
     },
+    sortOptionsDownlink() {
+      // Create an options list from our fields
+      return this.fields
+        .filter(f => f.sortable)
+        .map(f => ({ text: f.label, value: f.key }))
+    },
+   
   },
   methods: {
     async formSubmitted() {
       //console.log( this.rangePicker)
       let xlsx = require("json-as-xlsx")
-      let entityId = {
-        Entity:this.DeviceID,
+      let deviceId = {
+        Device:this.DeviceID,
       RangeDate:this.rangePicker
     }
-      console.log(entityId)
-      const fetchEntityDetailsValuesDaily = () => {
+      console.log(deviceId)
+      const fetchDeviceDetailsValuesDaily = () => {
         let xlsx = require("json-as-xlsx")
-store.dispatch('app-bond/fetchEntityDetailsValuesExport' , { entityId})
+store.dispatch('app-bond/fetchDeviceDetailsValuesExport' , { deviceId})
  .then(response => {
   var ConsultDate=response.data.DateConsult
   console.log(response.data )
@@ -709,12 +866,42 @@ xlsx(data, settings) // Will download the excel file
     
  })
 }
-fetchEntityDetailsValuesDaily()
+fetchDeviceDetailsValuesDaily()
 
 // var head = [['ID', 'Fecha dato', 'Valor Instantaneo m3/h', 'Valor totalizador m3/h']]
 // let doc = new jspdf()
 //       doc.text("hello world",10,10)
 //       doc.save("output.pdf")
+
+},
+async DownlinkSubmitted() {
+       
+       
+      let deviceId = {
+        Device:this.DeviceID,
+        DownlinkMessage:this.DownlinkMessage
+    }
+      console.log(deviceId)
+const fetchDeviceDownlink = () => {
+        
+store.dispatch('app-bond/fetchDeviceDownlink' , { deviceId})
+ .then(response => {
+ console.log(response)
+  this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Documento generado con exito',
+    icon: 'EditIcon',
+    variant: 'success',
+ 
+  },
+})
+    
+ })
+}
+fetchDeviceDownlink()
+
+ 
 
 },
     onFiltered(filteredItems) {
@@ -753,22 +940,24 @@ this.items=[]
       this.datachart= {}
       this.datachartTotalizer= {}
 
-      let entityId=this.products.IdEntity
+      let deviceId=this.products.NameDevice
+console.log(deviceId)
+const fetchDeviceDetailsValuesDaily = () => {
 
-const fetchEntityDetailsValuesDaily = () => {
-
-store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+store.dispatch('app-bond/fetchDeviceDetailsValuesDaily' , {deviceId})
  .then(response => {
   this.datachart=response.data.DataChart
   this.items=response.data.TableValues
+  this.itemsDownlink=response.data.TableValuesDownlinks
   this.totalRows =response.data.total
+  this.totalRowsDownlink =response.data.totalD
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
    
  })
 }
-fetchEntityDetailsValuesDaily()
+fetchDeviceDetailsValuesDaily()
     
   
 
@@ -791,11 +980,11 @@ fetchEntityDetailsValuesDaily()
       this.datachartTotalizer= {}
  
 
-  let entityId=this.products.IdEntity
+  let deviceId=this.products.NameDevice
 
-  const fetchEntityDetailsValuesDaily = () => {
+  const fetchDeviceDetailsValuesDaily = () => {
 
-store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
+store.dispatch('app-bond/fetchDeviceDetailsValuesDaily' , { deviceId})
  .then(response => {
   this.datachart=response.data.DataChart
   this.items=response.data.TableValues
@@ -803,11 +992,11 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
-  this.DeviceID=response.data.Entity
+  this.DeviceID=response.data.deviceid
    console.log ( response.data)
  })
 }
-fetchEntityDetailsValuesDaily()
+fetchDeviceDetailsValuesDaily()
     
   
    
@@ -836,12 +1025,12 @@ fetchEntityDetailsValuesDaily()
        //console.log(productId )
       //productId[0].last=10
       //console.log(this.datachart)
-     // console.log(productId )
+     console.log(productId )
      
       const fetchWishlistProducts = () => {
      if(productId){
 
-      // store.dispatch('app-bond/fetchEntityDetailsValues', { productId})
+      // store.dispatch('app-bond/fetchDeviceDetailsValues', { productId})
       //   .then(response => {
           
       //     productId=response 
@@ -850,7 +1039,7 @@ fetchEntityDetailsValuesDaily()
 
       products.value = productId 
      
-      store.dispatch('app-bond/fetchEntityDetailsGroup', { productId})
+      store.dispatch('app-bond/fetchDeviceDetailsGroup', { productId})
         .then(response => {
        // console.log(response)
         })
@@ -859,7 +1048,7 @@ fetchEntityDetailsValuesDaily()
       //   .then(response => {
       //     productId[0].last=response 
       //   })
-      store.dispatch('app-bond/fetchEntityDetailsSaved', { productId})
+      store.dispatch('app-bond/fetchDeviceDetailsSaved', { productId})
         .then(response => {
           products.value = response
         })

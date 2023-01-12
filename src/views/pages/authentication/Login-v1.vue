@@ -55,9 +55,9 @@
             <b-form-group>
               <div class="d-flex justify-content-between">
                 <label for="password">Password</label>
-                <b-link :to="{name:'auth-forgot-password-v1'}">
+                <!-- <b-link :to="{name:'auth-forgot-password-v1'}">
                   <small>Forgot Password?</small>
-                </b-link>
+                </b-link> -->
               </div>
               <validation-provider
                 #default="{ errors }"
@@ -91,7 +91,7 @@
             </b-form-group>
 
             <!-- checkbox -->
-            <b-form-group>
+            <!-- <b-form-group>
               <b-form-checkbox
                 id="remember-me"
                 v-model="status"
@@ -99,7 +99,7 @@
               >
                 Remember Me
               </b-form-checkbox>
-            </b-form-group>
+            </b-form-group> -->
 
             <!-- submit button -->
             <b-button
@@ -114,21 +114,21 @@
           </b-form>
         </validation-observer>
 
-        <b-card-text class="text-center mt-2">
+        <!-- <b-card-text class="text-center mt-2">
           <span>New on our platform? </span>
           <b-link :to="{name:'auth-register-v1'}">
             <span>Create an account</span>
           </b-link>
-        </b-card-text>
+        </b-card-text> -->
 
-        <div class="divider my-2">
+        <!-- <div class="divider my-2">
           <div class="divider-text">
             or
           </div>
-        </div>
+        </div> -->
 
         <!-- social button -->
-        <div class="auth-footer-btn d-flex justify-content-center">
+        <!-- <div class="auth-footer-btn d-flex justify-content-center">
           <b-button
             href="javascript:void(0)"
             variant="facebook"
@@ -153,7 +153,7 @@
           >
             <feather-icon icon="GithubIcon" />
           </b-button>
-        </div>
+        </div> -->
       </b-card>
       <!-- /Login v1 -->
     </div>
@@ -171,6 +171,8 @@ import VuexyLogo from '@core/layouts/components/Logo.vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import { getHomeRouteForLoggedInUser } from '@/auth/utils'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
@@ -189,6 +191,10 @@ export default {
     BFormCheckbox,
     ValidationProvider,
     ValidationObserver,
+    ToastificationContent,
+  },
+  directives: {
+    Ripple,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -211,12 +217,11 @@ export default {
 
       const Credentials={
 
-email: this.userEmail, 
-password:this.password
+      email: this.userEmail, 
+      password:this.password
 
-}
+                    }
 
-    
  const test= {
     "userData": {
         "id": 1,
@@ -243,6 +248,22 @@ const fetchEntityDetailsValuesDaily = async () => {
 store.dispatch('app-bond/fetchUser' , {Credentials})
  .then(response => {
  console.log(response.data)
+if(response.data.access=="locked"){
+
+  this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Acceso Denegado',
+    icon: 'EditIcon',
+    variant: 'danger',
+    text: `Email o Contraseña incorrectores!!!`,
+    
+ 
+  },
+})  
+
+}
+
   const { userData } =  response.data
               useJwt.setToken( response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
@@ -256,11 +277,20 @@ store.dispatch('app-bond/fetchUser' , {Credentials})
               //console.log(userData.role)
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
+              this.$toast({
+            component: ToastificationContent,
+            props: {
+              title: `Bienvenido ${userData.fullName}`,
+              icon: 'CoffeeIcon',
+              variant: 'success',
+          
+            },
+          })  
  })
 }
 fetchEntityDetailsValuesDaily()
  
-        
+  
       
 }
   }

@@ -2,6 +2,8 @@ import axios from '@axios'
 let secondaryGroup
 let EntityGroup
 let EntityDetailsGroup
+let DeviceDetailsGroup
+let LocalStorageEntity
 export default {
   namespaced: true,
   state: {
@@ -108,6 +110,8 @@ export default {
     // ------------------------------------------------
         fetchEntityGroup(ctx, { productId }) {
           EntityGroup=productId
+          localStorage.setItem('EntityGroup', JSON.stringify(productId))
+ 
             return new Promise((resolve, reject) => {
              
               resolve(secondaryGroup)
@@ -115,10 +119,11 @@ export default {
             })
           },
           fetchEntitySaved() {
- 
+            LocalStorageEntity=localStorage.getItem('EntityGroup')
+            LocalStorageEntity=JSON.parse(LocalStorageEntity)
               return new Promise((resolve, reject) => {
                
-                resolve(EntityGroup)
+                resolve(LocalStorageEntity)
               
               })
             },
@@ -204,41 +209,80 @@ export default {
         })
         },
       
-    // ------------------------------------------------
-    // Product Actions
-    // ------------------------------------------------
-    addProductInWishlist(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post('/apps/ecommerce/wishlist', { productId })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
-    removeProductFromWishlist(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .delete(`/apps/ecommerce/wishlist/${productId}`)
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
+ 
+ 
+      
 
-    addProductInCart(ctx, { productId }) {
+
+// ------------------------------------------------
+// Bond Device details
+// ------------------------------------------------
+        fetchDeviceDetailsGroup(ctx, { productId }) {
+          DeviceDetailsGroup=productId
+            return new Promise((resolve, reject) => {
+             
+              resolve(DeviceDetailsGroup)
+              
+            })
+          },
+          fetchDeviceDetailsSaved() {
+ 
+              return new Promise((resolve, reject) => {
+               
+                resolve(DeviceDetailsGroup)
+              
+              })
+            },
+          
+
+
+// ------------------------------------------------
+// Bond Device details values
+// ------------------------------------------------
+fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
+  const Device={
+    Device:deviceId
+  }
+  return new Promise((resolve, reject) => {
+    axios
+      .get('http://localhost:3000/api/uplinks/DailyDeviceValues', { params: Device})
+      .then(response => resolve(response))
+      //.then(response => console.log(response))
+      .catch(error => reject(error))
+  })
+  },
+  fetchDeviceDetailsValuesExport(ctx, { deviceId }) {
+   
+  
+    return new Promise((resolve, reject) => {
+      axios
+        .post('http://localhost:3000/api/uplinks/exportDeviceValues', { params: deviceId})
+        .then(response => resolve(response))
+        //.then(response => console.log(response))
+        .catch(error => reject(error))
+    })
+    },
+    fetchDeviceDownlink(ctx, { deviceId }) {
+   console.log(deviceId)
+  
+      // const Entity={
+      //   Entity:entityId
+      // }
       return new Promise((resolve, reject) => {
         axios
-          .post('/apps/ecommerce/cart', { productId })
+          .post('http://localhost:3000/api/downlinks/SendDownlink', { params: deviceId})
           .then(response => resolve(response))
+          //.then(response => console.log(response))
           .catch(error => reject(error))
       })
-    },
-    removeProductFromCart(ctx, { productId }) {
-      return new Promise((resolve, reject) => {
-        axios
-          .delete(`/apps/ecommerce/cart/${productId}`)
-          .then(response => resolve(response))
-          .catch(error => reject(error))
-      })
-    },
+      },
+// ------------------------------------------------
+// Product Actions
+// ------------------------------------------------
+
+
+
+
+  
   },
 }
