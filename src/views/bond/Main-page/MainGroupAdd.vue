@@ -1,0 +1,549 @@
+<template>
+  <section class="app-ecommerce-details">
+    <b-row class="match-height">
+      <b-col 
+ cols="6"
+            >
+        <form-wizard
+      color="#7367F0"
+      :title="null"
+      :subtitle="null"
+      layout=""
+      finish-button-text="Agregar grupo principal"
+      back-button-text="Previous"
+      class="wizard-vertical mb-3"
+      @on-complete="formSubmitted"
+      
+    >
+
+    
+      <tab-content title="AGREGAR GRUPO PRINCIPAL"
+      icon="DownloadCloudIcon icon-file-text" >
+        <b-row>
+     
+   
+     <b-col md="7">
+       <!----------------- Media ------------------------->
+    <b-media class="mb-2">
+      <template #aside>
+        <b-avatar
+          ref="previewEl"
+          :src="avatar"
+          
+           
+           
+          size="150px"
+          rounded
+        />
+      </template>
+      <h4 class="mb-1">
+       hola
+      </h4>
+      <div class="d-flex flex-wrap">
+        <b-button
+          variant="primary"
+          @click="$refs.refInputEl.click()"
+        >
+          <input
+            ref="refInputEl"
+            type="file"
+            class="d-none"
+            @input="inputImageRenderer"
+          >
+          <span class="d-none d-sm-inline">Update</span>
+          <feather-icon
+            icon="EditIcon"
+            class="d-inline d-sm-none"
+          />
+        </b-button>
+        <b-button
+          variant="outline-secondary"
+          class="ml-1"
+        >
+          <span class="d-none d-sm-inline">Remove</span>
+          <feather-icon
+            icon="TrashIcon"
+            class="d-inline d-sm-none"
+          />
+        </b-button>
+      </div>
+    </b-media>
+  </b-col>
+    <!-- input nombre grupo -->
+          <b-col md="7">
+            INGRESE NOMBRE GRUPO PRINCIPAL:
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="NamePrimaryGroup"
+                id="DownlinkMessage"
+                placeholder=" INGRESE NOMBRE GRUPO PRINCIPAL"
+              />
+            </b-form-group>
+          </b-col>
+            <!-- input codigo grupo -->
+            <b-col md="7">
+              INGRESE CODIGO GRUPO PRINCIPAL:
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="IdGroup"
+                id="codigogrupo"
+                placeholder=" INGRESE CODIGO GRUPO PRINCIPAL"
+              />
+            </b-form-group>
+          </b-col>
+           <!-- selector -->
+          <!-- <b-col md="7">
+          <v-select
+                id="SelectedFormat"
+                v-model="SelectedFormat"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="Format"
+                :selectable="option => ! option.value.includes('select_value')"
+                label="text"
+              />
+              <small class="text-muted">
+              -
+            </small>
+            </b-col> -->
+   <!-- fecha -->
+            <!-- <b-col md="7">
+            <flat-pickr 
+              
+              v-model="rangePicker"
+              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              class="form-control"
+              placeholder="Ingrese Rango de fecha y hora"
+              
+            />
+            
+          </b-col> -->
+          <!-- Agregar Entidades-->
+          <b-col md="8">
+           AGREGAR ENTIDADES A GRUPO PRINCIPAL:
+         <b-card-body class="invoice-padding form-item-section">
+              <div
+                ref="form"
+                class="repeater-form"
+                :style="{height: trHeight}"
+              >
+                <b-row
+                  v-for="(item, index) in invoiceData.items"
+                  :key="index"
+                  ref="row"
+                  class="pb-2"
+                >
+
+                  <!-- Item Form -->
+                  <!-- ? This will be in loop => So consider below markup for single item -->
+                  <b-col cols="16">
+
+                    <!-- ? Flex to keep separate width for XIcon and SettingsIcon -->
+                    <div class="d-none d-lg-flex">
+                      <b-row class="flex-grow-1 px-1">
+                    
+                      </b-row>
+                      <div class="form-item-action-col" />
+                    </div>
+
+                  
+                    <div class="d-flex border rounded">
+                      <b-row class="flex-grow-1 p-2">
+              <!-- Item OriginEntity-->
+                        <b-col
+                          cols="12"
+                        >
+                     
+                        INGRESE ORIGEN ENTIDAD:
+                      
+                          <b-form-input
+                            v-model="item.OriginEntity"
+                            
+                            placeholder="INGRESE ORIGEN ENTIDAD"
+                            class="mb-2"
+                          />
+                        </b-col>
+                        <hr class="invoice-spacing"> 
+                    <!-- Item DestinyEntity-->
+                        <b-col
+                          cols="12"
+                        >
+                      
+                        INGRESE DESTINO ENTIDAD:
+                   
+                          <b-form-input
+                            v-model="item.DestinyEntity"
+                            placeholder=" INGRESE DESTINO ENTIDAD"
+                            class="mb-2"
+                          />
+                        </b-col>
+                        <hr class="invoice-spacing"> 
+                    <!-- Item Function-->
+                    <b-col
+                      cols="12"
+                    >
+                    INGRESE FUNCION ENTIDAD:
+                      <b-form-input
+                        v-model="item.Function"
+                        placeholder=" INGRESE FUNCION ENTIDAD"
+                        class="mb-2"
+                      />
+                    </b-col>
+
+                    <hr class="invoice-spacing"> 
+                      <!-- Item Ubication-->
+                    <b-col
+                      cols="12"
+                    >
+                    INGRESE UBICACION:
+                      <b-form-input
+                        v-model="item.Ubication"
+                        placeholder=" INGRESE UBICACION"
+                        class="mb-2"
+                      />
+                    </b-col>
+                      </b-row>
+                      <div class="d-flex flex-column justify-content-between border-left py-50 px-25">
+                        <feather-icon
+                          size="16"
+                          icon="XIcon"
+                          class="cursor-pointer"
+                          @click="removeItem(index)"
+                        />
+                       
+
+                  
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
+              <b-button
+              
+                size="sm"
+                variant="primary"
+                @click="addNewItemInItemForm"
+              >
+                AGREGAR MAS ENTIDADES
+              </b-button>
+            </b-card-body>
+          </b-col>
+        </b-row>
+      </tab-content>
+
+    </form-wizard>
+
+    
+
+  </b-col>
+
+    </b-row>
+ 
+  </section>
+
+</template>
+
+<script>
+import {
+  BTable,BRow, BCard, BCardBody, BImg, BCardText,
+  BLink, BButton,BCol, BFormGroup, BFormSelect,BMedia, BAvatar, 
+  BPagination, BInputGroup, BFormInput, BInputGroupAppend,
+BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup, BFormTextarea,
+  
+} from 'bootstrap-vue'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import store from '@/store'
+import { FormWizard, TabContent } from 'vue-form-wizard'
+import { ref } from '@vue/composition-api'
+import flatPickr from 'vue-flatpickr-component'
+import vSelect from 'vue-select'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { heightTransition } from '@core/mixins/ui/transition'
+import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
+
+export default {
+  components: {
+    BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
+   flatPickr,BTable,  BFormGroup, BFormTextarea,
+    BFormSelect,BPagination,BInputGroup,BFormInput,
+    BInputGroupAppend,FormWizard,TabContent,BMedia, BAvatar,
+    BCardHeader,BCardTitle, BButtonGroup,ToastificationContent,vSelect,
+  },
+  data() {
+    return {
+      
+      data: {},
+      
+      IdGroup:"",
+      NamePrimaryGroup:"",
+      DeviceID:"endev",
+      rangePicker:"",
+      SelectedFormat:"",
+      chartkey: 0,
+      perPage: 5,
+      pageOptions: [5, 10,20,60,100,200,500],
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: 'date',
+      sortDesc: true,
+      sortDirection: 'desc',
+      filter: null,
+      filterOn: [],
+      SelectedFormat: 'Seleccionar Formato',
+      Format: [
+        { value: 'PDF', text: 'PDF' },
+        { value: 'Excel', text: 'Excel' },
+     
+      ],
+      infoModal: {
+        id: 'info-modal',
+        title: '',
+        content: '',
+      },
+     
+      items: [],
+      datachart: {},
+      datachartTotalizer: {},
+      ConsultDateToday: "",
+      ConsultDateYesterday: "",
+      
+
+    }
+  },
+  // props: {
+  //   userData: {
+  //     type: Object,
+  //     required: true,
+  //   },
+  // },
+  mixins: [heightTransition],
+  mounted() {
+    this.initTrHeight()
+  },
+  created() {
+    window.addEventListener('resize', this.initTrHeight)
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.initTrHeight)
+  },
+  methods: {
+    async formSubmitted() {
+      //console.log( this.rangePicker)
+      let deviceId=this.avatar
+      console.log(deviceId)
+      let MainGroupAdded = {
+        avatarGroup:deviceId,
+        NamePrimaryGroup:this.NamePrimaryGroup,
+        IdGroup:this.IdGroup,
+        SecondaryGroups:this.invoiceData.items,
+        
+        
+    }
+      console.log(MainGroupAdded)
+      const fetchAddOrganization = () => {
+      
+store.dispatch('app-bond/fetchAddOrganization' , { MainGroupAdded})
+ .then(response => {
+ 
+  console.log(response )
+  
+  
+//   if( format=="Excel"){
+
+ 
+
+// xlsx(data, settings) // Will download the excel file
+    
+//   }else{
+ 
+
+//   }
+ 
+ 
+ })
+}
+this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Documento generado con exito',
+    icon: 'EditIcon',
+    variant: 'success',
+ 
+  },
+})
+    
+fetchAddOrganization()
+ 
+this.$router.push({ name: 'bond-Main-page'})
+ 
+
+},
+addNewItemInItemForm() {
+      this.$refs.form.style.overflow = 'hidden'
+      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+
+      this.$nextTick(() => {
+        this.trAddHeight(this.$refs.row[0].offsetHeight)
+        setTimeout(() => {
+          this.$refs.form.style.overflow = null
+        }, 350)
+      })
+    },
+    removeItem(index) {
+      this.invoiceData.items.splice(index, 1)
+      this.trTrimHeight(this.$refs.row[0].offsetHeight)
+    },
+    initTrHeight() {
+      this.trSetHeight(null)
+      this.$nextTick(() => {
+        this.trSetHeight(this.$refs.form.scrollHeight)
+      })
+    },
+  },
+  setup(props) {
+    // const userData = ref(null)
+
+    const clients = ref([])
+    clients.value= [
+    {
+        "address": "7777 Mendez Plains",
+        "company": "Hall-Robbins PLC",
+        "companyEmail": "don85@johnson.com",
+        "country": "USA",
+        "contact": "(616) 865-4180",
+        "name": "Jordan Stevenson"
+    },
+    {
+        "address": "04033 Wesley Wall Apt. 961",
+        "company": "Mccann LLC and Sons",
+        "companyEmail": "brenda49@taylor.info",
+        "country": "Haiti",
+        "contact": "(226) 204-8287",
+        "name": "Stephanie Burns"
+    },
+    {
+        "address": "5345 Robert Squares",
+        "company": "Leonard-Garcia and Sons",
+        "companyEmail": "smithtiffany@powers.com",
+        "country": "Denmark",
+        "contact": "(955) 676-1076",
+        "name": "Tony Herrera"
+    },
+    {
+        "address": "19022 Clark Parks Suite 149",
+        "company": "Smith, Miller and Henry LLC",
+        "companyEmail": "mejiageorge@lee-perez.com",
+        "country": "Cambodia",
+        "contact": "(832) 323-6914",
+        "name": "Kevin Patton"
+    },
+    {
+        "address": "8534 Saunders Hill Apt. 583",
+        "company": "Garcia-Cameron and Sons",
+        "companyEmail": "brandon07@pierce.com",
+        "country": "Martinique",
+        "contact": "(970) 982-3353",
+        "name": "Mrs. Julie Donovan MD"
+    }
+]
+ 
+
+    const itemFormBlankItem = {
+      OriginEntity: "",
+      DestinyEntity: "",
+      IdEntity: "",
+      Function: "",
+      Ubication: "", 
+    }
+
+    const invoiceData = ref({
+      id: 5037,
+      client: null,
+
+      // ? Set single Item in form for adding data
+      items: [JSON.parse(JSON.stringify(itemFormBlankItem))],
+
+      salesPerson: '',
+      note: 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!',
+      paymentMethod: null,
+    })
+
+    const itemsOptions = [
+      {
+        itemTitle: 'App Design',
+        cost: 24,
+        qty: 1,
+        description: 'Designed UI kit & app pages.',
+      },
+      {
+        itemTitle: 'App Customization',
+        cost: 26,
+        qty: 1,
+        description: 'Customization & Bug Fixes.',
+      },
+      {
+        itemTitle: 'ABC Template',
+        cost: 28,
+        qty: 1,
+        description: 'Bootstrap 4 admin template.',
+      },
+      {
+        itemTitle: 'App Development',
+        cost: 32,
+        qty: 1,
+        description: 'Native App Development.',
+      },
+    ]
+    const refInputEl = ref(null)
+    const previewEl = ref(null)
+    const avatar  =  ref([])
+   
+    const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
+      // eslint-disable-next-line no-param-reassign
+      
+     avatar.value = base64
+     
+    })
+    const updateItemForm = (index, val) => {
+      const { cost, qty, description } = val
+      invoiceData.value.items[index].cost = cost
+      invoiceData.value.items[index].qty = qty
+      invoiceData.value.items[index].description = description
+    }
+
+    const paymentMethods = [
+      'Bank Account',
+      'PayPal',
+      'UPI Transfer',
+    ]
+ 
+    return {
+      invoiceData,
+      clients,
+      itemsOptions,
+      updateItemForm,
+      itemFormBlankItem,
+      paymentMethods,
+      inputImageRenderer,
+      refInputEl,
+      previewEl,
+      avatar,
+       
+      
+    }
+  },
+}
+</script>
+
+<style lang="scss">
+@import "~@core/scss/base/pages/app-ecommerce.scss";
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
+@import '@core/scss/vue/libs/chart-apex.scss';
+@import '@core/scss/vue/libs/vue-wizard.scss';
+  @import '@core/scss/vue/libs/vue-select.scss';
+  @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
+</style>
+

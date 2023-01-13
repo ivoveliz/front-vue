@@ -1,18 +1,7 @@
 <template>
      
   <div class="grid-view wishlist-items"   >
-    <!-- <div class="col">
-          <h1 class="text-center" v-if="!isLoading">CARGANDO DATOS...</h1>
-        </div> -->
-    <!-- <div class="row mt-5">
-     
-      </div>
-      <div class="row mt-5" v-if="isLoading">
-        <div class="col">
-          <h1 class="text-center">Aes-Oficina</h1>
-          
-        </div>
-      </div> -->
+ 
     <b-card
       v-for="product in products"
       :key="product.id"

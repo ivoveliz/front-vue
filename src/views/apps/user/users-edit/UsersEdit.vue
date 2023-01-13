@@ -108,8 +108,10 @@ export default {
       if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
     })
 
-    store.dispatch('app-user/fetchUser', { id: router.currentRoute.params.id })
-      .then(response => { userData.value = response.data })
+    store.dispatch('app-bond/fetchUser', { id: router.currentRoute.params.id })
+      .then(response => { 
+        userData.value = response.data 
+      console.log(userData.value)})
       .catch(error => {
         if (error.response.status === 404) {
           userData.value = undefined

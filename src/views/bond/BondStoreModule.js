@@ -59,16 +59,14 @@ export default {
     // Bond Users 
     // ------------------------------------------------
 
-    fetchUser(ctx, { Credentials }) {
-    
+    fetchUser(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('http://localhost:3000/api/users/login', { params: Credentials})
+          .get(`/apps/user/users/${id}`)
           .then(response => resolve(response))
-          //.then(response => console.log(response))
           .catch(error => reject(error))
       })
-      },
+    },
 
     // ------------------------------------------------
     // Bond primary group
@@ -83,6 +81,16 @@ export default {
           .catch(error => reject(error))
       })
     },
+    fetchAddOrganization(ctx, {MainGroupAdded }) {
+       
+        return new Promise((resolve, reject) => {
+          axios
+            .post('http://localhost:3000/api/organization/add', { MainGroupAdded })
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+      },
     
     // ------------------------------------------------
     // Bond secondary group

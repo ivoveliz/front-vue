@@ -706,6 +706,8 @@ export default {
       .then(response => {
         invoiceData.value = response.data.invoice
         paymentDetails.value = response.data.paymentDetails
+        console.log( invoiceData.value )
+        console.log( paymentDetails.value)
 
         // ? We are adding some extra data in response for data purpose
         // * Your response will contain this extra data

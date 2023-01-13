@@ -20,6 +20,52 @@ export default [
     },
   },
   {
+    path: '/bond/EditMaingroup/',
+    name: 'bond-Main-Group-Edit',
+    component: () => import('@/views/bond/Main-page/MainGroupEdit.vue'),
+    meta: {
+      pageTitle: 'Main-page-edit',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
+  },
+  {
+    path: '/bond/AddMaingroup/',
+    name: 'bond-Main-Group-Add',
+    component: () => import('@/views/bond/Main-page/MainGroupAdd.vue'),
+    meta: {
+      pageTitle: 'Main-page-add',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
+  },
+  {
     path: '/bond/secondary/',
     name: 'bond-Secondary-page',
     component: () => import('@/views/bond/Secondary-page/SecondaryPage.vue'),

@@ -1,25 +1,99 @@
 <template>
-  <section class="grid-view wishlist-items">
+    <section class="app-ecommerce-details">
+
+      <b-row class="breadcrumbs-top">
+   
+   <b-col
+   class="content-header-right text-md-right d-md-block d-none mb-1"
+      md="12"
+      cols="20"
+     >
+     <b-button
+      
+      variant="outline-primary"
+      @click="$router.push({ name: 'bond-Main-Group-Add'})"
+    >
+      <feather-icon
+        icon="PlusIcon"
+        class="mr-50"
+       
+      />
+      <span class="align-middle">Agregar grupo</span>
+    </b-button>
+      
+ 
+   </b-col>
+ </b-row>
+  <b-row class="grid-view wishlist-items">
+   
     <b-card
       v-for="product in products"
       :key="product.id"
       class="ecommerce-card"
       no-body
     >
-      <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }">
+    <b-card-header>
+      <h6 class="item-name">
+      <b-link
+          class="mb-25"
+          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }"
+          >
+            {{ product.NamePrimaryGroup }}
+          </b-link>
+         
+        </h6>
+      <feather-icon
+      :id="`EyeIcon1`"
+        icon="EyeIcon"
+        size="20"
+        class="cursor-pointer"
+        @click="$router.push({ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} })"
+      />
+      <b-tooltip
+            title="Ver"
+            class="cursor-pointer"
+            :target="`EyeIcon1`"
+          />
+      <feather-icon
+      :id="`EditIcon1`"
+        icon="EditIcon"
+        size="20"
+        class="cursor-pointer"
+        @click="$router.push({ name: 'bond-Main-Group-Edit', params: { slug: product.SecondaryGroups} })"
+     
+      />
+      <b-tooltip
+            title="Editar"
+            class="cursor-pointer"
+            :target="`EditIcon1`"
+          />
+      <feather-icon
+      :id="`TrashIcon1`"
+        icon="TrashIcon"
+        size="20"
+        class="cursor-pointer"
+        
+      />
+      <b-tooltip
+            title="Eliminar"
+            class="cursor-pointer"
+            :target="`TrashIcon1`"
+          />
+    </b-card-header>
+
+       
+        <b-card-body>
+          <b-link :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }">
+          
           <b-img
             :alt="`${product.NamePrimaryGroup}-${product.id}`"
             fluid
             class="card-img-top"
-            :src="require('@/assets/images/pages/eCommerce/'+`${product.IdGroup}`+'.png')"
+            :src="product.buffer5"
             
           />
+          
         </b-link>
-      </div>
-
-      <!-- Product Details -->
-      <b-card-body>
         <div class="item-wrapper">
           <div class="item-rating">
             <ul class="unstyled-list list-inline">
@@ -44,26 +118,33 @@
           </div>
         </div>
         <h6 class="item-name">
-          <b-link
+          <!-- <b-link
           class="mb-25"
             :to="{ name: 'bond-Secondary-page', params: { slug: product.SecondaryGroups } }"
           >
             {{ product.NamePrimaryGroup }}
-          </b-link>
+          </b-link> -->
           <!-- <b-card-text class="item-company">
             By <b-link class="ml-25">
               {{ product.brand }}
             </b-link>
           </b-card-text> -->
         </h6>
-        <b-card-text class="item-description" >
+        <!-- <b-card-text class="item-description" >
           Id Grupo : {{ product.IdGroup }}
         </b-card-text>
 
         <b-card-text class="item-description">
           Cantidad de SubAreas: {{ product.AmountGroup }}
-        </b-card-text>
+        </b-card-text> -->
+        
       </b-card-body>
+     
+   
+    
+       
+     
+   
 
       <!-- Action Buttons -->
       <!-- <div class="item-options text-center">
@@ -88,12 +169,16 @@
         </b-button>
       </div> -->
     </b-card>
-  </section>
+  
+  </b-row>
+
+</section>
 </template>
 
 <script>
 import {
-  BCard, BCardBody, BImg, BCardText, BLink, BButton,
+  BCard, BCardBody, BImg, BCardText, BLink, BButton,BCardHeader,BTooltip,BCol,
+  BRow,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
@@ -101,7 +186,8 @@ import { useEcommerce, useEcommerceUi } from '../usebondModule'
 
 export default {
   components: {
-    BCard, BCardBody, BImg, BCardText, BLink, BButton,
+    BCard, BCardBody, BImg, BCardText, BLink, BButton, BCardHeader,BTooltip,
+    BRow,BCol,
   },
   setup() {
     const { handleWishlistCartActionClick } = useEcommerceUi()
@@ -121,6 +207,7 @@ export default {
       store.dispatch('app-bond/fetchOrganization')
         .then(response => {
           products.value = response.data.data
+          console.log(response.data)
         })
 
            

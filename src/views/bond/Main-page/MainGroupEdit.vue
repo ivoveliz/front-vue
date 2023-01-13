@@ -1,6 +1,29 @@
 <template>
   <section class="invoice-add-wrapper">
-    <b-row class="invoice-add">
+    <!-- Alert: No item found -->
+    <b-alert
+      variant="danger"
+      :show="invoiceData === undefined"
+    >
+      <h4 class="alert-heading">
+        Error fetching invoice data
+      </h4>
+      <div class="alert-body">
+        No invoice found with this invoice id. Check
+        <b-link
+          class="alert-link"
+          :to="{ name: 'apps-invoice-list'}"
+        >
+          Invoice List
+        </b-link>
+        for other invoices.
+      </div>
+    </b-alert>
+
+    <b-row
+      v-if="invoiceData"
+      class="invoice-add"
+    >
 
       <!-- Col: Left (Invoice Container) -->
       <b-col
@@ -44,9 +67,9 @@
                       Invoice
                     </h4>
                     <b-input-group class="input-group-merge invoice-edit-input-group disabled">
-                      <b-input-group-prepend is-text>
-                        <feather-icon icon="HashIcon" />
-                      </b-input-group-prepend>
+                      <!-- <b-input-group-prepend is-text>
+                  
+                      </b-input-group-prepend> -->
                       <b-form-input
                         id="invoice-data-id"
                         v-model="invoiceData.id"
@@ -94,29 +117,6 @@
                   <h6 class="mb-2">
                     Invoice To:
                   </h6>
-
-                  <!-- Select Client -->
-                  <v-select
-                    v-model="invoiceData.client"
-                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    :options="clients"
-                    label="company"
-                    input-id="invoice-data-client"
-                    :clearable="false"
-                  >
-                    <template #list-header>
-                      <li
-                        v-b-toggle.sidebar-invoice-add-new-customer
-                        class="add-new-client-header d-flex align-items-center my-50"
-                      >
-                        <feather-icon
-                          icon="PlusIcon"
-                          size="16"
-                        />
-                        <span class="align-middle ml-25">Add New Customer</span>
-                      </li>
-                    </template>
-                  </v-select>
 
                   <!-- Selected Client -->
                   <div
@@ -236,6 +236,7 @@
                         >
                           Price
                         </b-col>
+                        
                       </b-row>
                       <div class="form-item-action-col" />
                     </div>
@@ -412,7 +413,9 @@
                 Add Item
               </b-button>
             </b-card-body>
+            
 
+    <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
             <!-- Invoice Description: Total -->
             <b-card-body class="invoice-padding pb-0">
               <b-row>
@@ -500,7 +503,7 @@
         cols="12"
         md="4"
         xl="3"
-        class="invoice-actions mt-md-0 mt-2"
+        class="invoice-actions"
       >
 
         <!-- Action Buttons -->
@@ -509,10 +512,10 @@
           <!-- Button: Send Invoice -->
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            v-b-toggle.sidebar-send-invoice
             variant="primary"
             class="mb-75"
             block
-            disabled
           >
             Send Invoice
           </b-button>
@@ -534,6 +537,17 @@
             block
           >
             Save
+          </b-button>
+
+          <!-- Button: Add Payment -->
+          <b-button
+            v-b-toggle.sidebar-invoice-add-payment
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            variant="success"
+            class="mb-75"
+            block
+          >
+            Add Payment
           </b-button>
         </b-card>
 
@@ -586,7 +600,9 @@
         </div>
       </b-col>
     </b-row>
-    <invoice-sidebar-add-new-customer />
+
+    <invoice-sidebar-send-invoice />
+    
   </section>
 </template>
 
@@ -596,13 +612,15 @@ import { ref, onUnmounted } from '@vue/composition-api'
 import { heightTransition } from '@core/mixins/ui/transition'
 import Ripple from 'vue-ripple-directive'
 import store from '@/store'
+import router from '@/router'
 import {
-  BRow, BCol, BCard, BCardBody, BButton, BCardText, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormTextarea, BFormCheckbox, BPopover, VBToggle,
+  BRow, BCol, BCard, BCardBody, BButton, BCardText, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormTextarea, BFormCheckbox, BPopover, BAlert, BLink, VBToggle,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
-import invoiceStoreModule from '../invoiceStoreModule'
-import InvoiceSidebarAddNewCustomer from '../InvoiceSidebarAddNewCustomer.vue'
+// import invoiceStoreModule from '../invoiceStoreModule'
+import InvoiceSidebarSendInvoice from './InvoiceSidebarSendInvoice.vue'
+// import InvoiceSidebarAddPayment from '../InvoiceSidebarAddPayment.vue'
 
 export default {
   components: {
@@ -620,17 +638,26 @@ export default {
     BFormTextarea,
     BFormCheckbox,
     BPopover,
+    BAlert,
+    BLink,
     flatPickr,
     vSelect,
     Logo,
-    InvoiceSidebarAddNewCustomer,
+    InvoiceSidebarSendInvoice,
   },
   directives: {
     Ripple,
     'b-toggle': VBToggle,
-
   },
   mixins: [heightTransition],
+
+  // Reset Tr Height if data changes
+  watch: {
+    // eslint-disable-next-line func-names
+    'invoiceData.items': function () {
+      this.initTrHeight()
+    },
+  },
   mounted() {
     this.initTrHeight()
   },
@@ -659,7 +686,7 @@ export default {
     initTrHeight() {
       this.trSetHeight(null)
       this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form.scrollHeight)
+        this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0)
       })
     },
   },
@@ -667,18 +694,91 @@ export default {
     const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
 
     // Register module
-    if (!store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.registerModule(INVOICE_APP_STORE_MODULE_NAME, invoiceStoreModule)
-
+     
     // UnRegister on leave
     onUnmounted(() => {
       if (store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME)
     })
 
-    const clients = ref([])
-    store.dispatch('app-invoice/fetchClients')
-      .then(response => { clients.value = response.data 
-        console.log(clients.value)
-      })
+    const invoiceData = ref(null)
+    const paymentDetails = ref({})
+    invoiceData.value = {
+    "id": 5036,
+    "issuedDate": "19 Apr 2019",
+    "client": {
+        "address": "78083 Laura Pines",
+        "company": "Richardson and Sons LLC",
+        "companyEmail": "pwillis@cross.org",
+        "country": "Bhutan",
+        "contact": "(687) 660-2473",
+        "name": "Andrew Burns"
+    },
+    "service": "Unlimited Extended License",
+    "total": 3171,
+    "avatar": "/img/9-small.30df7a62.png",
+    "invoiceStatus": "Paid",
+    "balance": "-$205",
+    "dueDate": "25 Sep 2019",
+    "items": [
+        {
+            "itemTitle": "App Design",
+            "cost": 24,
+            "qty": 2,
+            "description": "Designed UI kit & app pages."
+        }
+    ],
+    "note": "It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!",
+    "paymentMethod": "Bank Account"
+}
+//     store.dispatch('app-invoice/fetchInvoice', { id: router.currentRoute.params.id })
+//       .then(response => {
+//         invoiceData.value = {
+//     "id": 5036,
+//     "issuedDate": "19 Apr 2019",
+//     "client": {
+//         "address": "78083 Laura Pines",
+//         "company": "Richardson and Sons LLC",
+//         "companyEmail": "pwillis@cross.org",
+//         "country": "Bhutan",
+//         "contact": "(687) 660-2473",
+//         "name": "Andrew Burns"
+//     },
+//     "service": "Unlimited Extended License",
+//     "total": 3171,
+//     "avatar": "/img/9-small.30df7a62.png",
+//     "invoiceStatus": "Paid",
+//     "balance": "-$205",
+//     "dueDate": "25 Sep 2019",
+//     "items": [
+//         {
+//             "itemTitle": "App Design",
+//             "cost": 24,
+//             "qty": 2,
+//             "description": "Designed UI kit & app pages."
+//         }
+//     ],
+//     "note": "It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!",
+//     "paymentMethod": "Bank Account"
+// }
+//         paymentDetails.value = response.data.paymentDetails
+
+//         // ? We are adding some extra data in response for data purpose
+//         // * Your response will contain this extra data
+//         // ? [Purpose is to make it more API friendly and less static as possible]
+//         invoiceData.value.items = [{
+//           itemTitle: 'App Design',
+//           cost: 24,
+//           qty: 2,
+//           description: 'Designed UI kit & app pages.',
+//         }]
+//         invoiceData.value.note = 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
+//         invoiceData.value.paymentMethod = 'Bank Account'
+//       })
+//       .catch(error => {
+//         if (error.response.status === 404) {
+//           invoiceData.value = undefined
+//         }
+//       })
 
     const itemFormBlankItem = {
       item: null,
@@ -686,18 +786,6 @@ export default {
       qty: 0,
       description: '',
     }
-
-    const invoiceData = ref({
-      id: 5037,
-      client: null,
-
-      // ? Set single Item in form for adding data
-      items: [JSON.parse(JSON.stringify(itemFormBlankItem))],
-
-      salesPerson: '',
-      note: 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!',
-      paymentMethod: null,
-    })
 
     const itemsOptions = [
       {
@@ -741,7 +829,6 @@ export default {
 
     return {
       invoiceData,
-      clients,
       itemsOptions,
       updateItemForm,
       itemFormBlankItem,
@@ -754,21 +841,10 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
-.invoice-add-wrapper {
-  .add-new-client-header {
-    padding: $options-padding-y $options-padding-x;
-      color: $success;
-
-    &:hover {
-      background-color: rgba($success, 0.12);
-    }
-  }
-}
 </style>
 
 <style lang="scss" scoped>
 @import "~@core/scss/base/pages/app-invoice.scss";
-@import '~@core/scss/base/components/variables-dark';
 
 .form-item-section {
 background-color:$product-details-bg;

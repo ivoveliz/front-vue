@@ -101,7 +101,9 @@
     
 
   </b-col>
+  
 </b-row>
+<hr class="invoice-spacing"> 
    <!-- GRAFICO VALOR INSTANTANEIO-->
    <b-col cols="12"
             >
@@ -153,6 +155,7 @@
 
       <!-- <ecommerce-profit-chart :data="datachart" /> -->
     </b-col>
+    <hr class="invoice-spacing"> 
 <!-- GRAFICO VALOR TOTALIZADOR-->
     <b-col cols="12"
             >
@@ -185,8 +188,10 @@
 
       <!-- <ecommerce-profit-chart :data="datachart" /> -->
     </b-col>
+     
     <b-col align-self="stretch">
  <!-- <table-kitchen-sink /> -->
+ <hr class="invoice-spacing"> 
   <!-- tabla -->
  <b-col cols="12" >
   <b-row>
@@ -328,6 +333,7 @@
       </b-col>
 </b-col>
   <!-- TARJETA-->
+  <hr class="invoice-spacing"> 
     <div class="grid-view wishlist-items" >
     <b-card
       v-for="product in products.Devices"

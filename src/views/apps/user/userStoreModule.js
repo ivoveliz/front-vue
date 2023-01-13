@@ -33,22 +33,10 @@ export default {
       })
     },
     fetchUser(ctx, { id }) {
-      console.log(id.IdGroup)
-       id2=id
-      Idreceibe={
-        id:id
-
-      }
-      const body={
-        id:id
-      }
       return new Promise((resolve, reject) => {
         axios
-          //.get(`/apps/user/users/${id}`)
-          //.get('http://localhost:1880/entidaddetalle', { params: body})
-          .get('http://localhost:3000/api/organization/MainPageDetails', { params: body})
-           //.then(response => console.log(response))
-           .then(response => resolve(response))
+          .get(`/apps/user/users/${id}`)
+          .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
