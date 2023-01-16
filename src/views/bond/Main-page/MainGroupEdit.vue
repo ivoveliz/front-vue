@@ -1,197 +1,117 @@
 <template>
-  <section class="invoice-add-wrapper">
-    <!-- Alert: No item found -->
-    <b-alert
-      variant="danger"
-      :show="invoiceData === undefined"
-    >
-      <h4 class="alert-heading">
-        Error fetching invoice data
-      </h4>
-      <div class="alert-body">
-        No invoice found with this invoice id. Check
-        <b-link
-          class="alert-link"
-          :to="{ name: 'apps-invoice-list'}"
-        >
-          Invoice List
-        </b-link>
-        for other invoices.
-      </div>
-    </b-alert>
-
-    <b-row
-      v-if="invoiceData"
-      class="invoice-add"
-    >
-
-      <!-- Col: Left (Invoice Container) -->
-      <b-col
-        cols="12"
-        xl="9"
-        md="8"
-      >
-        <b-form @submit.prevent>
-          <b-card
-            no-body
-            class="invoice-preview-card"
-          >
-            <!-- Header -->
-            <b-card-body class="invoice-padding pb-0">
-
-              <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-
-                <!-- Header: Left Content -->
-                <div>
-                  <div class="logo-wrapper">
-                    <logo />
-                    <h3 class="text-primary invoice-logo">
-                      Vuexy
-                    </h3>
-                  </div>
-                  <b-card-text class="mb-25">
-                    Office 149, 450 South Brand Brooklyn
-                  </b-card-text>
-                  <b-card-text class="mb-25">
-                    San Diego County, CA 91905, USA
-                  </b-card-text>
-                  <b-card-text class="mb-0">
-                    +1 (123) 456 7891, +44 (876) 543 2198
-                  </b-card-text>
-                </div>
-
-                <!-- Header: Right Content -->
-                <div class="invoice-number-date mt-md-0 mt-2">
-                  <div class="d-flex align-items-center justify-content-md-end mb-1">
-                    <h4 class="invoice-title">
-                      Invoice
-                    </h4>
-                    <b-input-group class="input-group-merge invoice-edit-input-group disabled">
-                      <!-- <b-input-group-prepend is-text>
-                  
-                      </b-input-group-prepend> -->
-                      <b-form-input
-                        id="invoice-data-id"
-                        v-model="invoiceData.id"
-                        disabled
-                      />
-                    </b-input-group>
-                  </div>
-                  <div class="d-flex align-items-center mb-1">
-                    <span class="title">
-                      Date:
-                    </span>
-                    <flat-pickr
-                      v-model="invoiceData.issuedDate"
-                      class="form-control invoice-edit-input"
-                    />
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <span class="title">
-                      Due Date:
-                    </span>
-                    <flat-pickr
-                      v-model="invoiceData.dueDate"
-                      class="form-control invoice-edit-input"
-                    />
-                  </div>
-                </div>
-              </div>
-            </b-card-body>
-
-            <!-- Spacer -->
-            <hr class="invoice-spacing">
-
-            <!-- Invoice Client & Payment Details -->
-            <b-card-body
-              class="invoice-padding pt-0"
+  <section class="app-ecommerce-details">
+    <b-row class="match-height">
+      <b-col 
+        cols="6"
             >
-              <b-row class="invoice-spacing">
+        <form-wizard
+      color="#7367F0"
+      :title="null"
+      :subtitle="null"
+      layout=""
+      finish-button-text="Actualizar grupo principal"
+      back-button-text="Previous"
+      class="wizard-vertical mb-3"
+      @on-complete="formSubmitted"
+      
+    >
 
-                <!-- Col: Invoice To -->
-                <b-col
-                  cols="12"
-                  xl="6"
-                  class="mb-lg-1"
-                >
-                  <h6 class="mb-2">
-                    Invoice To:
-                  </h6>
-
-                  <!-- Selected Client -->
-                  <div
-                    v-if="invoiceData.client"
-                    class="mt-1"
-                  >
-                    <h6 class="mb-25">
-                      {{ invoiceData.client.name }}
-                    </h6>
-                    <b-card-text class="mb-25">
-                      {{ invoiceData.client.company }}
-                    </b-card-text>
-                    <b-card-text class="mb-25">
-                      {{ invoiceData.client.address }}, {{ invoiceData.client.country }}
-                    </b-card-text>
-                    <b-card-text class="mb-25">
-                      {{ invoiceData.client.contact }}
-                    </b-card-text>
-                    <b-card-text class="mb-0">
-                      {{ invoiceData.client.companyEmail }}
-                    </b-card-text>
-                  </div>
-                </b-col>
-
-                <!-- Col: Payment Details -->
-                <b-col
-                  xl="6"
-                  cols="12"
-                  class="mt-xl-0 mt-2 justify-content-end d-xl-flex d-block"
-                >
-                  <div>
-                    <h6 class="mb-2">
-                      Payment Details:
-                    </h6>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td class="pr-1">
-                            Total Due:
-                          </td>
-                          <td><span class="font-weight-bold">$12,110.55</span></td>
-                        </tr>
-                        <tr>
-                          <td class="pr-1">
-                            Bank name:
-                          </td>
-                          <td>American Bank</td>
-                        </tr>
-                        <tr>
-                          <td class="pr-1">
-                            Country:
-                          </td>
-                          <td>United States</td>
-                        </tr>
-                        <tr>
-                          <td class="pr-1">
-                            IBAN:
-                          </td>
-                          <td>ETD95476213874685</td>
-                        </tr>
-                        <tr>
-                          <td class="pr-1">
-                            SWIFT code:
-                          </td>
-                          <td>BR91905</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </b-col>
-              </b-row>
-            </b-card-body>
-
-            <!-- Items Section -->
-            <b-card-body class="invoice-padding form-item-section">
+    
+      <tab-content title="ACTUALIZAR GRUPO PRINCIPAL"
+      icon="DownloadCloudIcon icon-file-text" >
+        <b-row>
+     
+   
+     <b-col md="7">
+       <!----------------- Media ------------------------->
+    <b-media class="mb-2">
+      <template #aside>
+        <b-avatar
+          ref="previewEl"
+          :src="avatar"
+          
+           
+           
+          size="150px"
+          rounded
+        />
+      </template>
+      <h4 class="mb-1">
+       Agregar nueva Imagen de grupo principal
+      </h4>
+      <div class="d-flex flex-wrap">
+        <b-button
+          variant="primary"
+          @click="$refs.refInputEl.click()"
+        >
+          <input
+            ref="refInputEl"
+            type="file"
+            class="d-none"
+            @input="inputImageRenderer"
+          >
+          <span class="d-none d-sm-inline">Cargar Imagen</span>
+          <feather-icon
+            icon="EditIcon"
+            class="d-inline d-sm-none"
+          />
+        </b-button>
+        <!-- <b-button
+          variant="outline-secondary"
+          class="ml-1"
+        >
+          <span class="d-none d-sm-inline">Remove</span>
+          <feather-icon
+            icon="TrashIcon"
+            class="d-inline d-sm-none"
+          />
+        </b-button> -->
+      </div>
+    </b-media>
+  </b-col>
+    <!-- input nombre grupo -->
+    <b-col md="7">
+    <h5 class="mb-0">
+      NOMBRE ACTUAL GRUPO PRINCIPAL : {{products.NamePrimaryGroup}}
+            </h5>
+          </b-col>
+          <hr class="invoice-spacing"> 
+          <b-col md="7">
+            INGRESE NUEVO NOMBRE GRUPO PRINCIPAL:
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="NewNamePrimaryGroup"
+                id="DownlinkMessage"
+                placeholder=" INGRESE NOMBRE GRUPO PRINCIPAL"
+              />
+            </b-form-group>
+          </b-col>
+            <!-- input codigo grupo -->
+            <b-col md="7">
+    <h5 class="mb-0">
+    ACTUAL CODIGO GRUPO PRINCIPAL : {{products.IdGroup}}
+            </h5>
+          </b-col>
+          <hr class="invoice-spacing"> 
+            <b-col md="7">
+              INGRESE NUEVO CODIGO GRUPO PRINCIPAL:
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="NewIdGroup"
+                id="codigogrupo"
+                placeholder=" INGRESE CODIGO GRUPO PRINCIPAL"
+              />
+            </b-form-group>
+          </b-col>
+       
+ 
+          <!-- <b-col md="8">
+           AGREGAR ENTIDADES A GRUPO PRINCIPAL:
+         <b-card-body class="invoice-padding form-item-section">
               <div
                 ref="form"
                 class="repeater-form"
@@ -204,110 +124,76 @@
                   class="pb-2"
                 >
 
-                  <!-- Item Form -->
-                  <!-- ? This will be in loop => So consider below markup for single item -->
-                  <b-col cols="12">
+                  
+                 
+                  <b-col cols="16">
 
-                    <!-- ? Flex to keep separate width for XIcon and SettingsIcon -->
+                
                     <div class="d-none d-lg-flex">
                       <b-row class="flex-grow-1 px-1">
-                        <!-- Single Item Form Headers -->
-                        <b-col
-                          cols="12"
-                          lg="5"
-                        >
-                          Item
-                        </b-col>
-                        <b-col
-                          cols="12"
-                          lg="3"
-                        >
-                          Cost
-                        </b-col>
-                        <b-col
-                          cols="12"
-                          lg="2"
-                        >
-                          Qty
-                        </b-col>
-                        <b-col
-                          cols="12"
-                          lg="2"
-                        >
-                          Price
-                        </b-col>
-                        
+                    
                       </b-row>
                       <div class="form-item-action-col" />
                     </div>
 
-                    <!-- Form Input Fields OR content inside bordered area  -->
-                    <!-- ? Flex to keep separate width for XIcon and SettingsIcon -->
+                  
                     <div class="d-flex border rounded">
                       <b-row class="flex-grow-1 p-2">
-                        <!-- Single Item Form Headers -->
+
+                        
+         
                         <b-col
                           cols="12"
-                          lg="5"
                         >
-                          <label class="d-inline d-lg-none">Item</label>
-                          <v-select
-                            v-model="item.itemTitle"
-                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            :options="itemsOptions"
-                            label="itemTitle"
-                            :clearable="false"
-                            class="mb-2 item-selector-title"
-                            placeholder="Select Item"
-                            @input="val => updateItemForm(index, val)"
-                          />
-                        </b-col>
-                        <b-col
-                          cols="12"
-                          lg="3"
-                        >
-                          <label class="d-inline d-lg-none">Cost</label>
+                     
+                        INGRESE ORIGEN ENTIDAD:
+                      
                           <b-form-input
-                            v-model="item.cost"
-                            type="number"
+                            v-model="item.OriginEntity"
+                            
+                            placeholder="INGRESE ORIGEN ENTIDAD"
                             class="mb-2"
                           />
                         </b-col>
+                        <hr class="invoice-spacing"> 
+                 
                         <b-col
                           cols="12"
-                          lg="2"
                         >
-                          <label class="d-inline d-lg-none">Qty</label>
+                      
+                        INGRESE DESTINO ENTIDAD:
+                   
                           <b-form-input
-                            v-model="item.qty"
-                            type="number"
+                            v-model="item.DestinyEntity"
+                            placeholder=" INGRESE DESTINO ENTIDAD"
                             class="mb-2"
                           />
                         </b-col>
-                        <b-col
-                          cols="12"
-                          lg="2"
-                        >
-                          <label class="d-inline d-lg-none">Price</label>
-                          <p class="mb-1">
-                            ${{ item.cost * item.qty }}
-                          </p>
-                        </b-col>
-                        <b-col
-                          cols="12"
-                          lg="5"
-                        >
-                          <label class="d-inline d-lg-none">Description</label>
-                          <b-form-textarea
-                            v-model="item.description"
-                            class="mb-2 mb-lg-0"
-                          />
-                        </b-col>
-                        <b-col>
-                          <p class="mb-0">
-                            Discount: 0% 0% 0%
-                          </p>
-                        </b-col>
+                        <hr class="invoice-spacing"> 
+                   
+                    <b-col
+                      cols="12"
+                    >
+                    INGRESE FUNCION ENTIDAD:
+                      <b-form-input
+                        v-model="item.Function"
+                        placeholder=" INGRESE FUNCION ENTIDAD"
+                        class="mb-2"
+                      />
+                    </b-col>
+
+                    <hr class="invoice-spacing"> 
+                    
+                    <b-col
+                      cols="12"
+                    >
+                    INGRESE UBICACION:
+                      <b-form-input
+                        v-model="item.Ubication"
+                        placeholder=" INGRESE UBICACION"
+                        class="mb-2"
+                      />
+                    </b-col>
                       </b-row>
                       <div class="d-flex flex-column justify-content-between border-left py-50 px-25">
                         <feather-icon
@@ -316,348 +202,115 @@
                           class="cursor-pointer"
                           @click="removeItem(index)"
                         />
-                        <feather-icon
-                          :id="`form-item-settings-icon-${index}`"
-                          size="16"
-                          icon="SettingsIcon"
-                          class="cursor-pointer"
-                        />
+                       
 
-                        <!-- Setting Item Form -->
-                        <b-popover
-                          :ref="`form-item-settings-popover-${index}`"
-                          :target="`form-item-settings-icon-${index}`"
-                          triggers="click"
-                          placement="lefttop"
-                        >
-                          <b-form @submit.prevent>
-                            <b-row>
-
-                              <!-- Field: Discount -->
-                              <b-col cols="12">
-                                <b-form-group
-                                  label="Discount(%)"
-                                  :label-for="`setting-item-${index}-discount`"
-                                >
-                                  <b-form-input
-                                    :id="`setting-item-${index}-discount`"
-                                    :value="null"
-                                    type="number"
-                                  />
-                                </b-form-group>
-                              </b-col>
-
-                              <!-- Field: Tax 1 -->
-                              <b-col cols="6">
-                                <b-form-group
-                                  label="Tax 1"
-                                  :label-for="`setting-item-${index}-tax-1`"
-                                >
-                                  <v-select
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                                    :value="'10%'"
-                                    :options="['0%', '1%', '10%', '14%', '18%']"
-                                    :input-id="`setting-item-${index}-tax-1`"
-                                    :clearable="false"
-                                  />
-                                </b-form-group>
-                              </b-col>
-
-                              <!-- Field: Tax 2 -->
-                              <b-col cols="6">
-                                <b-form-group
-                                  label="Tax 2"
-                                  :label-for="`setting-item-${index}-tax-2`"
-                                >
-                                  <v-select
-                                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                                    :value="'10%'"
-                                    :options="['0%', '1%', '10%', '14%', '18%']"
-                                    :input-id="`setting-item-${index}-tax-2`"
-                                    :clearable="false"
-                                  />
-                                </b-form-group>
-                              </b-col>
-
-                              <b-col
-                                cols="12"
-                                class="d-flex justify-content-between mt-1"
-                              >
-                                <b-button
-                                  variant="outline-primary"
-                                  @click="() => {$refs[`form-item-settings-popover-${index}`][0].$emit('close')}"
-                                >
-                                  Apply
-                                </b-button>
-                                <b-button
-                                  variant="outline-secondary"
-                                  @click="() => {$refs[`form-item-settings-popover-${index}`][0].$emit('close')}"
-                                >
-                                  Cancel
-                                </b-button>
-                              </b-col>
-                            </b-row>
-                          </b-form>
-                        </b-popover>
+                  
                       </div>
                     </div>
                   </b-col>
                 </b-row>
               </div>
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+              
                 size="sm"
                 variant="primary"
                 @click="addNewItemInItemForm"
               >
-                Add Item
+                AGREGAR MAS ENTIDADES
               </b-button>
             </b-card-body>
-            
+          </b-col> -->
+        </b-row>
+      </tab-content>
 
-    <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
-            <!-- Invoice Description: Total -->
-            <b-card-body class="invoice-padding pb-0">
-              <b-row>
+    </form-wizard>
 
-                <!-- Col: Sales Persion -->
-                <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3 d-flex align-items-center"
-                  order="2"
-                  order-md="1"
-                >
-                  <label
-                    for="invoice-data-sales-person"
-                    class="text-nowrap mr-50"
-                  >Sales Person:</label>
-                  <b-form-input
-                    id="invoice-data-sales-person"
-                    v-model="invoiceData.salesPerson"
-                    placeholder="Edward Crowley"
-                  />
-                </b-col>
-
-                <!-- Col: Total -->
-                <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-                >
-                  <div class="invoice-total-wrapper">
-                    <div class="invoice-total-item">
-                      <p class="invoice-total-title">
-                        Subtotal:
-                      </p>
-                      <p class="invoice-total-amount">
-                        $1800
-                      </p>
-                    </div>
-                    <div class="invoice-total-item">
-                      <p class="invoice-total-title">
-                        Discount:
-                      </p>
-                      <p class="invoice-total-amount">
-                        $28
-                      </p>
-                    </div>
-                    <div class="invoice-total-item">
-                      <p class="invoice-total-title">
-                        Tax:
-                      </p>
-                      <p class="invoice-total-amount">
-                        21%
-                      </p>
-                    </div>
-                    <hr class="my-50">
-                    <div class="invoice-total-item">
-                      <p class="invoice-total-title">
-                        Total:
-                      </p>
-                      <p class="invoice-total-amount">
-                        $1690
-                      </p>
-                    </div>
-                  </div>
-                </b-col>
-              </b-row>
-            </b-card-body>
-
-            <!-- Spacer -->
-            <hr class="invoice-spacing">
-
-            <!-- Note -->
-            <b-card-body class="invoice-padding pt-0">
-              <span class="font-weight-bold">Note: </span>
-              <b-form-textarea v-model="invoiceData.note" />
-            </b-card-body>
-          </b-card>
-        </b-form>
-      </b-col>
-
-      <!-- Right Col: Card -->
-      <b-col
-        cols="12"
-        md="4"
-        xl="3"
-        class="invoice-actions"
-      >
-
-        <!-- Action Buttons -->
-        <b-card>
-
-          <!-- Button: Send Invoice -->
-          <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            v-b-toggle.sidebar-send-invoice
-            variant="primary"
-            class="mb-75"
-            block
-          >
-            Send Invoice
-          </b-button>
-
-          <!-- Button: DOwnload -->
-          <b-button
-            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-            variant="outline-primary"
-            class="mb-75"
-            block
-          >
-            Preview
-          </b-button>
-
-          <!-- Button: Print -->
-          <b-button
-            v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-            variant="outline-primary"
-            block
-          >
-            Save
-          </b-button>
-
-          <!-- Button: Add Payment -->
-          <b-button
-            v-b-toggle.sidebar-invoice-add-payment
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            variant="success"
-            class="mb-75"
-            block
-          >
-            Add Payment
-          </b-button>
-        </b-card>
-
-        <!-- Payment Method -->
-        <div class="mt-2">
-          <b-form-group
-            label="Accept Payment Via"
-            label-for="payment-method"
-          >
-            <v-select
-              v-model="invoiceData.paymentMethod"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="paymentMethods"
-              input-id="payment-method"
-              class="payment-selector"
-              :clearable="false"
-            />
-          </b-form-group>
-
-          <!-- ? Below values are not adding invoiceData to keep invoiceData more generic and less confusing  -->
-
-          <!-- Payment Terms -->
-          <div class="d-flex justify-content-between align-items-center">
-            <label for="patymentTerms">Payment Terms</label>
-            <b-form-checkbox
-              id="patymentTerms"
-              :checked="true"
-              switch
-            />
-          </div>
-
-          <!-- Client Notes -->
-          <div class="d-flex justify-content-between align-items-center my-1">
-            <label for="clientNotes">Client Notes</label>
-            <b-form-checkbox
-              id="clientNotes"
-              :checked="true"
-              switch
-            />
-          </div>
-
-          <!-- Payment Stub -->
-          <div class="d-flex justify-content-between align-items-center">
-            <label for="paymentStub">Payment Stub</label>
-            <b-form-checkbox
-              id="paymentStub"
-              switch
-            />
-          </div>
-        </div>
-      </b-col>
-    </b-row>
-
-    <invoice-sidebar-send-invoice />
     
+
+  </b-col>
+
+    </b-row>
+ 
   </section>
+
 </template>
 
 <script>
-import Logo from '@core/layouts/components/Logo.vue'
-import { ref, onUnmounted } from '@vue/composition-api'
-import { heightTransition } from '@core/mixins/ui/transition'
-import Ripple from 'vue-ripple-directive'
-import store from '@/store'
-import router from '@/router'
 import {
-  BRow, BCol, BCard, BCardBody, BButton, BCardText, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupPrepend, BFormTextarea, BFormCheckbox, BPopover, BAlert, BLink, VBToggle,
+  BTable,BRow, BCard, BCardBody, BImg, BCardText,
+  BLink, BButton,BCol, BFormGroup, BFormSelect,BMedia, BAvatar, 
+  BPagination, BInputGroup, BFormInput, BInputGroupAppend,
+BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup, BFormTextarea,
+  
 } from 'bootstrap-vue'
-import vSelect from 'vue-select'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import store from '@/store'
+import { FormWizard, TabContent } from 'vue-form-wizard'
+import { ref } from '@vue/composition-api'
 import flatPickr from 'vue-flatpickr-component'
-// import invoiceStoreModule from '../invoiceStoreModule'
-import InvoiceSidebarSendInvoice from './InvoiceSidebarSendInvoice.vue'
-// import InvoiceSidebarAddPayment from '../InvoiceSidebarAddPayment.vue'
+import vSelect from 'vue-select'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import { heightTransition } from '@core/mixins/ui/transition'
+import { useRouter } from '@core/utils/utils'
+
+import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BCard,
-    BCardBody,
-    BButton,
-    BCardText,
-    BForm,
-    BFormGroup,
-    BFormInput,
-    BInputGroup,
-    BInputGroupPrepend,
-    BFormTextarea,
-    BFormCheckbox,
-    BPopover,
-    BAlert,
-    BLink,
-    flatPickr,
-    vSelect,
-    Logo,
-    InvoiceSidebarSendInvoice,
+    BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
+   flatPickr,BTable,  BFormGroup, BFormTextarea,
+    BFormSelect,BPagination,BInputGroup,BFormInput,
+    BInputGroupAppend,FormWizard,TabContent,BMedia, BAvatar,
+    BCardHeader,BCardTitle, BButtonGroup,ToastificationContent,vSelect,
   },
-  directives: {
-    Ripple,
-    'b-toggle': VBToggle,
-  },
-  mixins: [heightTransition],
+  data() {
+    return {
+      
+      data: {},
+      
+      // NewIdGroup:"",
+      // NewNamePrimaryGroup:"",
+      DeviceID:"endev",
+      rangePicker:"",
+      SelectedFormat:"",
+      chartkey: 0,
+      perPage: 5,
+      pageOptions: [5, 10,20,60,100,200,500],
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: 'date',
+      sortDesc: true,
+      sortDirection: 'desc',
+      filter: null,
+      filterOn: [],
+      SelectedFormat: 'Seleccionar Formato',
+      Format: [
+        { value: 'PDF', text: 'PDF' },
+        { value: 'Excel', text: 'Excel' },
+     
+      ],
+      infoModal: {
+        id: 'info-modal',
+        title: '',
+        content: '',
+      },
+     
+      items: [],
+      datachart: {},
+      datachartTotalizer: {},
+      ConsultDateToday: "",
+      ConsultDateYesterday: "",
+      
 
-  // Reset Tr Height if data changes
-  watch: {
-    // eslint-disable-next-line func-names
-    'invoiceData.items': function () {
-      this.initTrHeight()
-    },
+    }
   },
+  // props: {
+  //   userData: {
+  //     type: Object,
+  //     required: true,
+  //   },
+  // },
+  mixins: [heightTransition],
   mounted() {
     this.initTrHeight()
   },
@@ -668,7 +321,48 @@ export default {
     window.removeEventListener('resize', this.initTrHeight)
   },
   methods: {
-    addNewItemInItemForm() {
+    async formSubmitted() {
+      //console.log( this.rangePicker)
+      //let deviceId=this.avatar
+   
+      let MainGroupUpdate= {
+        avatarGroup:this.avatar,
+        NamePrimaryGroup:this.products.NamePrimaryGroup,
+        IdGroup:this.products.IdGroup,
+        NewavatarGroup:this.avatar,
+        NewNamePrimaryGroup:this.NewNamePrimaryGroup,
+        NewIdGroup:this.NewIdGroup,
+       
+        
+    }
+      console.log(MainGroupUpdate)
+      const fetchAddOrganization = () => {
+      
+store.dispatch('app-bond/fetchUpdateOrganization' , {MainGroupUpdate})
+ .then(response => {
+ 
+  console.log(response )
+  
+
+ })
+}
+this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Documento generado con exito',
+    icon: 'EditIcon',
+    variant: 'success',
+ 
+  },
+})
+    
+fetchAddOrganization()
+ 
+this.$router.push({ name: 'bond-Main-page'})
+ 
+
+},
+addNewItemInItemForm() {
       this.$refs.form.style.overflow = 'hidden'
       this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
 
@@ -686,106 +380,77 @@ export default {
     initTrHeight() {
       this.trSetHeight(null)
       this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form ? this.$refs.form.scrollHeight : 0)
+        this.trSetHeight(this.$refs.form.scrollHeight)
       })
     },
   },
-  setup() {
-    const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
+  setup(props) {
+    // const userData = ref(null)
 
-    // Register module
-     
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME)
-    })
-
-    const invoiceData = ref(null)
-    const paymentDetails = ref({})
-    invoiceData.value = {
-    "id": 5036,
-    "issuedDate": "19 Apr 2019",
-    "client": {
-        "address": "78083 Laura Pines",
-        "company": "Richardson and Sons LLC",
-        "companyEmail": "pwillis@cross.org",
-        "country": "Bhutan",
-        "contact": "(687) 660-2473",
-        "name": "Andrew Burns"
+    const clients = ref([])
+    clients.value= [
+    {
+        "address": "7777 Mendez Plains",
+        "company": "Hall-Robbins PLC",
+        "companyEmail": "don85@johnson.com",
+        "country": "USA",
+        "contact": "(616) 865-4180",
+        "name": "Jordan Stevenson"
     },
-    "service": "Unlimited Extended License",
-    "total": 3171,
-    "avatar": "/img/9-small.30df7a62.png",
-    "invoiceStatus": "Paid",
-    "balance": "-$205",
-    "dueDate": "25 Sep 2019",
-    "items": [
-        {
-            "itemTitle": "App Design",
-            "cost": 24,
-            "qty": 2,
-            "description": "Designed UI kit & app pages."
-        }
-    ],
-    "note": "It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!",
-    "paymentMethod": "Bank Account"
-}
-//     store.dispatch('app-invoice/fetchInvoice', { id: router.currentRoute.params.id })
-//       .then(response => {
-//         invoiceData.value = {
-//     "id": 5036,
-//     "issuedDate": "19 Apr 2019",
-//     "client": {
-//         "address": "78083 Laura Pines",
-//         "company": "Richardson and Sons LLC",
-//         "companyEmail": "pwillis@cross.org",
-//         "country": "Bhutan",
-//         "contact": "(687) 660-2473",
-//         "name": "Andrew Burns"
-//     },
-//     "service": "Unlimited Extended License",
-//     "total": 3171,
-//     "avatar": "/img/9-small.30df7a62.png",
-//     "invoiceStatus": "Paid",
-//     "balance": "-$205",
-//     "dueDate": "25 Sep 2019",
-//     "items": [
-//         {
-//             "itemTitle": "App Design",
-//             "cost": 24,
-//             "qty": 2,
-//             "description": "Designed UI kit & app pages."
-//         }
-//     ],
-//     "note": "It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!",
-//     "paymentMethod": "Bank Account"
-// }
-//         paymentDetails.value = response.data.paymentDetails
-
-//         // ? We are adding some extra data in response for data purpose
-//         // * Your response will contain this extra data
-//         // ? [Purpose is to make it more API friendly and less static as possible]
-//         invoiceData.value.items = [{
-//           itemTitle: 'App Design',
-//           cost: 24,
-//           qty: 2,
-//           description: 'Designed UI kit & app pages.',
-//         }]
-//         invoiceData.value.note = 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
-//         invoiceData.value.paymentMethod = 'Bank Account'
-//       })
-//       .catch(error => {
-//         if (error.response.status === 404) {
-//           invoiceData.value = undefined
-//         }
-//       })
+    {
+        "address": "04033 Wesley Wall Apt. 961",
+        "company": "Mccann LLC and Sons",
+        "companyEmail": "brenda49@taylor.info",
+        "country": "Haiti",
+        "contact": "(226) 204-8287",
+        "name": "Stephanie Burns"
+    },
+    {
+        "address": "5345 Robert Squares",
+        "company": "Leonard-Garcia and Sons",
+        "companyEmail": "smithtiffany@powers.com",
+        "country": "Denmark",
+        "contact": "(955) 676-1076",
+        "name": "Tony Herrera"
+    },
+    {
+        "address": "19022 Clark Parks Suite 149",
+        "company": "Smith, Miller and Henry LLC",
+        "companyEmail": "mejiageorge@lee-perez.com",
+        "country": "Cambodia",
+        "contact": "(832) 323-6914",
+        "name": "Kevin Patton"
+    },
+    {
+        "address": "8534 Saunders Hill Apt. 583",
+        "company": "Garcia-Cameron and Sons",
+        "companyEmail": "brandon07@pierce.com",
+        "country": "Martinique",
+        "contact": "(970) 982-3353",
+        "name": "Mrs. Julie Donovan MD"
+    }
+]
+ 
 
     const itemFormBlankItem = {
-      item: null,
-      cost: 0,
-      qty: 0,
-      description: '',
+      OriginEntity: "",
+      DestinyEntity: "",
+      IdEntity: "",
+      Function: "",
+      Ubication: "", 
     }
+
+    const invoiceData = ref({
+      id: 5037,
+      client: null,
+
+      // ? Set single Item in form for adding data
+      items: [JSON.parse(JSON.stringify(itemFormBlankItem))],
+
+      salesPerson: '',
+      note: 'It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!',
+      paymentMethod: null,
+    })
 
     const itemsOptions = [
       {
@@ -813,7 +478,29 @@ export default {
         description: 'Native App Development.',
       },
     ]
+    const refInputEl = ref(null)
+    const previewEl = ref(null)
+    const avatar  =  ref([])
+   
+    const products = ref([])
+    const NewNamePrimaryGroup  = ref([])
+    const NewIdGroup = ref([])
+    let LocalStorageEntity
 
+const { route } = useRouter()
+      
+      let productId = route.value.params.slug
+      console.log(productId)
+      products.value = productId 
+      avatar.value=productId.buffer5
+      NewNamePrimaryGroup.value=productId.NamePrimaryGroup
+      NewIdGroup.value=productId.IdGroup
+    const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
+      // eslint-disable-next-line no-param-reassign
+      
+     avatar.value = base64
+     
+    })
     const updateItemForm = (index, val) => {
       const { cost, qty, description } = val
       invoiceData.value.items[index].cost = cost
@@ -826,58 +513,33 @@ export default {
       'PayPal',
       'UPI Transfer',
     ]
-
+ 
     return {
       invoiceData,
+      clients,
       itemsOptions,
       updateItemForm,
       itemFormBlankItem,
       paymentMethods,
+      inputImageRenderer,
+      refInputEl,
+      previewEl,
+      avatar,
+      products,
+      NewNamePrimaryGroup,
+      NewIdGroup,
+      
     }
   },
 }
 </script>
 
 <style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
+@import "~@core/scss/base/pages/app-ecommerce.scss";
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
+@import '@core/scss/vue/libs/chart-apex.scss';
+@import '@core/scss/vue/libs/vue-wizard.scss';
+  @import '@core/scss/vue/libs/vue-select.scss';
+  @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
 </style>
 
-<style lang="scss" scoped>
-@import "~@core/scss/base/pages/app-invoice.scss";
-
-.form-item-section {
-background-color:$product-details-bg;
-}
-
-.form-item-action-col {
-  width: 27px;
-}
-
-.repeater-form {
-  // overflow: hidden;
-  transition: .35s height;
-}
-
-.v-select {
-  &.item-selector-title,
-  &.payment-selector {
-    background-color: #fff;
-
-    .dark-layout & {
-      background-color: unset;
-    }
-  }
-}
-
-.dark-layout {
-  .form-item-section {
-    background-color: $theme-dark-body-bg;
-
-    .row .border {
-      background-color: $theme-dark-card-bg;
-    }
-
-  }
-}
-</style>

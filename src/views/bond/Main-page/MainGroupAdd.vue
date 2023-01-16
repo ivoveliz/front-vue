@@ -37,7 +37,7 @@
         />
       </template>
       <h4 class="mb-1">
-       hola
+       Agregar Imagen de grupo principal
       </h4>
       <div class="d-flex flex-wrap">
         <b-button
@@ -50,13 +50,13 @@
             class="d-none"
             @input="inputImageRenderer"
           >
-          <span class="d-none d-sm-inline">Update</span>
+          <span class="d-none d-sm-inline">Cargar imagen</span>
           <feather-icon
             icon="EditIcon"
             class="d-inline d-sm-none"
           />
         </b-button>
-        <b-button
+        <!-- <b-button
           variant="outline-secondary"
           class="ml-1"
         >
@@ -65,7 +65,7 @@
             icon="TrashIcon"
             class="d-inline d-sm-none"
           />
-        </b-button>
+        </b-button> -->
       </div>
     </b-media>
   </b-col>
@@ -176,6 +176,20 @@
                    
                           <b-form-input
                             v-model="item.DestinyEntity"
+                            placeholder=" INGRESE DESTINO ENTIDAD"
+                            class="mb-2"
+                          />
+                        </b-col>
+                        <hr class="invoice-spacing"> 
+                        <!-- Item DestinyEntity-->
+                        <b-col
+                          cols="12"
+                        >
+                      
+                        INGRESE ID ENTIDAD:
+                   
+                          <b-form-input
+                            v-model="item.IdEntity"
                             placeholder=" INGRESE DESTINO ENTIDAD"
                             class="mb-2"
                           />
@@ -350,19 +364,7 @@ store.dispatch('app-bond/fetchAddOrganization' , { MainGroupAdded})
  
   console.log(response )
   
-  
-//   if( format=="Excel"){
 
- 
-
-// xlsx(data, settings) // Will download the excel file
-    
-//   }else{
- 
-
-//   }
- 
- 
  })
 }
 this.$toast({

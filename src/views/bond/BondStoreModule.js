@@ -91,7 +91,26 @@ export default {
             .catch(error => reject(error))
         })
       },
-    
+      fetchUpdateOrganization(ctx, {MainGroupUpdate }) {
+       
+        return new Promise((resolve, reject) => {
+          axios
+            .post('http://localhost:3000/api/organization/update', { MainGroupUpdate })
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+      },
+      fetchDeleteOrganization(ctx, { MainGroupDelete }) {
+       
+        return new Promise((resolve, reject) => {
+          axios
+            .delete('http://localhost:3000/api/organization/delete', { params: MainGroupDelete})
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+        },
     // ------------------------------------------------
     // Bond secondary group
     // ------------------------------------------------

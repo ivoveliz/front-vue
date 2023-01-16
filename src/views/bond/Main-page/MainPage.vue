@@ -59,7 +59,7 @@
         icon="EditIcon"
         size="20"
         class="cursor-pointer"
-        @click="$router.push({ name: 'bond-Main-Group-Edit', params: { slug: product.SecondaryGroups} })"
+        @click="$router.push({ name: 'bond-Main-Group-Edit', params: { slug: product} })"
      
       />
       <b-tooltip
@@ -72,6 +72,7 @@
         icon="TrashIcon"
         size="20"
         class="cursor-pointer"
+        @click="confirmText(product.NamePrimaryGroup)"
         
       />
       <b-tooltip
@@ -183,11 +184,64 @@ import {
 import store from '@/store'
 import { ref } from '@vue/composition-api'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
     BCard, BCardBody, BImg, BCardText, BLink, BButton, BCardHeader,BTooltip,
     BRow,BCol,
+  },
+  directives: {
+    Ripple,
+  },
+  methods: {
+    // confirm texrt
+    confirmText(NamePrimaryGroup) {
+      console.log(NamePrimaryGroup)
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          let MainGroupDelete={
+            NamePrimaryGroup:NamePrimaryGroup,
+            confirmation:true
+          }
+          const fetchAddOrganization = () => {
+      
+      store.dispatch('app-bond/fetchDeleteOrganization' , { MainGroupDelete})
+       .then(response => {
+       
+        console.log(response.data.StateGroup )
+        if(response.data.StateGroup=="removed"){
+
+          this.$swal({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            showConfirmButton: false,
+            // customClass: {
+            //   confirmButton: 'btn btn-success',
+            // },
+          })
+          this.$router.go()
+        }
+       })
+      }
+      fetchAddOrganization()
+      
+        }
+       // 
+      })
+    },
   },
   setup() {
     const { handleWishlistCartActionClick } = useEcommerceUi()
