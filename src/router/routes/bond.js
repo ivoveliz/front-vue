@@ -65,6 +65,53 @@ export default [
     },
     
   },
+  ///////////////////entity page//////////////
+  {
+    path: '/bond/EditEntity/',
+    name: 'bond-Entity-Edit',
+    component: () => import('@/views/bond/Entity-page/EntityEdit.vue'),
+    meta: {
+      pageTitle: 'Entity-edit',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
+  },
+  {
+    path: '/bond/AddEntity/',
+    name: 'bond-Entity-Add',
+    component: () => import('@/views/bond/Entity-page/EntityAdd.vue'),
+    meta: {
+      pageTitle: 'Entity-add',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
+    
+  },
   {
     path: '/bond/secondary/',
     name: 'bond-Secondary-page',
@@ -135,6 +182,8 @@ export default [
     
     
   },
+    ////////////////////////////////////////////
+    ///////////////////device page//////////////
   {
     path: '/bond/devicesDetails/',
     name: 'bond-Device-details-page',
@@ -156,7 +205,51 @@ export default [
       //   },
       // ],
     },
+  },
+  {
+    path: '/bond/AddDevice/',
+    name: 'bond-Device-Add',
+    component: () => import('@/views/bond/Device-details-page/DeviceAdd.vue'),
+    meta: {
+      pageTitle: 'Device-add',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
     
+  },
+  {
+    path: '/bond/EditDevice/',
+    name: 'bond-Device-Edit',
+    component: () => import('@/views/bond/Device-details-page/DeviceEdit.vue'),
+    meta: {
+      pageTitle: 'Edit-add',
+      contentClass: 'ecommerce-application',
+      // breadcrumb: [
+      //   {
+      //     text: 'ECommerce',
+      //   },
+      //   {
+      //     text: 'Shop',
+      //     active: true,
+      //   },
+      //   {
+      //     text: 'primary-grup Details',
+      //     active: true,
+      //   },
+      // ],
+    },
     
-  }
+  },
 ]

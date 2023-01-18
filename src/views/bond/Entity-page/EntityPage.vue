@@ -1,20 +1,94 @@
 <template>
      
-  <div class="grid-view wishlist-items"   >
+  <section class="app-ecommerce-details"   >
+
+    <b-row class="breadcrumbs-top">
+   
+   <b-col
+   class="content-header-right text-md-right d-md-block d-none mb-1"
+      md="12"
+      cols="20"
+     >
+     <b-button
+      
+      variant="outline-primary"
+      @click="$router.push({ name: 'bond-Entity-Add', params: { MainGroupOrigin: MainGroupOrigin,IdGroupOrigin:IdGroupOrigin} })"
+    >
+      <feather-icon
+        icon="PlusIcon"
+        class="mr-50"
+       
+      />
+      <span class="align-middle">Agregar Entidad</span>
+    </b-button>
+      
  
+   </b-col>
+
+ </b-row>
+ <b-row class="grid-view wishlist-items">
     <b-card
       v-for="product in products"
       :key="product.id"
       class="ecommerce-card"
       no-body
     >
+    <b-card-header>
+      <h6 class="item-name">
+      <b-link
+          class="mb-25"
+          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
+          >
+            {{ product.NamePrimaryGroup }}
+          </b-link>
+         
+        </h6>
+      <feather-icon
+      :id="`EyeIcon1`"
+        icon="EyeIcon"
+        size="20"
+        class="cursor-pointer"
+        @click="$router.push({ name: 'bond-Entity-details-page',params: { slug: product} })"
+      />
+      <b-tooltip
+            title="Ver"
+            class="cursor-pointer"
+            :target="`EyeIcon1`"
+          />
+      <feather-icon
+      :id="`EditIcon1`"
+        icon="EditIcon"
+        size="20"
+        class="cursor-pointer"
+        @click="$router.push({ name: 'bond-Entity-Edit', params: { slug: product,IdGroupOrigin:IdGroupOrigin,MainGroupOrigin:MainGroupOrigin} })"
+     
+      />
+      <b-tooltip
+            title="Editar"
+            class="cursor-pointer"
+            :target="`EditIcon1`"
+          />
+      <feather-icon
+      :id="`TrashIcon1`"
+        icon="TrashIcon"
+        size="20"
+        class="cursor-pointer"
+        @click="confirmText(product.IdEntity)"
+        
+      />
+      <b-tooltip
+            title="Eliminar"
+            class="cursor-pointer"
+            :target="`TrashIcon1`"
+          />
+    </b-card-header>
       <div class="item-img text-center">
         <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product} }">
           <b-img
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
             class="card-img-top"
-            :src="require('@/assets/images/pages/eCommerce/5.png')"
+            :src="product.avatarEntity"
             
           />
         </b-link>
@@ -103,13 +177,15 @@
         </b-button>
       </div> -->
     </b-card>
-  </div>
+  </b-row>
+  </section>
 </template>
 
 <script>
 import { useRouter } from '@core/utils/utils'
 import {
   BCard, BCardBody, BImg, BCardText, BLink, BButton,BRow, BCol,
+   BCardHeader,BTooltip,
 } from 'bootstrap-vue'
 import store from '@/store'
 import { ref } from '@vue/composition-api'
@@ -121,6 +197,7 @@ export default {
   components: {
     BCard, BCardBody, BImg, BCardText, BLink,
      BButton,EcommerceProfitChart,BRow,BCol,
+      BCardHeader,BTooltip,
 
   },
   data() {
@@ -142,9 +219,62 @@ export default {
         this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
       })
   },
+    methods: {
+    // confirm texrt
+    confirmText(IdEntity) {
+      console.log(IdEntity)
+      this.$swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      }).then(result => {
+        if (result.value) {
+          let EntityDelete={
+            IdEntity:IdEntity,
+            MainGroupOrigin:this.MainGroupOrigin,
+             IdGroupOrigin:this.IdGroupOrigin,
+            confirmation:true
+          }
+          const fetchDeleteEntity = () => {
+      
+      store.dispatch('app-bond/fetchDeleteEntity' , { EntityDelete})
+       .then(response => {
+       
+        console.log(response.data.StateGroup )
+        if(response.data.StateGroup=="removed"){
+
+          this.$swal({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            showConfirmButton: false,
+            // customClass: {
+            //   confirmButton: 'btn btn-success',
+            // },
+          })
+          this.$router.push({ name: 'bond-Main-page'})
+        }
+       })
+      }
+      fetchDeleteEntity()
+      
+        }
+       // 
+      })
+    },
+  },
   setup() {
    
     const products = ref([])
+    const MainGroupOrigin = ref([])
+    const IdGroupOrigin = ref([]) 
     let LocalStorageEntity
 //     const productsID =  [
 //     {
@@ -214,10 +344,13 @@ export default {
 //     }
 // ]
 const { route } = useRouter()
-      
-      let productId = route.value.params.slug
+     console.log( route.value)
      
+      let productId = route.value.params.slug
+     console.log(productId)
       if(productId){
+        MainGroupOrigin.value=route.value.params.MainGroupOrigin
+        IdGroupOrigin.value=route.value.params.IdGroupOrigin
         products.value = productId 
         localStorage.setItem('EntityGroup', JSON.stringify(productId))
 
@@ -289,7 +422,8 @@ const { route } = useRouter()
 
     return {
       products,
-
+      MainGroupOrigin,
+      IdGroupOrigin
       // UI
       // handleWishlistCartActionClick,
       // removeProductFromWishlistClick,

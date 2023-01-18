@@ -20,7 +20,7 @@
               <b-breadcrumb-item to="/">
                 <feather-icon
                   icon="HomeIcon"
-                  size="16"
+                  size="20"
                   class="align-text-top"
                 />
               </b-breadcrumb-item>

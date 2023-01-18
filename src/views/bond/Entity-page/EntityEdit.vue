@@ -9,7 +9,7 @@
       :title="null"
       :subtitle="null"
       layout=""
-      finish-button-text="Agregar grupo principal"
+      finish-button-text="Editar Entidad"
       back-button-text="Previous"
       class="wizard-vertical mb-3"
       @on-complete="formSubmitted"
@@ -17,7 +17,7 @@
     >
 
     
-      <tab-content title="AGREGAR GRUPO PRINCIPAL"
+      <tab-content title='EDITAR ENTIDAD'
       icon="DownloadCloudIcon icon-file-text" >
         <b-row>
      
@@ -29,12 +29,15 @@
         <b-avatar
           ref="previewEl"
           :src="avatar"
+          
+           
+           
           size="150px"
           rounded
         />
       </template>
       <h4 class="mb-1">
-       Agregar Imagen de grupo principal
+       Agregar Imagen otra imagen a la entidad
       </h4>
       <div class="d-flex flex-wrap">
         <b-button
@@ -66,61 +69,60 @@
       </div>
     </b-media>
   </b-col>
-    <!-- input nombre grupo -->
+    <!-- nombre grupo principal-->
+    <b-col md="7">
+      <h5 class="mb-0">
+             GRUPO PRINCIPAL:{{MainGroupOrigin}}
+            </h5>
+          </b-col>
+          <hr class="invoice-spacing"> 
+           <!--  Origen Entidad -->
           <b-col md="7">
-            INGRESE NOMBRE GRUPO PRINCIPAL:
+            <h5 class="mb-0">
+              INGRESE ORIGEN ENTIDAD : 
+            </h5>
+           
             <b-form-group
               label=" "
               label-for="i-username"
             >
-              <b-form-input v-model="NamePrimaryGroup"
+              <b-form-input v-model="NewOriginEntity"
                 id="DownlinkMessage"
-                placeholder=" INGRESE NOMBRE GRUPO PRINCIPAL"
+                placeholder="INGRESE ORIGEN ENTIDAD:"
               />
             </b-form-group>
           </b-col>
-            <!-- input codigo grupo -->
+            <!-- INGRESE DESTINO ENTIDAD -->
             <b-col md="7">
-              INGRESE CODIGO GRUPO PRINCIPAL:
+              INGRESE DESTINO ENTIDAD:
             <b-form-group
               label=" "
               label-for="i-username"
             >
-              <b-form-input v-model="IdGroup"
+              <b-form-input v-model="NewDestinyEntity"
                 id="codigogrupo"
-                placeholder=" INGRESE CODIGO GRUPO PRINCIPAL"
+                placeholder="INGRESE DESTINO ENTIDAD:"
               />
             </b-form-group>
           </b-col>
-           <!-- selector -->
-          <!-- <b-col md="7">
-          <v-select
-                id="SelectedFormat"
-                v-model="SelectedFormat"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="Format"
-                :selectable="option => ! option.value.includes('select_value')"
-                label="text"
+          <hr class="invoice-spacing"> 
+            <!-- INGRESE CODIGO ENTIDAD -->
+            <b-col md="7">
+              INGRESE CODIGO ENTIDAD :
+            <b-form-group
+              label=" "
+              label-for="i-username"
+            >
+              <b-form-input v-model="NewIdEntity"
+                id="codigogrupo"
+                placeholder="INGRESE CODIGO ENTIDAD :"
               />
-              <small class="text-muted">
-              -
-            </small>
-            </b-col> -->
-   <!-- fecha -->
-            <!-- <b-col md="7">
-            <flat-pickr 
-              
-              v-model="rangePicker"
-              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
-              class="form-control"
-              placeholder="Ingrese Rango de fecha y hora"
-              
-            />
-            
-          </b-col> -->
+            </b-form-group>
+          </b-col>
+          <hr class="invoice-spacing"> 
           <!-- Agregar Entidades-->
           <!-- <b-col md="8">
-           AGREGAR ENTIDADES A GRUPO PRINCIPAL:
+           AGREGAR dISPOSITIVOS A ENTIDAD:
          <b-card-body class="invoice-padding form-item-section">
               <div
                 ref="form"
@@ -134,10 +136,11 @@
                   class="pb-2"
                 >
 
-                 
+               
+               
                   <b-col cols="16">
 
-                   
+                  
                     <div class="d-none d-lg-flex">
                       <b-row class="flex-grow-1 px-1">
                     
@@ -163,7 +166,7 @@
                           />
                         </b-col>
                         <hr class="invoice-spacing"> 
-                    
+                  
                         <b-col
                           cols="12"
                         >
@@ -177,7 +180,7 @@
                           />
                         </b-col>
                         <hr class="invoice-spacing"> 
-                        
+                     
                         <b-col
                           cols="12"
                         >
@@ -191,7 +194,7 @@
                           />
                         </b-col>
                         <hr class="invoice-spacing"> 
-                   
+                  
                     <b-col
                       cols="12"
                     >
@@ -204,7 +207,7 @@
                     </b-col>
 
                     <hr class="invoice-spacing"> 
-                     
+                   
                     <b-col
                       cols="12"
                     >
@@ -265,6 +268,7 @@ BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup, BFormTextarea,
   
 } from 'bootstrap-vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import { useRouter } from '@core/utils/utils'
 import store from '@/store'
 import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
@@ -286,7 +290,9 @@ export default {
     return {
       
       data: {},
-      
+      // OriginEntity:"",
+      // DestinyEntity:"",
+      // IdEntity:"",
       IdGroup:"",
       NamePrimaryGroup:"",
       DeviceID:"endev",
@@ -330,50 +336,47 @@ export default {
   //   },
   // },
   mixins: [heightTransition],
-  mounted() {
-    this.initTrHeight()
-  },
-  created() {
-    window.addEventListener('resize', this.initTrHeight)
-  },
-  destroyed() {
-    window.removeEventListener('resize', this.initTrHeight)
-  },
+  // mounted() {
+  //   this.initTrHeight()
+  // },
+  // created() {
+  //   window.addEventListener('resize', this.initTrHeight)
+  // },
+  // destroyed() {
+  //   window.removeEventListener('resize', this.initTrHeight)
+  // },
   methods: {
     async formSubmitted() {
       //console.log( this.rangePicker)
-      let deviceId=this.avatar
-      console.log(deviceId)
-      let MainGroupAdded = {
-        avatarGroup:deviceId,
-        NamePrimaryGroup:this.NamePrimaryGroup,
-        IdGroup:this.IdGroup,
-        SecondaryGroups:this.invoiceData.items,
+      //let deviceId=this.avatar
+   
+      let EntityEdit= {
+        avatarEntity:this.avatar,
+        DestinyEntity:this.products.DestinyEntity,
+        IdEntity:this.products.IdEntity,
+        IdGroupOrigin: this.IdGroupOrigin,
+        MainGroupOrigin:this.MainGroupOrigin,
+        NewIdEntity:this.NewIdEntity,
+        NewDestinyEntity:this.NewDestinyEntity,
+        NewIdEntity:this.NewIdEntity,
+        NewOriginEntity:this.NewOriginEntity,
+        IdEntity:this.IdEntity,
+        
         
         
     }
-      console.log(MainGroupAdded)
-const fetchAddOrganization = () => {
+      console.log(EntityEdit)
+      const fetchEditEntity = () => {
       
-store.dispatch('app-bond/fetchAddOrganization' , { MainGroupAdded})
+store.dispatch('app-bond/fetchEditEntity' , {EntityEdit})
  .then(response => {
  
-  console.log(response.data.StateGroup )
+  console.log(response )
   
-if(response.data.StateGroup=="exists"){
 
-  this.$toast({
-  component: ToastificationContent,
-  props: {
-    title: 'Grupo ya existe',
-    icon: 'EditIcon',
-    variant: 'warning',
- 
-  },
-})
-}else{
-
-  this.$toast({
+ })
+}
+this.$toast({
   component: ToastificationContent,
   props: {
     title: 'Documento generado con exito',
@@ -382,86 +385,39 @@ if(response.data.StateGroup=="exists"){
  
   },
 })
-this.$router.push({ name: 'bond-Main-page'})
-}
- })
-}
-
     
-fetchAddOrganization()
+fetchEditEntity()
  
- 
+this.$router.push({ name: 'bond-Main-page'})
  
 
 },
-addNewItemInItemForm() {
-      this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+// addNewItemInItemForm() {
+//       this.$refs.form.style.overflow = 'hidden'
+//       this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
 
-      this.$nextTick(() => {
-        this.trAddHeight(this.$refs.row[0].offsetHeight)
-        setTimeout(() => {
-          this.$refs.form.style.overflow = null
-        }, 350)
-      })
-    },
-    removeItem(index) {
-      this.invoiceData.items.splice(index, 1)
-      this.trTrimHeight(this.$refs.row[0].offsetHeight)
-    },
-    initTrHeight() {
-      this.trSetHeight(null)
-      this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form.scrollHeight)
-      })
-    },
+//       this.$nextTick(() => {
+//         this.trAddHeight(this.$refs.row[0].offsetHeight)
+//         setTimeout(() => {
+//           this.$refs.form.style.overflow = null
+//         }, 350)
+//       })
+//     },
+//     removeItem(index) {
+//       this.invoiceData.items.splice(index, 1)
+//       this.trTrimHeight(this.$refs.row[0].offsetHeight)
+//     },
+//     initTrHeight() {
+//       this.trSetHeight(null)
+//       this.$nextTick(() => {
+//         this.trSetHeight(this.$refs.form.scrollHeight)
+//       })
+//     },
   },
   setup(props) {
     // const userData = ref(null)
 
     const clients = ref([])
-    clients.value= [
-    {
-        "address": "7777 Mendez Plains",
-        "company": "Hall-Robbins PLC",
-        "companyEmail": "don85@johnson.com",
-        "country": "USA",
-        "contact": "(616) 865-4180",
-        "name": "Jordan Stevenson"
-    },
-    {
-        "address": "04033 Wesley Wall Apt. 961",
-        "company": "Mccann LLC and Sons",
-        "companyEmail": "brenda49@taylor.info",
-        "country": "Haiti",
-        "contact": "(226) 204-8287",
-        "name": "Stephanie Burns"
-    },
-    {
-        "address": "5345 Robert Squares",
-        "company": "Leonard-Garcia and Sons",
-        "companyEmail": "smithtiffany@powers.com",
-        "country": "Denmark",
-        "contact": "(955) 676-1076",
-        "name": "Tony Herrera"
-    },
-    {
-        "address": "19022 Clark Parks Suite 149",
-        "company": "Smith, Miller and Henry LLC",
-        "companyEmail": "mejiageorge@lee-perez.com",
-        "country": "Cambodia",
-        "contact": "(832) 323-6914",
-        "name": "Kevin Patton"
-    },
-    {
-        "address": "8534 Saunders Hill Apt. 583",
-        "company": "Garcia-Cameron and Sons",
-        "companyEmail": "brandon07@pierce.com",
-        "country": "Martinique",
-        "contact": "(970) 982-3353",
-        "name": "Mrs. Julie Donovan MD"
-    }
-]
  
 
     const itemFormBlankItem = {
@@ -513,7 +469,25 @@ addNewItemInItemForm() {
     const refInputEl = ref(null)
     const previewEl = ref(null)
     const avatar  =  ref([])
-   
+    const products = ref([])
+    const MainGroupOrigin = ref([])
+    const IdGroupOrigin = ref([]) 
+    const  NewOriginEntity  = ref([]) 
+    const NewDestinyEntity = ref([])
+    const NewIdEntity = ref([])
+    const IdEntity = ref([])
+    const { route } = useRouter()
+    let productId = route.value.params.slug
+    
+    IdGroupOrigin.value = route.value.params.IdGroupOrigin
+    MainGroupOrigin.value = route.value.params.MainGroupOrigin
+    products.value=productId
+    avatar.value=productId.avatarEntity
+    NewOriginEntity.value=productId.OriginEntity
+    NewDestinyEntity.value=productId.DestinyEntity
+    NewIdEntity.value=productId.IdEntity
+    IdEntity.value=productId.IdEntity
+    console.log(products)
     const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
       // eslint-disable-next-line no-param-reassign
       
@@ -544,7 +518,13 @@ addNewItemInItemForm() {
       refInputEl,
       previewEl,
       avatar,
-       
+       products,
+       IdGroupOrigin,
+       MainGroupOrigin,
+       NewOriginEntity,
+       NewDestinyEntity,
+       NewIdEntity,
+       IdEntity
       
     }
   },

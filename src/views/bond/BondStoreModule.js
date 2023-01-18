@@ -59,10 +59,10 @@ export default {
     // Bond Users 
     // ------------------------------------------------
 
-    fetchUser(ctx, { id }) {
+    fetchUser(ctx, {Credentials}) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/apps/user/users/${id}`)
+        .get('http://localhost:3000/api/users/login', { params: Credentials})
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
@@ -85,7 +85,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .post('http://localhost:3000/api/organization/add', { MainGroupAdded })
+            .post('http://localhost:3000/api/organization/addMainGroup', { MainGroupAdded })
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -168,8 +168,36 @@ export default {
               
               })
             },
-          
-  
+            fetchAddEntity(ctx, {AddEntity }) {
+       
+              return new Promise((resolve, reject) => {
+                axios
+                  .post('http://localhost:3000/api/organization/addEntity', { AddEntity })
+                  .then(response => resolve(response))
+                  //.then(response => console.log(response))
+                  .catch(error => reject(error))
+              })
+            },
+      fetchDeleteEntity(ctx, { EntityDelete }) {
+       
+        return new Promise((resolve, reject) => {
+          axios
+            .delete('http://localhost:3000/api/organization/DeleteEntity', { params: EntityDelete})
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+        },
+        fetchEditEntity(ctx, {EntityEdit }) {
+       
+          return new Promise((resolve, reject) => {
+            axios
+              .post('http://localhost:3000/api/organization/updateEntity', { EntityEdit })
+              .then(response => resolve(response))
+              //.then(response => console.log(response))
+              .catch(error => reject(error))
+          })
+        },
 
     // ------------------------------------------------
     // Bond entitydetails
@@ -302,6 +330,16 @@ fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
           //.then(response => console.log(response))
           .catch(error => reject(error))
       })
+      },
+      fetchAddDevice(ctx, {AddDevice }) {
+       
+        return new Promise((resolve, reject) => {
+          axios
+            .post('http://localhost:3000/api/organization/addDevice', { AddDevice })
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
       },
 // ------------------------------------------------
 // Product Actions

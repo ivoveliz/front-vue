@@ -12,7 +12,7 @@
           <h6 class="mb-0">
             <div class="item-img text-left">
       <b-img
-      :src="require('@/assets/images/pages/eCommerce/5.png')"
+      :src="data.avatarEntity"
         alt="Meeting Pic"
         height="170"
       />

@@ -5,19 +5,19 @@
       <!-- Login v1 -->
       <b-card class="mb-0">
         <b-link class="brand-logo">
-          <vuexy-logo />
+          <!-- <vuexy-logo /> -->
 
           <h2 class="brand-text text-primary ml-1">
-            Vuexy
+           LOGIN
           </h2>
         </b-link>
 
-        <b-card-title class="mb-1">
+        <!-- <b-card-title class="mb-1">
           Welcome to wisely! 👋
         </b-card-title>
         <b-card-text class="mb-2">
           Please sign-in to your account and start the adventure
-        </b-card-text>
+        </b-card-text> -->
 
         <!-- form -->
         <validation-observer

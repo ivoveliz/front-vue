@@ -36,7 +36,7 @@
       <h6 class="item-name">
       <b-link
           class="mb-25"
-          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }"
+          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
           >
             {{ product.NamePrimaryGroup }}
           </b-link>
@@ -47,7 +47,7 @@
         icon="EyeIcon"
         size="20"
         class="cursor-pointer"
-        @click="$router.push({ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} })"
+        @click="$router.push({ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup} })"
       />
       <b-tooltip
             title="Ver"
@@ -84,7 +84,7 @@
 
        
         <b-card-body>
-          <b-link :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups} }">
+          <b-link :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup} }">
           
           <b-img
             :alt="`${product.NamePrimaryGroup}-${product.id}`"

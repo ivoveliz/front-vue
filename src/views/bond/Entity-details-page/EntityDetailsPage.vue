@@ -334,7 +334,31 @@
 </b-col>
   <!-- TARJETA-->
   <hr class="invoice-spacing"> 
-    <div class="grid-view wishlist-items" >
+  <b-row class="breadcrumbs-top">
+   
+   <b-col
+   class="content-header-right text-md-right d-md-block d-none mb-1"
+      md="12"
+      cols="20"
+     >
+     <b-button
+      
+      variant="outline-primary"
+      @click="$router.push({ name: 'bond-Device-Add', params: {IDEntity:products.IdEntity} })"
+    >
+      <feather-icon
+        icon="PlusIcon"
+        class="mr-50"
+       
+      />
+      <span class="align-middle">Agregar Dispositivo</span>
+    </b-button>
+      
+ 
+   </b-col>
+
+ </b-row>
+    <b-row class="grid-view wishlist-items" >
     <b-card
       v-for="product in products.Devices"
       :key="product.id"
@@ -434,7 +458,7 @@
         </b-button>
       </div> -->
     </b-card>
-  </div>
+  </b-row>
   </section>
 </template>
 
@@ -894,7 +918,7 @@ fetchEntityDetailsValuesDaily()
 const { route } = useRouter()
       
       let productId = route.value.params.slug
-     
+      
       if(productId){
         products.value = productId 
         localStorage.setItem('Entitydetails', JSON.stringify(productId))
@@ -903,7 +927,7 @@ const { route } = useRouter()
       }else{
         LocalStorageEntity=localStorage.getItem('Entitydetails')
             LocalStorageEntity=JSON.parse(LocalStorageEntity)
-          console.log( LocalStorageEntity)
+         
 
         products.value= LocalStorageEntity
         //products=JSON.parse(products)
