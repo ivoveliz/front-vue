@@ -10,7 +10,7 @@
         </div> -->
      
         <b-row class="match-height">
-        
+     
  <!-- card -->
  <b-col 
  cols="6"
@@ -25,7 +25,7 @@
  cols="6"
             >
         <form-wizard
-      color="#7367F0"
+      color="#28C76F"
       :title="null"
       :subtitle="null"
       layout=""
@@ -103,15 +103,24 @@
   </b-col>
   
 </b-row>
+<h4 class="card-title mb-50">
+      Fecha de datos desde : {{ConsultDateYesterday}} - hasta : {{ConsultDateToday}}
+      </h4>
+<div class="row mt-5">
+        <div class="col">
+          <h1 class="text-center" v-if="isLoading">CARGANDO DATOS...</h1>
+        </div>
+      </div>  
 <hr class="invoice-spacing"> 
    <!-- GRAFICO VALOR INSTANTANEIO-->
    <b-col cols="12"
-            >
+   v-if="!isLoading"
+   >
             <b-card  >
               <b-card-header>
       <!-- title and legend -->
       <h4 class="card-title mb-50">
-       Datos Instantaneos
+       Flujo instantaneo m³/h
       </h4>
       <!--/ title and legend -->
 
@@ -147,9 +156,7 @@
         :series="datachart.series"
       />
     </b-card-body>
-    <h4 class="card-title mb-50">
-      Fecha desde : {{ConsultDateYesterday}} - Fechashasta : {{ConsultDateToday}}
-      </h4>
+    
     
   </b-card>
 
@@ -158,13 +165,14 @@
     <hr class="invoice-spacing"> 
 <!-- GRAFICO VALOR TOTALIZADOR-->
     <b-col cols="12"
+    v-if="!isLoading"
             >
             <b-card  >
     <b-card-header>
       <!-- title and subtitle -->
       <div>
         <b-card-title class="mb-1">
-          totalizador 
+          Totalizador m³/h
         </b-card-title>
          
       </div>
@@ -193,7 +201,9 @@
  <!-- <table-kitchen-sink /> -->
  <hr class="invoice-spacing"> 
   <!-- tabla -->
- <b-col cols="12" >
+ <b-col cols="12" 
+ v-if="!isLoading"
+ >
   <b-row>
   <b-col
     md="2"
@@ -335,7 +345,7 @@
   <!-- TARJETA-->
   <hr class="invoice-spacing"> 
   <b-row class="breadcrumbs-top">
-   
+<!--  agregar dispositivo  
    <b-col
    class="content-header-right text-md-right d-md-block d-none mb-1"
       md="12"
@@ -355,7 +365,7 @@
     </b-button>
       
  
-   </b-col>
+   </b-col> -->
 
  </b-row>
     <b-row class="grid-view wishlist-items" >
@@ -488,7 +498,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import jspdf from 'jspdf'
 import 'jspdf-autotable'
 import xlsx from "json-as-xlsx"
-
+const isLoading = true;
 
 export default {
   components: {
@@ -502,6 +512,7 @@ export default {
   data() {
     return {
       apexChatData,
+      isLoading,
       data: {},
       DeviceID:"endev",
       rangePicker:"",
@@ -528,13 +539,13 @@ export default {
         content: '',
       },
       fields: [
-        {
-         key: 'count', label: 'Id', sortable: true 
-        },
+        // {
+        //  key: 'count', label: 'Id', sortable: true 
+        // },
         {
           key: 'date', label: 'Fecha dato', sortable: true },
-        { key: 'ValueDecodeInstant', label: 'Valor Instaneo m3/h', sortable: true },
-        { key: 'ValueDecodeTote', label: 'Valor totalizador m3/h', sortable: true },
+        { key: 'ValueDecodeInstant', label: 'Valor Instaneo m³/h', sortable: true },
+        { key: 'ValueDecodeTote', label: 'Valor totalizador m³/h', sortable: true },
          
       
       ],
@@ -584,13 +595,17 @@ export default {
         }
       },
       dataLabels: {
-        enabled: true,
+        enabled: false,
         //enabledOnSeries: [1]
       },
       stroke: {
-        show: true,
+        // show: true,
         curve: 'straight',
+        width: 3
       },
+      markers: {
+    size: 0,
+},
       legend: {
         show: true,
         showForSingleSeries: false,
@@ -769,6 +784,7 @@ fetchEntityDetailsValuesDaily()
 getAPIData () {
 
  // console.log("holaaaaaaaa")
+ this.isLoading =  true
 this.chartkey += 1;
 this.items=[]
 this.maxvalue=[]
@@ -795,7 +811,7 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
-   
+  this.isLoading =  false
  })
 }
 fetchEntityDetailsValuesDaily()
@@ -812,7 +828,7 @@ fetchEntityDetailsValuesDaily()
 }
   },
   async created() {
-   
+    this.isLoading =  true
     this.items=[]
     this.maxvalue=[]
       this.minvalue=[]
@@ -834,13 +850,14 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
   this.DeviceID=response.data.Entity
+  this.isLoading =  false
    console.log ( response.data)
  })
 }
 fetchEntityDetailsValuesDaily()
     
   
-   
+ 
    this.getAPIData()
 
   },

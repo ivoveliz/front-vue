@@ -25,7 +25,7 @@
  cols="6"
             >
         <form-wizard
-      color="#7367F0"
+      color="#28C76F"
       :title="null"
       :subtitle="null"
       layout=""
@@ -42,7 +42,9 @@
           <b-col :data="products"
             cols="12"
             class="mb-2"
+            
           >
+          
           <h5 class="mb-0">
              Nombre dispositivo :{{products.NameDevice}}
             </h5>

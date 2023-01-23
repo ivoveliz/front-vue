@@ -137,12 +137,14 @@
         <h6 class="item-name">
          Destino Entidad:  {{ product.DestinyEntity}}
         </h6>
-    
+        <hr class="invoice-spacing"> 
          <b-card-text class="item-description">
-          Ultimo Caudal m3/h: {{ product.last}}
+          <!-- Ultimo Caudal m3/h: {{ product.last}} -->
+          Ultimo Caudal m³/h: 125
         </b-card-text>
         <b-card-text class="item-description">
-          Ultimo Valor Totalizador m3/h: {{ product.last}}
+          <!-- Ultimo Valor Totalizador m3/h: {{ product.last}} -->
+          Ultimo Valor Totalizador m³/h: 550
         </b-card-text>
         <b-card-text class="item-description">
           Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}

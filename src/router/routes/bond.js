@@ -6,7 +6,7 @@ export default [
     name: 'bond-Main-page',
     component: () => import('@/views/bond/Main-page/MainPage.vue'),
     meta: {
-      pageTitle: 'SQM-BOND',
+      pageTitle: 'Pagina Principal',
       contentClass: 'ecommerce-application',
       // breadcrumb: [
       //   {
@@ -140,7 +140,7 @@ export default [
     name: 'bond-Entity-page',
     component: () => import('@/views/bond/Entity-page/EntityPage.vue'),
     meta: {
-      pageTitle: 'Entity Group Details',
+      pageTitle: 'Grupo Entidades ',
       contentClass: 'ecommerce-application',
       // breadcrumb: [
       //   {
@@ -163,7 +163,7 @@ export default [
     name: 'bond-Entity-details-page',
     component: () => import('@/views/bond/Entity-details-page/EntityDetailsPage.vue'),
     meta: {
-      pageTitle: 'Entity Details page',
+      pageTitle: 'Datos Entidad',
       contentClass: 'ecommerce-application',
       // breadcrumb: [
       //   {

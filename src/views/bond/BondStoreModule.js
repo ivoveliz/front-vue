@@ -72,7 +72,7 @@ export default {
     // Bond primary group
     // ------------------------------------------------
     fetchOrganization() {
-    console.log("hola111111111")
+    // console.log("hola111111111")
       return new Promise((resolve, reject) => {
         axios
           .get('http://localhost:3000/api/organization/MainPage')

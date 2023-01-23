@@ -7,7 +7,7 @@
         <b-link class="brand-logo">
           <!-- <vuexy-logo /> -->
 
-          <h2 class="brand-text text-primary ml-1">
+          <h2 class="brand-text text-success ml-1">
            LOGIN
           </h2>
         </b-link>
@@ -103,7 +103,7 @@
 
             <!-- submit button -->
             <b-button
-              variant="primary"
+              variant="success"
               type="submit"
               block
               :disabled="invalid"
@@ -263,7 +263,7 @@ if(response.data.access=="locked"){
 })  
 
 }
-
+if(response.data.access=="permited"){
   const { userData } =  response.data
               useJwt.setToken( response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
@@ -286,6 +286,9 @@ if(response.data.access=="locked"){
           
             },
           })  
+
+}
+  
  })
 }
 fetchEntityDetailsValuesDaily()

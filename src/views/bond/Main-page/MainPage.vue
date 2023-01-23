@@ -10,7 +10,7 @@
      >
      <b-button
       
-      variant="outline-primary"
+      variant="success"
       @click="$router.push({ name: 'bond-Main-Group-Add'})"
     >
       <feather-icon
@@ -38,7 +38,7 @@
           class="mb-25"
           :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
           >
-            {{ product.NamePrimaryGroup }}
+            {{ product.NamePrimaryGroup1 }}
           </b-link>
          
         </h6>
@@ -138,7 +138,15 @@
         <b-card-text class="item-description">
           Cantidad de SubAreas: {{ product.AmountGroup }}
         </b-card-text> -->
-        
+        <h4 class="item-name">
+      <b-link
+          class="mb-25"
+          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
+          >
+            {{ product.NamePrimaryGroup }}
+          </b-link>
+         
+        </h4> 
       </b-card-body>
      
    
