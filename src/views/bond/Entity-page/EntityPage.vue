@@ -5,6 +5,7 @@
     <b-row class="breadcrumbs-top">
    
    <b-col
+   v-if="StateAccess"
    class="content-header-right text-md-right d-md-block d-none mb-1"
       md="12"
       cols="20"
@@ -48,7 +49,7 @@
         icon="EyeIcon"
         size="20"
         class="cursor-pointer"
-        @click="$router.push({ name: 'bond-Entity-details-page',params: { slug: product} })"
+        @click="$router.push({ name: 'bond-Entity-details-page',params: { slug: product,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup} })"
       />
       <b-tooltip
             title="Ver"
@@ -56,6 +57,7 @@
             :target="`EyeIcon1`"
           />
       <feather-icon
+      v-if="StateAccess"
       :id="`EditIcon1`"
         icon="EditIcon"
         size="20"
@@ -69,6 +71,7 @@
             :target="`EditIcon1`"
           />
       <feather-icon
+      v-if="StateAccess"
       :id="`TrashIcon1`"
         icon="TrashIcon"
         size="20"
@@ -83,7 +86,7 @@
           />
     </b-card-header>
       <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product} }">
+        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product,IdGroupOrigin:IdGroupOrigin,MainGroupOrigin:MainGroupOrigin} }">
           <b-img
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
@@ -140,19 +143,21 @@
         <hr class="invoice-spacing"> 
          <b-card-text class="item-description">
           <!-- Ultimo Caudal m3/h: {{ product.last}} -->
-          Ultimo Caudal m³/h: 125
+          Ultimo Caudal m³/h: {{ product.ValueDecodeInstant}}
         </b-card-text>
         <b-card-text class="item-description">
           <!-- Ultimo Valor Totalizador m3/h: {{ product.last}} -->
-          Ultimo Valor Totalizador m³/h: 550
+          Ultimo Valor Totalizador m³/h: {{ product.ValueDecodeTote}}
         </b-card-text>
         <b-card-text class="item-description">
-          Fecha Ultimo dato : {{ "20/11/2022-13:37:46" }}
+          Fecha Ultimo dato : {{ product.created_last}}
         </b-card-text>
-        
+        <b-card-body
+  
+     >
 
-            <ecommerce-profit-chart :data="data.statisticsProfit" />
-        
+            <ecommerce-profit-chart :data="product.series" />
+          </b-card-body>
       
       </b-card-body>
 
@@ -214,7 +219,7 @@ export default {
     this.$http.get('/ecommerce/data')
       .then(response => {
         this.data = response.data
-        //console.log(response.data.statisticsProfit)
+        console.log(response.data.statisticsProfit)
         // ? Your API will return name of logged in user or you might just directly get name of logged in user
         // ? This is just for demo purpose
         const userData = getUserData()
@@ -277,158 +282,60 @@ export default {
     const products = ref([])
     const MainGroupOrigin = ref([])
     const IdGroupOrigin = ref([]) 
+    const LevelAccess = ref([])
+    const StateAccess = ref([])
     let LocalStorageEntity
-//     const productsID =  [
-//     {
-//         "OriginEntity": "L-500",
-//         "DestinyEntity": "POR ANDINO",
-//         "IdEntity": "L-500-POR-ANDINO",
-//         "Function": "CONSUMO",
-//         "Ubication": "POR Andino",
-//         "NSerie": "860256565",
-//         "TAG": "",
-//         "Observation": "Alimentacion OR campamento Andino",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-01",
-//                 "IdDevice": "EN-1",
-//                 "State": "activate"
-//             },
-//             {
-//                 "NameDevice": "endev-02",
-//                 "IdDevice": "EN-2",
-//                 "State": "desactivate"
-//             }
-//         ],
-//         "last": 1
-//     },
-//     {
-//         "OriginEntity": "TK-1000",
-//         "DestinyEntity": "RETRO LAVADO FILTRO MULTIMEDIA",
-//         "IdEntity": "TK-1000-RETRO-LAVADO-FILTRO-MULTIMEDIA",
-//         "Function": "CONSUMO",
-//         "Ubication": "PTAS Andino",
-//         "NSerie": "D105AD16000",
-//         "TAG": "",
-//         "Observation": "",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-02",
-//                 "IdDevice": "EN-2",
-//                 "State": "activate"
-//             }
-//         ],
-//         "last": 2
-//     },
-//     {
-//         "OriginEntity": "TK RETORNO PTAS ANDINO",
-//         "DestinyEntity": "TK-1000",
-//         "IdEntity": "TK-1000-TK-RETORNO-PTAS-ANDINO",
-//         "Function": "Aporte",
-//         "Ubication": "PTAS Andino",
-//         "NSerie": "172825",
-//         "TAG": "",
-//         "Observation": "",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-03",
-//                 "IdDevice": "EN-3",
-//                 "State": "activate"
-//             }
-//         ],
-//         "last": 3
-//     }
-// ]
+
 const { route } = useRouter()
      console.log( route.value)
      
       let productId = route.value.params.slug
+      
      console.log(productId)
       if(productId){
         MainGroupOrigin.value=route.value.params.MainGroupOrigin
         IdGroupOrigin.value=route.value.params.IdGroupOrigin
-        products.value = productId 
-        localStorage.setItem('EntityGroup', JSON.stringify(productId))
-
+      
+        localStorage.setItem('productId', JSON.stringify(productId))
 
       }else{
         LocalStorageEntity=localStorage.getItem('EntityGroup')
             LocalStorageEntity=JSON.parse(LocalStorageEntity)
-          console.log( LocalStorageEntity)
+         
 
-        products.value= LocalStorageEntity
+            productId= LocalStorageEntity
         //products=JSON.parse(products)
       }
-// const fetchWishlistProducts = () => {
-//       store.dispatch('app-bond/fetchEntityGroup')
-//         .then(response => {
-//           console.log(response )
-//           products.value = response
-//         })
+      let  MainGroupID=productId
 
-           
-//     }
-
-//     fetchWishlistProducts()
-    // const { removeProductFromWishlist } = useEcommerce()
-    // const removeProductFromWishlistClick = product => {
-    //   removeProductFromWishlist(product.id)
-    //     .then(() => {
-    //       const productIndex = products.value.findIndex(p => p.id === product.id)
-    //       products.value.splice(productIndex, 1)
-    //     })
-    // }
-    // const { route } = useRouter()
-    //   //const productSlug = route.value.params.slug
-    //   let productId = route.value.params.slug
-    //   //productId[0].last=10
-      
-      
-
-    //   const fetchWishlistProducts = () => {
-    //  if(productId){
-
-    //   store.dispatch('app-bond/fetchEntityValues', { productId})
-    //     .then(response => {
+     const EntityPageValues = () => {
+      store.dispatch('app-bond/EntityPageValues', { MainGroupID})
+        .then(response => {
+          products.value = response.data
+          console.log(products.value)
+        localStorage.setItem('EntityGroup', JSON.stringify(response.data))
           
-    //       productId=response 
-    //       console.log(productId )
-    //     })
-    //   isLoading.value=false
-    //   products.value = productId 
-    //   isLoading.value=true
-    //   store.dispatch('app-bond/fetchEntityGroup', { productId})
-    //     .then(response => {
-    //    // console.log(response)
-    //     })
-    //  }else{
-    //   // store.dispatch('app-bond/fetchEntityValues', { productId})
-    //   //   .then(response => {
-    //   //     productId[0].last=response 
-    //   //   })
-    //   store.dispatch('app-bond/fetchEntitySaved', { productId})
-    //     .then(response => {
-    //       products.value = response
-    //     })
-    //  }
-    //  //console.log(products.value) 
-    // }
+        })
+  
+    }
+    EntityPageValues()
 
-    // fetchWishlistProducts()
+      LevelAccess.value= JSON.parse(localStorage.getItem('userData'))
+    console.log()
+    if(LevelAccess.value.LevelAccess=="edit"){
+      StateAccess.value=true
 
+    }else{
+      StateAccess.value=false
+
+
+    }
     return {
       products,
       MainGroupOrigin,
-      IdGroupOrigin
-      // UI
-      // handleWishlistCartActionClick,
-      // removeProductFromWishlistClick,
+      IdGroupOrigin,
+      StateAccess,
+      
     }
   },
 }

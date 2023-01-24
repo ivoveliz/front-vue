@@ -71,7 +71,7 @@ export default {
             },
             yaxis: {
               lines: {
-                show: false,
+                show: true,
               },
             },
             padding: {
@@ -109,11 +109,12 @@ export default {
           xaxis: {
              type: 'datetime',
             tooltip: {
-          enabled: true,
+          enabled: false,
          },
             labels: {
-              show: true,
-               format: 'mm:HH:dd/MM yyyy',
+              datetimeUTC: false,
+              show: false,
+               format: 'HH:mm:ss dd/MM/yy',
               style: {
                 fontSize: '0px',
               },
@@ -133,8 +134,8 @@ export default {
       },
           tooltip: {
             x: {
-             show:false,
-          format: 'mm:HH:dd/MM yyyy',
+             show:true,
+          format: 'HH:mm:ss dd/MM/yy',
           formatter: undefined,
             },
           },

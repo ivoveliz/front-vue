@@ -2,8 +2,9 @@
     <section class="app-ecommerce-details">
 
       <b-row class="breadcrumbs-top">
-   
+   <!-- agregar grupos -->
    <b-col
+   v-if="StateAccess"
    class="content-header-right text-md-right d-md-block d-none mb-1"
       md="12"
       cols="20"
@@ -55,6 +56,7 @@
             :target="`EyeIcon1`"
           />
       <feather-icon
+      v-if="StateAccess"
       :id="`EditIcon1`"
         icon="EditIcon"
         size="20"
@@ -68,6 +70,7 @@
             :target="`EditIcon1`"
           />
       <feather-icon
+      v-if="StateAccess"
       :id="`TrashIcon1`"
         icon="TrashIcon"
         size="20"
@@ -255,6 +258,8 @@ export default {
     const { handleWishlistCartActionClick } = useEcommerceUi()
 
     const products = ref([])
+    const LevelAccess = ref([])
+    const StateAccess = ref([])
 
     const { removeProductFromWishlist } = useEcommerce()
     const removeProductFromWishlistClick = product => {
@@ -274,13 +279,22 @@ export default {
 
            
     }
-
+  
     fetchWishlistProducts()
    
+    LevelAccess.value= JSON.parse(localStorage.getItem('userData'))
     
+    if(LevelAccess.value.LevelAccess=="edit"){
+      StateAccess.value=true
+
+    }else{
+      StateAccess.value=false
+
+
+    }
     return {
       products,
-
+      StateAccess,
       // UI
       handleWishlistCartActionClick,
       removeProductFromWishlistClick,

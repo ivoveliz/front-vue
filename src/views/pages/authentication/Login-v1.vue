@@ -267,7 +267,8 @@ if(response.data.access=="permited"){
   const { userData } =  response.data
               useJwt.setToken( response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
-              //console.log(userData)
+              
+               
               localStorage.setItem('userData', JSON.stringify(userData))
               this.$ability.update(userData.ability)
 

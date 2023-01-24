@@ -95,7 +95,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .post('http://localhost:3000/api/organization/update', { MainGroupUpdate })
+            .post('http://localhost:3000/api/organization/updateMainGroup', { MainGroupUpdate })
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -105,7 +105,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .delete('http://localhost:3000/api/organization/delete', { params: MainGroupDelete})
+            .delete('http://localhost:3000/api/organization/deleteMainGroup', { params: MainGroupDelete})
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -199,6 +199,16 @@ export default {
           })
         },
 
+        EntityPageValues(ctx, { MainGroupID }) {
+         
+          return new Promise((resolve, reject) => {
+            axios
+              .post('http://localhost:3000/api/uplinks/EntityPageValues', { MainGroupID })
+              .then(response => resolve(response))
+              //.then(response => console.log(response))
+              .catch(error => reject(error))
+          })
+          },
     // ------------------------------------------------
     // Bond entitydetails
     // ------------------------------------------------

@@ -5,14 +5,14 @@
     right
     @show="fetchItems"
   >
-    <template #button-content>
+    <!-- <template #button-content>
       <feather-icon
         :badge="$store.state['app-ecommerce'].cartItemsCount"
         class="text-body"
         icon="ShoppingCartIcon"
         size="21"
       />
-    </template>
+    </template> -->
 
     <!-- Header -->
     <li class="dropdown-menu-header">
@@ -24,7 +24,7 @@
           pill
           variant="light-primary"
         >
-          {{ $store.state['app-ecommerce'].cartItemsCount }} Items
+          <!-- {{ $store.state['app-ecommerce'].cartItemsCount }} Items -->
         </b-badge>
       </div>
     </li>

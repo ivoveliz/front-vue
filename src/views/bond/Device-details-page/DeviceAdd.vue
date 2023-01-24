@@ -287,10 +287,10 @@ export default {
     return {
       
       data: {},
-      OriginEntity:"",
-      DestinyEntity:"",
+      NameDevice:"",
+      IdDevice:"",
       IdEntity:"",
-      IdGroup:"",
+      State:"",
       NamePrimaryGroup:"",
       DeviceID:"endev",
       rangePicker:"",
@@ -348,15 +348,16 @@ export default {
    
      
       let AddDevice = {
-        avatarEntity:this.avatar,
-        IdEntity:this.IdEntity,
-        DestinyEntity:this.DestinyEntity,
-        OriginEntity:this.OriginEntity,
+        avatarDevice:this.avatar,
+        IdDevice:this.IdDevice,
+        State:this.State,
+        NameDevice:this.NameDevice,
         IdGroupOrigin:this.IdGroupOrigin,
-        MainGroupOrigin:this. MainGroupOrigin
+        MainGroupOrigin:this.MainGroupOrigin,
+        IdEntityOrigin:this.IdEntityOrigin
 
     }
-      console.log(AddEntity)
+      console.log(AddDevice)
       const fetchAddDevice = () => {
       
 store.dispatch('app-bond/fetchAddDevice' , { AddDevice})
@@ -386,7 +387,7 @@ store.dispatch('app-bond/fetchAddDevice' , { AddDevice})
  
   },
 })
-this.$router.push({ name: 'bond-Main-page'})
+//this.$router.push({ name: 'bond-Main-page'})
   }
 
  })
@@ -399,27 +400,7 @@ fetchAddDevice()
  
 
 },
-addNewItemInItemForm() {
-      this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
 
-      this.$nextTick(() => {
-        this.trAddHeight(this.$refs.row[0].offsetHeight)
-        setTimeout(() => {
-          this.$refs.form.style.overflow = null
-        }, 350)
-      })
-    },
-    removeItem(index) {
-      this.invoiceData.items.splice(index, 1)
-      this.trTrimHeight(this.$refs.row[0].offsetHeight)
-    },
-    initTrHeight() {
-      this.trSetHeight(null)
-      this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form.scrollHeight)
-      })
-    },
   },
   setup(props) {
     // const userData = ref(null)
@@ -478,13 +459,15 @@ addNewItemInItemForm() {
     const avatar  =  ref([])
     const products = ref([])
     const MainGroupOrigin = ref([])
+    const IdGroupOrigin = ref([]) 
     const IdEntityOrigin = ref([]) 
     const { route } = useRouter()
     
     //IdGroupOrigin.value = route.value.params.IdGroupOrigin
     IdEntityOrigin.value = route.value.params.IDEntity
-     
-       
+    MainGroupOrigin.value=route.value.params.MainGroupOrigin
+    IdGroupOrigin.value=route.value.params.IdGroupOrigin
+    
     const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
       // eslint-disable-next-line no-param-reassign
       
@@ -516,7 +499,9 @@ addNewItemInItemForm() {
       previewEl,
       avatar,
        products,
-       IdEntityOrigin
+       IdEntityOrigin,
+       MainGroupOrigin,
+      IdGroupOrigin
       
       
     }

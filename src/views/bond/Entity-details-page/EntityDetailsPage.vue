@@ -345,8 +345,9 @@
   <!-- TARJETA-->
   <hr class="invoice-spacing"> 
   <b-row class="breadcrumbs-top">
-<!--  agregar dispositivo  
+    <!-- AGREGAR DISPOSITIVO-->
    <b-col
+   v-if="StateAccess"
    class="content-header-right text-md-right d-md-block d-none mb-1"
       md="12"
       cols="20"
@@ -354,7 +355,7 @@
      <b-button
       
       variant="outline-primary"
-      @click="$router.push({ name: 'bond-Device-Add', params: {IDEntity:products.IdEntity} })"
+      @click="$router.push({ name: 'bond-Device-Add', params: {IDEntity:products.IdEntity, MainGroupOrigin: MainGroupOrigin,IdGroupOrigin:IdGroupOrigin} })"
     >
       <feather-icon
         icon="PlusIcon"
@@ -365,12 +366,13 @@
     </b-button>
       
  
-   </b-col> -->
+   </b-col>
 
  </b-row>
     <b-row class="grid-view wishlist-items" >
     <b-card
-      v-for="product in products.Devices"
+    v-if="StateAccess"
+      v-for="product in products.Device"
       :key="product.id"
       class="ecommerce-card"
       no-body
@@ -381,7 +383,7 @@
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
             class="card-img-top"
-            :src="require('@/assets/images/pages/eCommerce/6.png')"
+            :src="product.avatarDevice"
             
           />
         </b-link>
@@ -864,78 +866,18 @@ fetchEntityDetailsValuesDaily()
   setup() {
 
     const products = ref([])
+    const MainGroupOrigin = ref([])
+    const IdGroupOrigin = ref([]) 
+    const LevelAccess = ref([])
+    const StateAccess = ref([])
     let LocalStorageEntity
-//     const productsID =  [
-//     {
-//         "OriginEntity": "L-500",
-//         "DestinyEntity": "POR ANDINO",
-//         "IdEntity": "L-500-POR-ANDINO",
-//         "Function": "CONSUMO",
-//         "Ubication": "POR Andino",
-//         "NSerie": "860256565",
-//         "TAG": "",
-//         "Observation": "Alimentacion OR campamento Andino",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-01",
-//                 "IdDevice": "EN-1",
-//                 "State": "activate"
-//             },
-//             {
-//                 "NameDevice": "endev-02",
-//                 "IdDevice": "EN-2",
-//                 "State": "desactivate"
-//             }
-//         ],
-//         "last": 1
-//     },
-//     {
-//         "OriginEntity": "TK-1000",
-//         "DestinyEntity": "RETRO LAVADO FILTRO MULTIMEDIA",
-//         "IdEntity": "TK-1000-RETRO-LAVADO-FILTRO-MULTIMEDIA",
-//         "Function": "CONSUMO",
-//         "Ubication": "PTAS Andino",
-//         "NSerie": "D105AD16000",
-//         "TAG": "",
-//         "Observation": "",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-02",
-//                 "IdDevice": "EN-2",
-//                 "State": "activate"
-//             }
-//         ],
-//         "last": 2
-//     },
-//     {
-//         "OriginEntity": "TK RETORNO PTAS ANDINO",
-//         "DestinyEntity": "TK-1000",
-//         "IdEntity": "TK-1000-TK-RETORNO-PTAS-ANDINO",
-//         "Function": "Aporte",
-//         "Ubication": "PTAS Andino",
-//         "NSerie": "172825",
-//         "TAG": "",
-//         "Observation": "",
-//         "SubArea": "Recursos Salar",
-//         "Area": "CIRS",
-//         "Devices": [
-//             {
-//                 "NameDevice": "endev-03",
-//                 "IdDevice": "EN-3",
-//                 "State": "activate"
-//             }
-//         ],
-//         "last": 3
-//     }
-// ]
+
 const { route } = useRouter()
       
       let productId = route.value.params.slug
-      
+      MainGroupOrigin.value=route.value.params.MainGroupOrigin
+      IdGroupOrigin.value=route.value.params.IdGroupOrigin
+
       if(productId){
         products.value = productId 
         localStorage.setItem('Entitydetails', JSON.stringify(productId))
@@ -947,73 +889,25 @@ const { route } = useRouter()
          
 
         products.value= LocalStorageEntity
+       
         //products=JSON.parse(products)
       }
-    // const { handleWishlistCartActionClick } = useEcommerceUi()
+      console.log( route.value.params)
+      LevelAccess.value= JSON.parse(localStorage.getItem('userData'))
+    
+    if(LevelAccess.value.LevelAccess=="edit"){
+      StateAccess.value=true
 
-    // const products = ref([])
-  
- 
+    }else{
+      StateAccess.value=false
 
-    // const { removeProductFromWishlist } = useEcommerce()
-    // const removeProductFromWishlistClick = product => {
-    //   removeProductFromWishlist(product.id)
-    //     .then(() => {
-    //       const productIndex = products.value.findIndex(p => p.id === product.id)
-    //       products.value.splice(productIndex, 1)
-    //     })
-    // }
-    // const { route } = useRouter()
-    //   //const productSlug = route.value.params.slug
-    //   let productId = route.value.params.slug
-    //   // this.EntityName1="productId[0].EntityName"
-    //    //console.log(productId )
-    //   //productId[0].last=10
-    //   //console.log(this.datachart)
-    //  // console.log(productId )
-     
-    //   const fetchWishlistProducts = () => {
-    //  if(productId){
 
-    //   // store.dispatch('app-bond/fetchEntityDetailsValues', { productId})
-    //   //   .then(response => {
-          
-    //   //     productId=response 
-          
-    //   //   })
-
-    //   products.value = productId 
-     
-    //   store.dispatch('app-bond/fetchEntityDetailsGroup', { productId})
-    //     .then(response => {
-    //    // console.log(response)
-    //     })
-    //  }else{
-    //   // store.dispatch('app-bond/fetchEntityValues', { productId})
-    //   //   .then(response => {
-    //   //     productId[0].last=response 
-    //   //   })
-    //   store.dispatch('app-bond/fetchEntityDetailsSaved', { productId})
-    //     .then(response => {
-    //       products.value = response
-    //     })
-    //  }
-    //  //console.log(products.value) 
-    // }
-    // // const fetchEntityDetailsValuesDaily = () => {
-
-    // //    store.dispatch('app-bond/fetchEntityDetailsValuesDaily', { productId})
-    // //     .then(response => {
-    // //       DataChart=response.data.DataChart
-    // //       console.log ( response.data.DataChart)
-    // //     })
-    // // }
-    // // fetchEntityDetailsValuesDaily()
-    // fetchWishlistProducts()
-
+    }
     return {
       products,
-       
+      MainGroupOrigin,
+      IdGroupOrigin,
+      StateAccess,
       // UI
       // handleWishlistCartActionClick,
       // removeProductFromWishlistClick,
