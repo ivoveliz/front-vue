@@ -367,7 +367,7 @@
       
  
    </b-col>
-
+ 
  </b-row>
     <b-row class="grid-view wishlist-items" >
     <b-card
