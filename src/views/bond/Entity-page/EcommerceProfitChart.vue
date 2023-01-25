@@ -114,7 +114,7 @@ export default {
             labels: {
               datetimeUTC: false,
               show: false,
-               format: 'HH:mm:ss dd/MM/yy',
+               format: 'dd/MM/yy HH:mm:ss',
               style: {
                 fontSize: '0px',
               },
@@ -135,7 +135,7 @@ export default {
           tooltip: {
             x: {
              show:true,
-          format: 'HH:mm:ss dd/MM/yy',
+          format: 'dd/MM/yy HH:mm',
           formatter: undefined,
             },
           },

@@ -85,7 +85,17 @@
             <flat-pickr 
               
               v-model="rangePicker"
-              :config="{inline:false, mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              :config="{inline:false,locale: {
+        firstDayOfWeek: 1,
+        weekdays: {
+          shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+          longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
+        }, 
+        months: {
+          shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
+          longhand: ['Enero', 'Febrero', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        },
+      },mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
               class="form-control"
               placeholder="Ingrese Rango de fecha y hora"
               
@@ -574,18 +584,18 @@ export default {
             customIcons: []
           },
           export: {
-            csv: {
-              filename: undefined,
-              columnDelimiter: ',',
-              headerCategory: 'category',
-              headerValue: 'value',
-              dateFormatter(timestamp) {
-                return new Date(timestamp).toDateString()
-              }
-            },
-            svg: {
-              filename: undefined,
-            },
+            // csv: {
+            //   filename: undefined,
+            //   columnDelimiter: ',',
+            //   headerCategory: 'category',
+            //   headerValue: 'value',
+            //   dateFormatter(timestamp) {
+            //     return new Date(timestamp).toDateString()
+            //   }
+            // },
+            // svg: {
+            //   filename: undefined,
+            // },
             png: {
               filename: undefined,
             }
@@ -679,10 +689,10 @@ export default {
   },
   methods: {
     async formSubmitted() {
-      //console.log( this.rangePicker)
+      console.log( this.IdEntityOrigin)
       let xlsx = require("json-as-xlsx")
       let entityId = {
-        Entity:this.DeviceID,
+        Entity:this.IdEntityOrigin,
       RangeDate:this.rangePicker
     }
       console.log(entityId)
@@ -868,6 +878,7 @@ fetchEntityDetailsValuesDaily()
     const products = ref([])
     const MainGroupOrigin = ref([])
     const IdGroupOrigin = ref([]) 
+    const IdEntityOrigin = ref([]) 
     const LevelAccess = ref([])
     const StateAccess = ref([])
     let LocalStorageEntity
@@ -877,11 +888,12 @@ const { route } = useRouter()
       let productId = route.value.params.slug
       MainGroupOrigin.value=route.value.params.MainGroupOrigin
       IdGroupOrigin.value=route.value.params.IdGroupOrigin
-
+      
+      
       if(productId){
         products.value = productId 
         localStorage.setItem('Entitydetails', JSON.stringify(productId))
-
+        IdEntityOrigin.value=route.value.params.slug.IdEntity
 
       }else{
         LocalStorageEntity=localStorage.getItem('Entitydetails')
@@ -889,10 +901,10 @@ const { route } = useRouter()
          
 
         products.value= LocalStorageEntity
-       
-        //products=JSON.parse(products)
+        //IdEntity.value=route.value.params.slug.IdEntity
+        IdEntityOrigin.value=LocalStorageEntity.IdEntity
       }
-      console.log( route.value.params)
+      
       LevelAccess.value= JSON.parse(localStorage.getItem('userData'))
     
     if(LevelAccess.value.LevelAccess=="edit"){
@@ -908,6 +920,7 @@ const { route } = useRouter()
       MainGroupOrigin,
       IdGroupOrigin,
       StateAccess,
+      IdEntityOrigin
       // UI
       // handleWishlistCartActionClick,
       // removeProductFromWishlistClick,

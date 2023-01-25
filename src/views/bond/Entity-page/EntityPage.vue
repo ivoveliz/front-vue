@@ -3,7 +3,6 @@
   <section class="app-ecommerce-details"   >
 
     <b-row class="breadcrumbs-top">
-   
    <b-col
    v-if="StateAccess"
    class="content-header-right text-md-right d-md-block d-none mb-1"
@@ -25,9 +24,16 @@
       
  
    </b-col>
-
  </b-row>
- <b-row class="grid-view wishlist-items">
+ 
+ 
+        <div class="col"  v-if="isLoading">
+          <h1 class="text-center" >CARGANDO DATOS...</h1>
+        </div>
+ 
+ <b-row class="grid-view wishlist-items"
+ v-if="!isLoading"
+      >
     <b-card
       v-for="product in products"
       :key="product.id"
@@ -199,7 +205,7 @@ import { ref } from '@vue/composition-api'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import { getUserData } from '@/auth/utils'
-const isLoading = ref([])
+
 export default {
   components: {
     BCard, BCardBody, BImg, BCardText, BLink,
@@ -210,7 +216,7 @@ export default {
   data() {
     return {
       data: {},
-      isLoading,
+ 
     }
   },
   created() {
@@ -276,6 +282,38 @@ export default {
        // 
       })
     },
+    getAPIData () {
+      this.isLoading=true
+let MainGroupID=this.MainGroupID
+      const EntityPageValues = () => {
+      store.dispatch('app-bond/EntityPageValues', { MainGroupID})
+        .then(response => {
+          this.products = response.data
+          
+          this.isLoading=false 
+        localStorage.setItem('EntityGroup', JSON.stringify(response.data))
+          
+        })
+  
+    }
+    EntityPageValues()
+ 
+
+// console.log(this.datachart)
+ this.timer = setInterval(() => {
+   this.getAPIData()
+ }, 60000)//600001-min//300000-5 min 
+// }).catch(err => {
+//   console.log('Error', err)
+// })
+}
+  },
+  async created() {
+
+
+    this.getAPIData()
+
+
   },
   setup() {
    
@@ -284,8 +322,10 @@ export default {
     const IdGroupOrigin = ref([]) 
     const LevelAccess = ref([])
     const StateAccess = ref([])
+    const isLoading = ref([])
     let LocalStorageEntity
 
+    isLoading.value=true 
 const { route } = useRouter()
      console.log( route.value)
      
@@ -313,6 +353,7 @@ const { route } = useRouter()
         .then(response => {
           products.value = response.data
           console.log(products.value)
+          isLoading.value=false 
         localStorage.setItem('EntityGroup', JSON.stringify(response.data))
           
         })
@@ -335,6 +376,8 @@ const { route } = useRouter()
       MainGroupOrigin,
       IdGroupOrigin,
       StateAccess,
+      isLoading,
+      MainGroupID
       
     }
   },

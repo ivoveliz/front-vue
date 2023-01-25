@@ -25,7 +25,12 @@
  
    </b-col>
  </b-row>
-  <b-row class="grid-view wishlist-items">
+ <div class="col"  v-if="isLoading">
+          <h1 class="text-center" >CARGANDO DATOS...</h1>
+        </div>
+  <b-row class="grid-view wishlist-items"
+  v-if="!isLoading"
+  >
    
     <b-card
       v-for="product in products"
@@ -260,6 +265,8 @@ export default {
     const products = ref([])
     const LevelAccess = ref([])
     const StateAccess = ref([])
+    const isLoading = ref([])
+    isLoading.value=true 
 
     const { removeProductFromWishlist } = useEcommerce()
     const removeProductFromWishlistClick = product => {
@@ -275,6 +282,7 @@ export default {
         .then(response => {
           products.value = response.data.data
           console.log(response.data)
+          isLoading.value=false 
         })
 
            
@@ -295,6 +303,7 @@ export default {
     return {
       products,
       StateAccess,
+      isLoading,
       // UI
       handleWishlistCartActionClick,
       removeProductFromWishlistClick,

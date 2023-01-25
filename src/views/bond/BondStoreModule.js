@@ -41,7 +41,7 @@ export default {
     //console.log("hola111111111")
       return new Promise((resolve, reject) => {
         axios
-          .get('http://localhost:3000/api/organization/MainPage')
+          .get('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/MainPage')
           .then(response => resolve(response))
           //.then(response => console.log(response))
           .catch(error => reject(error))
@@ -62,7 +62,7 @@ export default {
     fetchUser(ctx, {Credentials}) {
       return new Promise((resolve, reject) => {
         axios
-        .get('http://localhost:3000/api/users/login', { params: Credentials})
+        .get('https://apirest-sqm-gyarados.azurewebsites.net/api/users/login', { params: Credentials})
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
@@ -75,7 +75,7 @@ export default {
     // console.log("hola111111111")
       return new Promise((resolve, reject) => {
         axios
-          .get('http://localhost:3000/api/organization/MainPage')
+          .get('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/MainPage')
           .then(response => resolve(response))
           //.then(response => console.log(response))
           .catch(error => reject(error))
@@ -85,7 +85,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .post('http://localhost:3000/api/organization/addMainGroup', { MainGroupAdded })
+            .post('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/addMainGroup', { MainGroupAdded })
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -95,7 +95,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .post('http://localhost:3000/api/organization/updateMainGroup', { MainGroupUpdate })
+            .post('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/updateMainGroup', { MainGroupUpdate })
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -105,7 +105,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .delete('http://localhost:3000/api/organization/deleteMainGroup', { params: MainGroupDelete})
+            .delete('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/deleteMainGroup', { params: MainGroupDelete})
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -172,7 +172,7 @@ export default {
        
               return new Promise((resolve, reject) => {
                 axios
-                  .post('http://localhost:3000/api/organization/addEntity', { AddEntity })
+                  .post('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/addEntity', { AddEntity })
                   .then(response => resolve(response))
                   //.then(response => console.log(response))
                   .catch(error => reject(error))
@@ -182,7 +182,7 @@ export default {
        
         return new Promise((resolve, reject) => {
           axios
-            .delete('http://localhost:3000/api/organization/DeleteEntity', { params: EntityDelete})
+            .delete('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/DeleteEntity', { params: EntityDelete})
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -192,7 +192,7 @@ export default {
        
           return new Promise((resolve, reject) => {
             axios
-              .post('http://localhost:3000/api/organization/updateEntity', { EntityEdit })
+              .post('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/updateEntity', { EntityEdit })
               .then(response => resolve(response))
               //.then(response => console.log(response))
               .catch(error => reject(error))
@@ -203,7 +203,7 @@ export default {
          
           return new Promise((resolve, reject) => {
             axios
-              .post('http://localhost:3000/api/uplinks/EntityPageValues', { MainGroupID })
+              .post('https://apirest-sqm-gyarados.azurewebsites.net/api/uplinks/EntityPageValues', { MainGroupID })
               .then(response => resolve(response))
               //.then(response => console.log(response))
               .catch(error => reject(error))
@@ -253,7 +253,7 @@ export default {
       }
       return new Promise((resolve, reject) => {
         axios
-          .get('http://localhost:3000/api/uplinks/DailyValues', { params: Entity})
+          .get('https://apirest-sqm-gyarados.azurewebsites.net/api/uplinks/DailyValues', { params: Entity})
           .then(response => resolve(response))
           //.then(response => console.log(response))
           .catch(error => reject(error))
@@ -267,7 +267,7 @@ export default {
         // }
         return new Promise((resolve, reject) => {
           axios
-            .get('http://localhost:3000/api/uplinks/exportValues', { params: entityId})
+            .get('https://apirest-sqm-gyarados.azurewebsites.net/api/uplinks/exportValues', { params: entityId})
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
@@ -310,7 +310,7 @@ fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
   }
   return new Promise((resolve, reject) => {
     axios
-      .get('http://localhost:3000/api/uplinks/DailyDeviceValues', { params: Device})
+      .get('https://apirest-sqm-gyarados.azurewebsites.net/api/uplinks/DailyDeviceValues', { params: Device})
       .then(response => resolve(response))
       //.then(response => console.log(response))
       .catch(error => reject(error))
@@ -321,7 +321,7 @@ fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
   
     return new Promise((resolve, reject) => {
       axios
-        .post('http://localhost:3000/api/uplinks/exportDeviceValues', { params: deviceId})
+        .post('https://apirest-sqm-gyarados.azurewebsites.net/api/uplinks/exportDeviceValues', { params: deviceId})
         .then(response => resolve(response))
         //.then(response => console.log(response))
         .catch(error => reject(error))
@@ -335,7 +335,7 @@ fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
       // }
       return new Promise((resolve, reject) => {
         axios
-          .post('http://localhost:3000/api/downlinks/SendDownlink', { params: deviceId})
+          .post('https://apirest-sqm-gyarados.azurewebsites.net/api/downlinks/SendDownlink', { params: deviceId})
           .then(response => resolve(response))
           //.then(response => console.log(response))
           .catch(error => reject(error))
@@ -345,7 +345,7 @@ fetchDeviceDetailsValuesDaily(ctx, { deviceId }) {
        
         return new Promise((resolve, reject) => {
           axios
-            .post('http://localhost:3000/api/organization/addDevice', { AddDevice })
+            .post('https://apirest-sqm-gyarados.azurewebsites.net/api/organization/addDevice', { AddDevice })
             .then(response => resolve(response))
             //.then(response => console.log(response))
             .catch(error => reject(error))
