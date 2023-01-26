@@ -14,11 +14,7 @@ export default [
     name: 'dashboard-ecommerce',
     component: () => import('@/views/dashboard/ecommerce/Ecommerce.vue'),
   },
-  {
-    path: '/dashboard/test-aws',
-    name: 'dashboard-test-aws',
-    component: () => import('@/views/dashboard/test-amplify/AWS.vue'),
-  },
+
   {
     path: '/dashboard/Dash',
     name: 'dashboard',
