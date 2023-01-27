@@ -1,5 +1,7 @@
-const rtl = require('postcss-rtl')
-
 module.exports = {
-  plugins: [rtl()],
+  plugins: [
+      require('autoprefixer')({
+          browsers: ['last 5 versions']
+      })
+  ]
 }
