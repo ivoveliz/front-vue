@@ -964,9 +964,9 @@ fetchDeviceDetailsValuesDaily()
   
 
  // console.log(this.datachart)
-  this.timer = setInterval(() => {
-    this.getAPIData()
-  }, 90000)//60000//30000
+  // this.timer = setInterval(() => {
+  //   this.getAPIData()
+  // }, 300000)//60000//30000
 // }).catch(err => {
 //   console.log('Error', err)
 // })

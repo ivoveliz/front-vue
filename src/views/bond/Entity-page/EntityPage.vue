@@ -300,9 +300,9 @@ let MainGroupID=this.MainGroupID
  
 
 // console.log(this.datachart)
- this.timer = setInterval(() => {
-   this.getAPIData()
- }, 60000)//600001-min//300000-5 min 
+//  this.timer = setInterval(() => {
+//    this.getAPIData()
+//  }, 300000)//600001-min//300000-5 min 
 // }).catch(err => {
 //   console.log('Error', err)
 // })
