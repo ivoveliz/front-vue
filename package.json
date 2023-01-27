@@ -21,7 +21,7 @@
     "@vueuse/core": "4.0.0",
     "animate.css": "4.1.1",
     "apexcharts": "3.23.0",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^9.8.8",
     "axios": "^0.21.1",
     "axios-mock-adapter": "1.19.0",
     "bootstrap": "4.6.0",
