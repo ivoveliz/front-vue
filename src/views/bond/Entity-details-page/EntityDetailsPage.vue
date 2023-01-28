@@ -490,7 +490,7 @@ import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
 import flatPickr from 'vue-flatpickr-component'
 //import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
-import TableKitchenSink from './TableKitchenSink.vue'
+//import TableKitchenSink from './TableKitchenSink.vue'
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import apexChatData from './apexChartData'
 import VueApexCharts from 'vue-apexcharts'
@@ -506,8 +506,8 @@ export default {
     ApexLineAreaChart, flatPickr,BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,EcommerceMeetup,
-    TableKitchenSink,EcommerceProfitChart, BCardHeader,vSelect,
-    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent
+   EcommerceProfitChart, BCardHeader,vSelect,
+    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent TableKitchenSink,
   },
   data() {
     return {

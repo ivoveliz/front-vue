@@ -331,13 +331,13 @@ export default {
   // },
   mixins: [heightTransition],
   mounted() {
-    this.initTrHeight()
+    // this.initTrHeight()
   },
   created() {
-    window.addEventListener('resize', this.initTrHeight)
+    // window.addEventListener('resize', this.initTrHeight)
   },
   destroyed() {
-    window.removeEventListener('resize', this.initTrHeight)
+    // window.removeEventListener('resize', this.initTrHeight)
   },
   methods: {
     async formSubmitted() {
@@ -394,27 +394,27 @@ fetchAddOrganization()
  
 
 },
-addNewItemInItemForm() {
-      this.$refs.form.style.overflow = 'hidden'
-      this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
+// addNewItemInItemForm() {
+//       this.$refs.form.style.overflow = 'hidden'
+//       this.invoiceData.items.push(JSON.parse(JSON.stringify(this.itemFormBlankItem)))
 
-      this.$nextTick(() => {
-        this.trAddHeight(this.$refs.row[0].offsetHeight)
-        setTimeout(() => {
-          this.$refs.form.style.overflow = null
-        }, 350)
-      })
-    },
-    removeItem(index) {
-      this.invoiceData.items.splice(index, 1)
-      this.trTrimHeight(this.$refs.row[0].offsetHeight)
-    },
-    initTrHeight() {
-      this.trSetHeight(null)
-      this.$nextTick(() => {
-        this.trSetHeight(this.$refs.form.scrollHeight)
-      })
-    },
+//       this.$nextTick(() => {
+//         this.trAddHeight(this.$refs.row[0].offsetHeight)
+//         setTimeout(() => {
+//           this.$refs.form.style.overflow = null
+//         }, 350)
+//       })
+//     },
+//     removeItem(index) {
+//       this.invoiceData.items.splice(index, 1)
+//       this.trTrimHeight(this.$refs.row[0].offsetHeight)
+//     },
+//     initTrHeight() {
+//       this.trSetHeight(null)
+//       this.$nextTick(() => {
+//         this.trSetHeight(this.$refs.form.scrollHeight)
+//       })
+//     },
   },
   setup(props) {
     // const userData = ref(null)
