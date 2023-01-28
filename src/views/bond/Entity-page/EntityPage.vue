@@ -205,6 +205,7 @@ import { ref } from '@vue/composition-api'
 import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
 import { getUserData } from '@/auth/utils'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
@@ -231,6 +232,9 @@ export default {
         const userData = getUserData()
         this.data.congratulations.name = userData.fullName.split(' ')[0] || userData.username
       })
+  },
+  directives: {
+    Ripple,
   },
     methods: {
     // confirm texrt
