@@ -1044,5 +1044,5 @@ const { route } = useRouter()
 @import '@core/scss/vue/libs/chart-apex.scss';
 @import '@core/scss/vue/libs/vue-wizard.scss';
   @import '@core/scss/vue/libs/vue-select.scss';
-  @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
+  
 </style>

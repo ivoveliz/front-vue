@@ -5,17 +5,18 @@ export default [
         icon: 'HomeIcon',
         children: [
           
+     
           {
-            title: 'secondary-group',
-            route: { name: 'bond-Secondary-page', params: { slug: 'apple-watch-series-5-27' } },
-          },
-          {
-            title: 'Primary Group',
+            title: 'Entity-Group',
             route: { name: 'bond-e-commerce-product-details', params: { slug: 'apple-watch-series-5-27' } },
           },
           {
-            title: 'Main-page',
+            title: 'Main-Page',
             route: 'bond-Main-page',
+          },
+          {
+            title: 'Entity-Details',
+            route: 'bond-Entity-details-page',
           }
         ],
       },
