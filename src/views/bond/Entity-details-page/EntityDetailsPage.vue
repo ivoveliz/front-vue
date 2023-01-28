@@ -498,6 +498,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 import jspdf from 'jspdf'
 import 'jspdf-autotable'
 import xlsx from "json-as-xlsx"
+
 const isLoading = true;
 
 export default {

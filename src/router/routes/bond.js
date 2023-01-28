@@ -112,29 +112,29 @@ export default [
     },
     
   },
-  {
-    path: '/bond/secondary/',
-    name: 'bond-Secondary-page',
-    component: () => import('@/views/bond/Secondary-page/SecondaryPage.vue'),
-    meta: {
-      pageTitle: 'Secondary Group Details',
-      contentClass: 'ecommerce-application',
-      // breadcrumb: [
-      //   {
-      //     text: 'ECommerce',
-      //   },
-      //   {
-      //     text: 'Shop',
-      //     active: true,
-      //   },
-      //   {
-      //     text: 'primary-grup Details',
-      //     active: true,
-      //   },
-      // ],
-    },
+  // {
+  //   path: '/bond/secondary/',
+  //   name: 'bond-Secondary-page',
+  //   component: () => import('@/views/bond/Secondary-page/SecondaryPage.vue'),
+  //   meta: {
+  //     pageTitle: 'Secondary Group Details',
+  //     contentClass: 'ecommerce-application',
+  //     // breadcrumb: [
+  //     //   {
+  //     //     text: 'ECommerce',
+  //     //   },
+  //     //   {
+  //     //     text: 'Shop',
+  //     //     active: true,
+  //     //   },
+  //     //   {
+  //     //     text: 'primary-grup Details',
+  //     //     active: true,
+  //     //   },
+  //     // ],
+  //   },
     
-  },
+  // },
   {
     path: '/bond/entity/',
     name: 'bond-Entity-page',

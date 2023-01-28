@@ -333,15 +333,15 @@ export default {
   //   },
   // },
   mixins: [heightTransition],
-  mounted() {
-    // this.initTrHeight()
-  },
-  created() {
-    // window.addEventListener('resize', this.initTrHeight)
-  },
-  destroyed() {
-    // window.removeEventListener('resize', this.initTrHeight)
-  },
+  // mounted() {
+  //   // this.initTrHeight()
+  // },
+  // created() {
+  //   // window.addEventListener('resize', this.initTrHeight)
+  // },
+  // destroyed() {
+  //   // window.removeEventListener('resize', this.initTrHeight)
+  // },
   methods: {
     async formSubmitted() {
       //console.log( this.rangePicker)
