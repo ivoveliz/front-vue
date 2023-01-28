@@ -157,14 +157,16 @@ export default {
       if (store.hasModule(USER_APP_STORE_MODULE_NAME)) store.unregisterModule(USER_APP_STORE_MODULE_NAME)
     })
 
-    console.log("aca")
-   console.log(router.currentRoute.params.id)
+    //console.log("aca")
+   //console.log(router.currentRoute.params.id)
     store.dispatch('app-user/fetchUser', { id: router.currentRoute.params.id })
       .then(response => {
       
         userData.value = response.data 
       
-        console.log(userData.value) })
+        //console.log(userData.value) 
+      
+      })
       .catch(error => {
         if (error.response.status === 404) {
           userData.value = undefined

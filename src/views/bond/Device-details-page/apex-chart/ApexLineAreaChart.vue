@@ -74,7 +74,7 @@ export default {
   async created() {
 
     
-console.log(data)
+//console.log(data)
 
 
   }

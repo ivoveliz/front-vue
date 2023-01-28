@@ -300,7 +300,7 @@ export default {
     const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
       // eslint-disable-next-line no-param-reassign
       props.userData.avatar = base64
-      console.log(props.userData.avatar)
+      //console.log(props.userData.avatar)
     })
 
     return {

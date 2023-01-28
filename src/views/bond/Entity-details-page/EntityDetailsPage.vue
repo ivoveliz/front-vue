@@ -21,7 +21,7 @@
 
  <!-- FORMULARIO -->
 
- <b-col 
+ <!-- <b-col 
  cols="6"
             >
         <form-wizard
@@ -55,19 +55,7 @@
             
             
           </b-col>
-          <!-- <b-col md="7">
-            <b-form-group
-        label="Entidad"
-        label-for="readOnlyInput"
-      >
-        <b-form-input 
-         v-model="DeviceID"
-          id="readOnlyInput"
-          value="You can't update me :P"
-          readonly
-        />
-      </b-form-group>
-          </b-col> -->
+        
           <b-col md="7">
           <v-select
                 id="SelectedFormat"
@@ -110,7 +98,7 @@
 
     
 
-  </b-col>
+  </b-col> -->
   
 </b-row>
 <h4 class="card-title mb-50">
@@ -494,13 +482,13 @@ BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup,
   
 } from 'bootstrap-vue'
 import store from '@/store'
-import { FormWizard, TabContent } from 'vue-form-wizard'
+//import { FormWizard, TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
 import vSelect from 'vue-select'
-import { useEcommerce, useEcommerceUi } from '../usebondModule'
+//import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
 import flatPickr from 'vue-flatpickr-component'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+//import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
 import TableKitchenSink from './TableKitchenSink.vue'
 import EcommerceProfitChart from './EcommerceProfitChart.vue'
@@ -517,9 +505,9 @@ export default {
     BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
     ApexLineAreaChart, flatPickr,BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
-    BInputGroupAppend,FormWizard,TabContent,EcommerceMeetup,
+    BInputGroupAppend,EcommerceMeetup,
     TableKitchenSink,EcommerceProfitChart, BCardHeader,vSelect,
-    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,
+    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent
   },
   data() {
     return {
@@ -689,20 +677,20 @@ export default {
   },
   methods: {
     async formSubmitted() {
-      console.log( this.IdEntityOrigin)
+      //console.log( this.IdEntityOrigin)
       let xlsx = require("json-as-xlsx")
       let entityId = {
         Entity:this.IdEntityOrigin,
       RangeDate:this.rangePicker
     }
-      console.log(entityId)
+      //console.log(entityId)
       const fetchEntityDetailsValuesDaily = () => {
         let xlsx = require("json-as-xlsx")
 store.dispatch('app-bond/fetchEntityDetailsValuesExport' , { entityId})
  .then(response => {
   var ConsultDate=response.data.DateConsult
-  console.log(response.data )
-  console.log(this.SelectedFormat.value)
+  //console.log(response.data )
+  //console.log(this.SelectedFormat.value)
   let format = this.SelectedFormat.value
   
   if( format=="Excel"){
@@ -933,7 +921,7 @@ const { route } = useRouter()
 @import "~@core/scss/base/pages/app-ecommerce.scss";
 @import '@core/scss/vue/libs/vue-flatpicker.scss';
 @import '@core/scss/vue/libs/chart-apex.scss';
-@import '@core/scss/vue/libs/vue-wizard.scss';
+//@import '@core/scss/vue/libs/vue-wizard.scss';
   @import '@core/scss/vue/libs/vue-select.scss';
   @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
 </style>

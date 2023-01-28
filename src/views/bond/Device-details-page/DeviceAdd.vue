@@ -357,13 +357,13 @@ export default {
         IdEntityOrigin:this.IdEntityOrigin
 
     }
-      console.log(AddDevice)
+      //console.log(AddDevice)
       const fetchAddDevice = () => {
       
 store.dispatch('app-bond/fetchAddDevice' , { AddDevice})
  .then(response => {
  
-  console.log(response.data.StateEntity)
+  //console.log(response.data.StateEntity)
   if(response.data.StateEntity=="Exists"){
 
     this.$toast({

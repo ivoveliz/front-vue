@@ -335,13 +335,13 @@ export default {
        
         
     }
-      console.log(MainGroupUpdate)
+      //console.log(MainGroupUpdate)
       const fetchUpdateOrganization = () => {
       
 store.dispatch('app-bond/fetchUpdateOrganization' , {MainGroupUpdate})
  .then(response => {
  
-  console.log(response )
+  //console.log(response )
   
 
  })
@@ -490,7 +490,7 @@ this.$router.push({ name: 'bond-Main-page'})
 const { route } = useRouter()
       
       let productId = route.value.params.slug
-      console.log(productId)
+      //console.log(productId)
       products.value = productId 
       avatar.value=productId.buffer5
       NewNamePrimaryGroup.value=productId.NamePrimaryGroup

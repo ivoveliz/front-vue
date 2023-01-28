@@ -213,7 +213,7 @@ export default {
   methods: {
     // confirm texrt
     confirmText(NamePrimaryGroup) {
-      console.log(NamePrimaryGroup)
+      //console.log(NamePrimaryGroup)
       this.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -236,7 +236,7 @@ export default {
       store.dispatch('app-bond/fetchDeleteOrganization' , { MainGroupDelete})
        .then(response => {
        
-        console.log(response.data.StateGroup )
+        //console.log(response.data.StateGroup )
         if(response.data.StateGroup=="removed"){
 
           this.$swal({
@@ -281,7 +281,7 @@ export default {
       store.dispatch('app-bond/fetchOrganization')
         .then(response => {
           products.value = response.data.data
-          console.log(response.data)
+          //console.log(response.data)
           isLoading.value=false 
         })
 

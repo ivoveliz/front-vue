@@ -64,7 +64,7 @@ export default {
     }
   },
   async created() {
-console.log(this.rangePicker)
+//console.log(this.rangePicker)
 
 
   }

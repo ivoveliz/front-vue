@@ -646,7 +646,7 @@ export default {
       this.maxvalue=[]
       this.minvalue=[]
       this.promvalue=[]
-    console.log(this.name)
+    //console.log(this.name)
     this.isLoading =  true
     this.notLoading=false
     
@@ -691,14 +691,14 @@ export default {
       this.maxvalue=[]
       this.minvalue=[]
       this.promvalue=[]
-      console.log(this.name)
+      //console.log(this.name)
       const  data1  = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
       params: {
           "nombre":this.name
   }
 })
  
-console.log(data1.data)
+//console.log(data1.data)
 let id=0 
 
 data1.data.body.tasks.forEach(d => {
@@ -798,7 +798,7 @@ res.data.body.tasks.forEach(d => {
 					this.getAPIData()
 				}, 50000)
 			}).catch(err => {
-				console.log('Error', err)
+				//console.log('Error', err)
 			})
 		}
  

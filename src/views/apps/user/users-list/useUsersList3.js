@@ -62,7 +62,7 @@ export default function useUsersList() {
         status: statusFilter.value,
       })
       .then(response => {
-        console.log(response)
+        //console.log(response)
         const { data, total } = response.data
 
         callback(data)

@@ -77,7 +77,7 @@ export default function useUsersList() {
         
       })
       .then(response => {
-        console.log(response.data)
+        //console.log(response.data)
         const { data, total } = response.data
 
         callback(data)

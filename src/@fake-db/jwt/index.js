@@ -91,7 +91,7 @@ mock.onPost('/jwt/login').reply(request => {
    
   if (user) {
     try {
-      console.log(user.id)
+      //console.log(user.id)
       const accessToken = jwt.sign({ id: user.id }, jwtConfig.secret, { expiresIn: jwtConfig.expireTime })
       const refreshToken = jwt.sign({ id: user.id }, jwtConfig.refreshTokenSecret, {
         expiresIn: jwtConfig.refreshTokenExpireTime,
@@ -106,7 +106,7 @@ mock.onPost('/jwt/login').reply(request => {
         accessToken,
         refreshToken,
       }
-      console.log(response)
+      //console.log(response)
       return [200, response]
     } catch (e) {
       error = e

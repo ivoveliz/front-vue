@@ -654,13 +654,13 @@ export default {
    // console.log(this.name)
     this.isLoading =  true
     this.notLoading=false
-    console.log(router.currentRoute.params.id)
+    //console.log(router.currentRoute.params.id)
     const { data } = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
       params: {
           "nombre":this.name
   }
 })
-console.log(data.body.tasks.IdDevice)
+//console.log(data.body.tasks.IdDevice)
     let id=0 
   data.body.tasks.forEach(d => {
     const date =moment(d.CreatedAt).format('MM/DD/YYYY-HH:mm');
@@ -697,14 +697,14 @@ console.log(data.body.tasks.IdDevice)
       this.maxvalue=[]
       this.minvalue=[]
       this.promvalue=[]
-      console.log( this.rangePicker)
+      //console.log( this.rangePicker)
       const  data1  = await axios.get('https://n0kxap62th.execute-api.us-west-2.amazonaws.com/tasks',{
       params: {
           "nombre":this.name
   }
 })
  
-console.log(data1.data)
+//console.log(data1.data)
 let id=0 
 
 data1.data.body.tasks.forEach(d => {

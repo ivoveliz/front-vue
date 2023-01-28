@@ -343,7 +343,7 @@ export default {
     async formSubmitted() {
       //console.log( this.rangePicker)
       let deviceId=this.avatar
-      console.log(deviceId)
+      // console.log(deviceId)
       let MainGroupAdded = {
         avatarGroup:deviceId,
         NamePrimaryGroup:this.NamePrimaryGroup,
@@ -352,13 +352,13 @@ export default {
         
         
     }
-      console.log(MainGroupAdded)
+      //console.log(MainGroupAdded)
 const fetchAddOrganization = () => {
       
 store.dispatch('app-bond/fetchAddOrganization' , { MainGroupAdded})
  .then(response => {
  
-  console.log(response.data.StateGroup )
+  //console.log(response.data.StateGroup )
   
 if(response.data.StateGroup=="exists"){
 

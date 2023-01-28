@@ -365,13 +365,13 @@ export default {
         
         
     }
-      console.log(EntityEdit)
+      //console.log(EntityEdit)
       const fetchEditEntity = () => {
       
 store.dispatch('app-bond/fetchEditEntity' , {EntityEdit})
  .then(response => {
  
-  console.log(response )
+  //console.log(response )
   
 
  })
@@ -487,7 +487,7 @@ this.$router.push({ name: 'bond-Main-page'})
     NewDestinyEntity.value=productId.DestinyEntity
     NewIdEntity.value=productId.IdEntity
     IdEntity.value=productId.IdEntity
-    console.log(products)
+    //console.log(products)
     const { inputImageRenderer } = useInputImageRenderer(refInputEl, base64 => {
       // eslint-disable-next-line no-param-reassign
       

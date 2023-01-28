@@ -356,13 +356,13 @@ export default {
         MainGroupOrigin:this. MainGroupOrigin
 
     }
-      console.log(AddEntity)
+      //console.log(AddEntity)
       const fetchAddEntity = () => {
       
 store.dispatch('app-bond/fetchAddEntity' , { AddEntity})
  .then(response => {
  
-  console.log(response.data.StateEntity)
+  //console.log(response.data.StateEntity)
   if(response.data.StateEntity=="Exists"){
 
     this.$toast({

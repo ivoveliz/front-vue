@@ -225,7 +225,7 @@ export default {
     this.$http.get('/ecommerce/data')
       .then(response => {
         this.data = response.data
-        console.log(response.data.statisticsProfit)
+        //console.log(response.data.statisticsProfit)
         // ? Your API will return name of logged in user or you might just directly get name of logged in user
         // ? This is just for demo purpose
         const userData = getUserData()
@@ -235,7 +235,7 @@ export default {
     methods: {
     // confirm texrt
     confirmText(IdEntity) {
-      console.log(IdEntity)
+      //console.log(IdEntity)
       this.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -260,7 +260,7 @@ export default {
       store.dispatch('app-bond/fetchDeleteEntity' , { EntityDelete})
        .then(response => {
        
-        console.log(response.data.StateGroup )
+        //console.log(response.data.StateGroup )
         if(response.data.StateGroup=="removed"){
 
           this.$swal({
@@ -327,11 +327,11 @@ let MainGroupID=this.MainGroupID
 
     isLoading.value=true 
 const { route } = useRouter()
-     console.log( route.value)
+     //console.log( route.value)
      
       let productId = route.value.params.slug
       
-     console.log(productId)
+     //console.log(productId)
       if(productId){
         MainGroupOrigin.value=route.value.params.MainGroupOrigin
         IdGroupOrigin.value=route.value.params.IdGroupOrigin
@@ -352,7 +352,7 @@ const { route } = useRouter()
       store.dispatch('app-bond/EntityPageValues', { MainGroupID})
         .then(response => {
           products.value = response.data
-          console.log(products.value)
+          //console.log(products.value)
           isLoading.value=false 
         localStorage.setItem('EntityGroup', JSON.stringify(response.data))
           
@@ -362,7 +362,7 @@ const { route } = useRouter()
     EntityPageValues()
 
       LevelAccess.value= JSON.parse(localStorage.getItem('userData'))
-    console.log()
+    //console.log()
     if(LevelAccess.value.LevelAccess=="edit"){
       StateAccess.value=true
 

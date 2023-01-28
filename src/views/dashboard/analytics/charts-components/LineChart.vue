@@ -21,8 +21,8 @@ export default {
     const dates = this.chartData.map(d => d.date).reverse();
     const labels = this.chartData.map(d => d.label).reverse();
     const totals = this.chartData.map(d => d.total).reverse();
-     console.log(dates )
-     console.log(totals )
+     //console.log(dates )
+     //console.log(totals )
     const {
       borderColor,
       pointBorderColor,

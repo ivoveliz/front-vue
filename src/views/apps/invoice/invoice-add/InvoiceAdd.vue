@@ -677,7 +677,7 @@ export default {
     const clients = ref([])
     store.dispatch('app-invoice/fetchClients')
       .then(response => { clients.value = response.data 
-        console.log(clients.value)
+        //console.log(clients.value)
       })
 
     const itemFormBlankItem = {

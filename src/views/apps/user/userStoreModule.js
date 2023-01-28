@@ -10,7 +10,7 @@ export default {
   actions: {
 
     fetchOrganization(ctx, queryParams) {
-      console.log(queryParams)
+      //console.log(queryParams)
       return new Promise((resolve, reject) => {
         axios
         .get('http://localhost:3000/api/organization/MainPage', { params: queryParams })
@@ -21,7 +21,7 @@ export default {
       })
     },
     fetchUsers(ctx, queryParams) {
-      console.log(queryParams)
+      //console.log(queryParams)
 
       return new Promise((resolve, reject) => {
         axios
@@ -41,7 +41,7 @@ export default {
       })
     },
     fetchDetail(ctx, { id }) {
-      console.log(id)
+      //console.log(id)
        id2=id
       Idreceibe={
         id:id
@@ -62,7 +62,7 @@ export default {
     fetchdevice(ctx, queryParams) {
       let query=queryParams
       query.id=id2
-      console.log(query)
+      //console.log(query)
       return new Promise((resolve, reject) => {
         axios
         .get('http://localhost:3000/api/organization/MainPageValues', { params: query})
@@ -73,7 +73,7 @@ export default {
       })
     },
     addUser(ctx, userData) {
-      console.log(userData)
+      //console.log(userData)
       return new Promise((resolve, reject) => {
         axios
           .post('/apps/user/users', { user: userData })

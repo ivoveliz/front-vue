@@ -797,14 +797,14 @@ export default {
         Device:this.DeviceID,
       RangeDate:this.rangePicker
     }
-      console.log(deviceId)
+      //console.log(deviceId)
       const fetchDeviceDetailsValuesDaily = () => {
         let xlsx = require("json-as-xlsx")
 store.dispatch('app-bond/fetchDeviceDetailsValuesExport' , { deviceId})
  .then(response => {
   var ConsultDate=response.data.DateConsult
-  console.log(response.data )
-  console.log(this.SelectedFormat.value)
+  //console.log(response.data )
+  //console.log(this.SelectedFormat.value)
   let format = this.SelectedFormat.value
   
   if( format=="Excel"){
@@ -883,12 +883,12 @@ async DownlinkSubmitted() {
         Device:this.DeviceID,
         DownlinkMessage:this.DownlinkMessage
     }
-      console.log(deviceId)
+      //console.log(deviceId)
 const fetchDeviceDownlink = () => {
         
 store.dispatch('app-bond/fetchDeviceDownlink' , { deviceId})
  .then(response => {
- console.log(response)
+ //console.log(response)
   this.$toast({
   component: ToastificationContent,
   props: {
@@ -943,7 +943,7 @@ this.items=[]
       this.datachartTotalizer= {}
 
       let deviceId=this.products.NameDevice
-console.log(deviceId)
+//console.log(deviceId)
 const fetchDeviceDetailsValuesDaily = () => {
 
 store.dispatch('app-bond/fetchDeviceDetailsValuesDaily' , {deviceId})
@@ -1021,7 +1021,7 @@ const { route } = useRouter()
       }else{
         LocalStorageEntity=localStorage.getItem('DeviceDetails')
             LocalStorageEntity=JSON.parse(LocalStorageEntity)
-          console.log( LocalStorageEntity)
+          //console.log( LocalStorageEntity)
 
         products.value= LocalStorageEntity
         //products=JSON.parse(products)

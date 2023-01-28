@@ -231,10 +231,10 @@ export default {
       const stringnu = productSlug.toString();
     
       const productId = productSlug
-      console.log(productId)
+      //console.log(productId)
       store.dispatch('app-bond/fetchProduct', { productId})
         .then(response => {
-          console.log(response.data)
+          //console.log(response.data)
           product.value = response.data.product
         })
         .catch(error => {
