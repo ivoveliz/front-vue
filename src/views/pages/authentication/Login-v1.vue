@@ -247,7 +247,7 @@ const fetchEntityDetailsValuesDaily = async () => {
 
 store.dispatch('app-bond/fetchUser' , {Credentials})
  .then(response => {
- console.log(response.data)
+ //console.log(response.data)
 if(response.data.access=="locked"){
 
   this.$toast({

@@ -7,7 +7,7 @@ export default {
   mutations: {},
   actions: {
     fetchUsers(ctx, queryParams) {
-      console.log(queryParams)
+      //console.log(queryParams)
       return new Promise((resolve, reject) => {
         axios
         .get('http://localhost:1880/usuarios', { params: queryParams })
@@ -32,7 +32,7 @@ export default {
       })
     },
     addUser(ctx, userData) {
-      console.log(userData)
+      //console.log(userData)
       return new Promise((resolve, reject) => {
         axios
           .post('/apps/user/users', { user: userData })

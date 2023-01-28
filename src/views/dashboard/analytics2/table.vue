@@ -233,7 +233,7 @@ export default {
       // Trigger pagination to update the number of buttons/pages due to filtering
       
       this.currentPage = 1
-      console.log(filteredItems)
+      //console.log(filteredItems)
     },
   },
 }
