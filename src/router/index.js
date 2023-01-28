@@ -23,10 +23,10 @@ const router = new VueRouter({
   },
   routes: [
     { path: '/', redirect: { name: 'bond-Main-page' } },
-    ...apps,
+    //...apps,
     ...bond,
     // ...dashboard,
-    // ...pages,
+    ...pages,
     // ...chartsMaps,
     // ...formsTable,
     // ...uiElements,
