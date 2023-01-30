@@ -25,7 +25,7 @@ const router = new VueRouter({
     { path: '/', redirect: { name: 'bond-Main-page' } },
     //...apps,
     ...bond,
-    // ...dashboard,
+     ...dashboard,
     ...pages,
     // ...chartsMaps,
     // ...formsTable,

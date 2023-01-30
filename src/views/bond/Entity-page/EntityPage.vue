@@ -55,7 +55,7 @@
         icon="EyeIcon"
         size="20"
         class="cursor-pointer"
-        @click="$router.push({ name: 'bond-Entity-details-page',params: { slug: product,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup} })"
+        @click="$router.push({ name: 'bond-Entity-details-page-2',params: { slug: product,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup} })"
       />
       <b-tooltip
             title="Ver"

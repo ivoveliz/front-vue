@@ -487,7 +487,7 @@ import { ref } from '@vue/composition-api'
 import vSelect from 'vue-select'
 //import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
-import flatPickr from 'vue-flatpickr-component'
+//import flatPickr from 'vue-flatpickr-component'
 //import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
 //import TableKitchenSink from './TableKitchenSink.vue'
@@ -504,11 +504,11 @@ const isLoading = true;
 export default {
   components: {
     BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
-    ApexLineAreaChart, flatPickr,BTable,  BFormGroup,
+    ApexLineAreaChart, BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
     BInputGroupAppend,EcommerceMeetup,
     BCardHeader,vSelect,
-    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent TableKitchenSink,EcommerceProfitChart,
+    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent TableKitchenSink,EcommerceProfitChart,flatPickr,
   },
   data() {
     return {

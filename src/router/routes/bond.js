@@ -159,25 +159,25 @@ export default [
     
   },
   {
+    path: '/bond/entityDetails2/',
+    name: 'bond-Entity-details-page-2',
+    component: () => import('@/views/bond/Entity-page/EntityDetailsPage.vue'),
+    meta: {
+      pageTitle: 'Datos Entidad 2',
+      contentClass: 'ecommerce-application',
+ 
+    },
+    
+    
+  },
+  {
     path: '/bond/entityDetails/',
     name: 'bond-Entity-details-page',
     component: () => import('@/views/bond/Entity-details-page/EntityDetailsPage.vue'),
     meta: {
       pageTitle: 'Datos Entidad',
       contentClass: 'ecommerce-application',
-      // breadcrumb: [
-      //   {
-      //     text: 'ECommerce',
-      //   },
-      //   {
-      //     text: 'Shop',
-      //     active: true,
-      //   },
-      //   {
-      //     text: 'primary-grup Details',
-      //     active: true,
-      //   },
-      // ],
+ 
     },
     
     
