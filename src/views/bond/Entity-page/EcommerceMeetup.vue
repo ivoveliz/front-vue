@@ -4,7 +4,8 @@
     no-body
     class="card-developer-meetup"
   >
-  
+  <!-- <b-form-datepicker id="example-datepicker" ></b-form-datepicker>
+            <b-form-input :id="`type-time`" :type="'time'"   ></b-form-input> -->
     <b-card-body>
       <!-- metting header -->
       <div class="meetup-header d-flex align-items-right">

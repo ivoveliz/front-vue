@@ -21,84 +21,133 @@
 
  <!-- FORMULARIO -->
 
- <!-- <b-col 
- cols="6"
+<b-col cols="6">
+
+<b-card
+    v-if="data"
+    
+    class="card-developer-meetup"
+  >
+  <b-card-body>
+    <div>
+    <b-form 
+    class="auth-login-form mt-2"
+    @reset="onReset"
+    @submit.prevent>
+      <b-row>
+      <b-col >
+      <b-form-group
+        id="input-group-1"
+        label-for="input-1" 
+      >
+      <b-card-title class="mb-1">
+         Seleccionar Fecha Desde : 
+        </b-card-title>
+      <b-form-datepicker id="example-datepicker"  class="mb-2" v-model="rangePickerBefore"></b-form-datepicker>
+      <b-card-title class="mb-1">
+         Seleccionar Hora Desde : 
+        </b-card-title>
+        <b-form-input :id="`type-time-after`" :type="'time'" v-model="rangeTimeBefore"  ></b-form-input> 
+      </b-form-group>
+    </b-col>
+    <b-col  >
+      <b-form-group id="input-group-2" label-for="input-2">
+        <b-card-title class="mb-1">
+         Seleccionar Fecha hasta : 
+        </b-card-title>
+        <b-form-datepicker
+      id="datepicker-full-width"
+      v-model="rangePickerAfter" 
+      menu-class="w-100"
+      calendar-width="100%"
+      class="mb-2"
+    ></b-form-datepicker>
+    <b-card-title class="mb-1">
+         Seleccionar Hora hasta : 
+        </b-card-title>
+            <b-form-input :id="`type-time-before`" :type="'time'"  v-model="rangeTimeAfter" ></b-form-input>  
+      </b-form-group>
+    </b-col>
+  </b-row>
+    <b-row>
+      <b-col>
+        <b-card-title class="mb-1">
+         Seleccionar formato :
+        </b-card-title>
+      <b-form-radio-group
+          class="pt-2"
+          :options="['Excel', 'PDF']"
+          v-model="RadioGroup"
+        ></b-form-radio-group>
+      </b-col>
+        <b-col>
+       
+          <b-button
+              variant="primary"
+              type="submit"
+              block
+              
+              @click="formSubmitted"
             >
-        <form-wizard
-      color="#28C76F"
-      :title="null"
-      :subtitle="null"
-      layout=""
-      finish-button-text="Descargar Informe"
-      back-button-text="Previous"
-      class="wizard-vertical mb-3"
-      @on-complete="formSubmitted"
-    >
-
-    
-      <tab-content title="DESCARGA DE INFORMACION PERSONALIZADA"
-      icon="DownloadCloudIcon icon-file-text" >
-        <b-row>
-          <b-col :data="products"
-            cols="12"
-            class="mb-2"
+             Generar Documento
+            </b-button>
+            <b-button 
+            type="reset" 
+            variant="danger"
+            block
+            >Reset</b-button>
+    </b-col>
+    </b-row>
+ 
+    </b-form>
+ 
+  </div>
+    <!-- <b-col 
+ cols="4"
+            >
+            <b-form
+            inline
+            @submit.prevent
           >
-          <h5 class="mb-0">
-              Origen Entidad :{{products.OriginEntity}}
-            </h5>
-            <small class="text-muted">
-              -
-            </small>
-            <h5 class="mb-1">
-              Destino Entidad :{{products.DestinyEntity}}
-            </h5>
-            
-            
-          </b-col>
-        
-          <b-col md="7">
-          <v-select
-                id="SelectedFormat"
-                v-model="SelectedFormat"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="Format"
-                :selectable="option => ! option.value.includes('select_value')"
-                label="text"
-              />
-              <small class="text-muted">
-              -
-            </small>
-            </b-col>
-          <b-col md="7">
-            <flat-pickr 
-              
-              v-model="rangePicker"
-              :config="{inline:false,locale: {
-        firstDayOfWeek: 1,
-        weekdays: {
-          shorthand: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-          longhand: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],         
-        }, 
-        months: {
-          shorthand: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Оct', 'Nov', 'Dic'],
-          longhand: ['Enero', 'Febrero', 'Мarzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        },
-      },mode: 'range',enableTime: true,dateFormat: 'Y-m-d H:i'}"
-              class="form-control"
-              placeholder="Ingrese Rango de fecha y hora"
-              
-            />
-            
-          </b-col>
-        
-        </b-row>
-      </tab-content>
-
-    </form-wizard>
-
+          <b-form-group
+      label-cols-lg="3"
+      label-align-sm="left"
+      label-size="lg"
+      label-class="font-weight-bold pt-0"
+      class="mb-0"
+    >
     
+   
+            <b-form-group
+        label="Street:"
+        label-for="nested-street"
+        label-cols-sm="3"
+        label-align-sm="right"
+      >
+      <b-form-datepicker id="example-datepicker" ></b-form-datepicker>
+            <b-form-input :id="`type-time`" :type="'time'"   ></b-form-input>
+      </b-form-group>
+        </b-form-group>
+        
+          <b-button
+              variant="success"
+              type="submit"
+              block
+              :disabled="invalid"
+              class="item-img text-left"
+              @click="validationForm"
+            >
+             Descargar Informacion
+            </b-button>
+        </b-form> 
+        </b-col>  -->
+        </b-card-body>      
 
-  </b-col> -->
+</b-card>
+           
+      
+
+  </b-col> 
   
 </b-row>
 <h4 class="card-title mb-50">
@@ -478,16 +527,17 @@ import {
   BTable,BRow, BCard, BCardBody, BImg, BCardText,
   BLink, BButton,BCol, BFormGroup, BFormSelect, 
   BPagination, BInputGroup, BFormInput, BInputGroupAppend,
-BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup,
+BCardHeader,  BCardTitle, BCardSubTitle, BButtonGroup,BFormDatepicker,BForm,BFormRadioGroup
   
 } from 'bootstrap-vue'
 import store from '@/store'
 //import { FormWizard, TabContent } from 'vue-form-wizard'
+//import {  TabContent } from 'vue-form-wizard'
 import { ref } from '@vue/composition-api'
 import vSelect from 'vue-select'
 //import { useEcommerce, useEcommerceUi } from '../usebondModule'
 import ApexLineAreaChart from './apex-chart/ApexLineAreaChart.vue'
-//import flatPickr from 'vue-flatpickr-component'
+import flatPickr from 'vue-flatpickr-component'
 //import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import EcommerceMeetup from './EcommerceMeetup.vue'
 //import TableKitchenSink from './TableKitchenSink.vue'
@@ -506,9 +556,9 @@ export default {
     BRow,BCol,BCard, BCardBody, BImg, BCardText, BLink, BButton,
     ApexLineAreaChart, BTable,  BFormGroup,
     BFormSelect,BPagination,BInputGroup,BFormInput,
-    BInputGroupAppend,EcommerceMeetup,
-    BCardHeader,vSelect,
-    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,//FormWizard,TabContent TableKitchenSink,EcommerceProfitChart,flatPickr,
+    BInputGroupAppend,EcommerceMeetup,BForm,
+    BCardHeader,vSelect,BFormDatepicker,BFormRadioGroup,
+    BCardTitle,VueApexCharts, BButtonGroup,ToastificationContent,flatPickr,//TableKitchenSink,EcommerceProfitChart,,FormWizard,TabContent,
   },
   data() {
     return {
@@ -517,6 +567,11 @@ export default {
       data: {},
       DeviceID:"endev",
       rangePicker:"",
+      RadioGroup:"EXCEL",
+      rangePickerBefore:"",
+      rangePickerAfter:"",
+      rangeTimeAfter:"",
+      rangeTimeBefore:"",
       SelectedFormat:"",
       chartkey: 0,
       perPage: 5,
@@ -680,9 +735,16 @@ export default {
     async formSubmitted() {
       //console.log( this.IdEntityOrigin)
       let xlsx = require("json-as-xlsx")
+      let rangeBefore=this.rangePickerBefore + ' '+this.rangeTimeBefore; 
+      let rangeAfter=this.rangePickerAfter+ ' '+this.rangeTimeAfter; 
       let entityId = {
-        Entity:this.IdEntityOrigin,
-      RangeDate:this.rangePicker
+      //   Entity:this.IdEntityOrigin,
+      // RangeDate:this.rangePicker
+      Entity:this.IdEntityOrigin,
+      rangeBefore:rangeBefore,
+      rangeAfter:rangeAfter,
+      
+     
     }
       //console.log(entityId)
       const fetchEntityDetailsValuesDaily = () => {
@@ -692,7 +754,7 @@ store.dispatch('app-bond/fetchEntityDetailsValuesExport' , { entityId})
   var ConsultDate=response.data.DateConsult
   //console.log(response.data )
   //console.log(this.SelectedFormat.value)
-  let format = this.SelectedFormat.value
+  let format = this.RadioGroup
   
   if( format=="Excel"){
 
@@ -763,6 +825,17 @@ fetchEntityDetailsValuesDaily()
 //       doc.save("output.pdf")
 
 },
+onReset(event) {
+  event.preventDefault()
+  this.RadioGroup= 'Excel'
+  this.rangeTimeBefore= ''
+  this.rangeTimeAfter= ''
+  this.rangePickerBefore= ''
+  this.rangePickerAfter= ''
+  
+
+  
+},
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       
@@ -822,7 +895,7 @@ fetchEntityDetailsValuesDaily()
  // console.log(this.datachart)
   this.timer = setInterval(() => {
     this.getAPIData()
-  }, 90000)//60000//30000
+  }, 300000)//60000//30000
 // }).catch(err => {
 //   console.log('Error', err)
 // })

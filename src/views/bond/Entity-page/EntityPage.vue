@@ -44,7 +44,7 @@
       <h6 class="item-name">
       <b-link
           class="mb-25"
-          :to="{ name: 'bond-Entity-page', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
+          :to="{ name: 'bond-Entity-details-page-2', params: { slug: product.SecondaryGroups,MainGroupOrigin:product.NamePrimaryGroup,IdGroupOrigin:product.IdGroup } }"
           >
             {{ product.NamePrimaryGroup }}
           </b-link>
@@ -303,10 +303,10 @@ let MainGroupID=this.MainGroupID
     EntityPageValues()
  
 
-// console.log(this.datachart)
-//  this.timer = setInterval(() => {
-//    this.getAPIData()
-//  }, 300000)//600001-min//300000-5 min 
+//console.log(this.datachart)
+ this.timer = setInterval(() => {
+   this.getAPIData()
+ }, 300000)//600001-min//300000-5 min 
 // }).catch(err => {
 //   console.log('Error', err)
 // })
