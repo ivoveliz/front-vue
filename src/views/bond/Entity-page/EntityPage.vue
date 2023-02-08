@@ -92,7 +92,7 @@
           />
     </b-card-header>
       <div class="item-img text-center">
-        <b-link :to="{ name: 'bond-Entity-details-page', params: { slug: product,IdGroupOrigin:IdGroupOrigin,MainGroupOrigin:MainGroupOrigin} }">
+        <b-link :to="{ name: 'bond-Entity-details-page-2', params: { slug: product,IdGroupOrigin:IdGroupOrigin,MainGroupOrigin:MainGroupOrigin} }">
           <b-img
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
