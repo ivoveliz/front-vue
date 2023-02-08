@@ -97,7 +97,7 @@
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
             class="card-img-top"
-            :src="product.avatarEntity"
+            :src="product.ImageEntity"
             
           />
         </b-link>
@@ -145,6 +145,9 @@
         </h6>
         <h6 class="item-name">
          Destino Entidad:  {{ product.DestinyEntity}}
+        </h6>
+        <h6 class="item-name">
+        Nombre Entidad:  {{ product.IdEntity}}
         </h6>
         <hr class="invoice-spacing"> 
          <b-card-text class="item-description">
@@ -331,11 +334,11 @@ let MainGroupID=this.MainGroupID
 
     isLoading.value=true 
 const { route } = useRouter()
-     //console.log( route.value)
+    // console.log( route.value)
      
       let productId = route.value.params.slug
       
-     //console.log(productId)
+     console.log(productId)
       if(productId){
         MainGroupOrigin.value=route.value.params.MainGroupOrigin
         IdGroupOrigin.value=route.value.params.IdGroupOrigin

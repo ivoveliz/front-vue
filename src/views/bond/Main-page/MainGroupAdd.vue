@@ -342,17 +342,17 @@ export default {
   methods: {
     async formSubmitted() {
       //console.log( this.rangePicker)
-      let deviceId=this.avatar
+      //let deviceId=this.avatar
       // console.log(deviceId)
       let MainGroupAdded = {
-        avatarGroup:deviceId,
+        avatarGroup:this.avatar,
         NamePrimaryGroup:this.NamePrimaryGroup,
         IdGroup:this.IdGroup,
         SecondaryGroups:this.invoiceData.items,
         
         
     }
-      //console.log(MainGroupAdded)
+      console.log(MainGroupAdded)
 const fetchAddOrganization = () => {
       
 store.dispatch('app-bond/fetchAddOrganization' , { MainGroupAdded})

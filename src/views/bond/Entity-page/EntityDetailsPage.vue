@@ -430,8 +430,7 @@
             :alt="`${product.EntityName}-${product.IdEntity}`"
             fluid
             class="card-img-top"
-            :src="product.avatarDevice"
-            
+            :src="product.ImageEntity"
           />
         </b-link>
       </div>
@@ -567,7 +566,7 @@ export default {
       data: {},
       DeviceID:"endev",
       rangePicker:"",
-      RadioGroup:"EXCEL",
+      RadioGroup:"Excel",
       rangePickerBefore:"",
       rangePickerAfter:"",
       rangeTimeAfter:"",

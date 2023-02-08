@@ -13,7 +13,7 @@
           <h6 class="mb-0">
             <div class="item-img text-left">
       <b-img
-      :src="data.avatarEntity"
+      :src="data.ImageEntity"
         alt="Meeting Pic"
         height="170"
       />

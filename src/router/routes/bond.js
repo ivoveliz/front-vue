@@ -140,21 +140,14 @@ export default [
     name: 'bond-Entity-page',
     component: () => import('@/views/bond/Entity-page/EntityPage.vue'),
     meta: {
-      pageTitle: 'Grupo Entidades ',
+      pageTitle: 'Grupo Entidades',
       contentClass: 'ecommerce-application',
-      // breadcrumb: [
-      //   {
-      //     text: 'ECommerce',
-      //   },
-      //   {
-      //     text: 'Shop',
-      //     active: true,
-      //   },
-      //   {
-      //     text: 'primary-grup Details',
-      //     active: true,
-      //   },
-      // ],
+      breadcrumb: [
+        {
+          text: 'Pagina Principal',
+          to: { name: 'bond-Main-page' }
+        }
+      ],
     },
     
   },
@@ -165,7 +158,16 @@ export default [
     meta: {
       pageTitle: 'Datos Entidad 2',
       contentClass: 'ecommerce-application',
- 
+      breadcrumb: [
+        {
+          text: 'Pagina Principal',
+          to: { name: 'bond-Main-page' }
+        },
+        {
+          text: 'Grupo Entidades',
+          to: { name: 'bond-Entity-page' }
+        }
+      ],
     },
     
     

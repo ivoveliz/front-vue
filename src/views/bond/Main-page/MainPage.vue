@@ -98,7 +98,7 @@
             :alt="`${product.NamePrimaryGroup}-${product.id}`"
             fluid
             class="card-img-top"
-            :src="product.buffer5"
+            :src="product.AvatarPrimaryGroup"
             
           />
           
@@ -281,7 +281,7 @@ export default {
       store.dispatch('app-bond/fetchOrganization')
         .then(response => {
           products.value = response.data.data
-          //console.log(response.data)
+          console.log(response.data.data)
           isLoading.value=false 
         })
 
