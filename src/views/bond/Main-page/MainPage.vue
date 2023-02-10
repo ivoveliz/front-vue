@@ -38,7 +38,7 @@
       class="ecommerce-card"
       no-body
     >
-    <b-card-header>
+    <!-- <b-card-header> -->
       <h6 class="item-name">
       <b-link
           class="mb-25"
@@ -48,7 +48,7 @@
           </b-link>
          
         </h6>
-      <feather-icon
+      <!-- <feather-icon
       :id="`EyeIcon1`"
         icon="EyeIcon"
         size="20"
@@ -87,8 +87,8 @@
             title="Eliminar"
             class="cursor-pointer"
             :target="`TrashIcon1`"
-          />
-    </b-card-header>
+          /> -->
+    <!-- </b-card-header> -->
 
        
         <b-card-body>
