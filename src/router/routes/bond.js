@@ -156,7 +156,7 @@ export default [
     name: 'bond-Entity-details-page-2',
     component: () => import('@/views/bond/Entity-page/EntityDetailsPage.vue'),
     meta: {
-      pageTitle: 'Datos Entidad 2',
+      pageTitle: 'Datos Entidad',
       contentClass: 'ecommerce-application',
       breadcrumb: [
         {

@@ -281,7 +281,7 @@ export default {
       store.dispatch('app-bond/fetchOrganization')
         .then(response => {
           products.value = response.data.data
-          console.log(response.data.data)
+          //console.log(response.data.data)
           isLoading.value=false 
         })
 

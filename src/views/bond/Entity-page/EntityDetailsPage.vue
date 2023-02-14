@@ -21,7 +21,9 @@
 
  <!-- FORMULARIO -->
 
-<b-col cols="6">
+<b-col 
+cols="6"
+v-if="!ItsMobile">
 
 <b-card
     v-if="data"
@@ -43,7 +45,14 @@
       <b-card-title class="mb-1">
          Seleccionar Fecha Desde : 
         </b-card-title>
-      <b-form-datepicker id="example-datepicker"  class="mb-2" v-model="rangePickerBefore"></b-form-datepicker>
+      <b-form-datepicker 
+      id="example-datepicker"  
+      class="mb-2" 
+      v-model="rangePickerBefore"
+      today-button
+      reset-button
+      close-button
+      ></b-form-datepicker>
       <b-card-title class="mb-1">
          Seleccionar Hora Desde : 
         </b-card-title>
@@ -57,7 +66,10 @@
         </b-card-title>
         <b-form-datepicker
       id="datepicker-full-width"
-      v-model="rangePickerAfter" 
+      v-model="rangePickerAfter"
+      today-button
+      reset-button
+      close-button 
       menu-class="w-100"
       calendar-width="100%"
       class="mb-2"
@@ -86,7 +98,7 @@
               variant="primary"
               type="submit"
               block
-              
+              :disabled="false"
               @click="formSubmitted"
             >
              Generar Documento
@@ -564,6 +576,7 @@ export default {
       //apexChatData,
       isLoading,
       data: {},
+      ItsMobile:false,
       DeviceID:"endev",
       rangePicker:"",
       RadioGroup:"Excel",
@@ -617,7 +630,7 @@ export default {
           offsetX: 0,
           offsetY: 0,
           tools: {
-            download: true,
+            download: true | '<img src="/static/icons/download.png" class="ico-download" width="20">',
             selection: true,
             zoom: true,
             zoomin: false,
@@ -636,11 +649,12 @@ export default {
             //     return new Date(timestamp).toDateString()
             //   }
             // },
-            // svg: {
-            //   filename: undefined,
-            // },
+            svg: {
+              filename: "",
+             
+            },
             png: {
-              filename: undefined,
+              filename: "Imagen-Grafico",
             }
           },
           autoSelected: 'zoom' 
@@ -734,9 +748,28 @@ export default {
     async formSubmitted() {
       //console.log( this.IdEntityOrigin)
       let xlsx = require("json-as-xlsx")
+       
       let rangeBefore=this.rangePickerBefore + ' '+this.rangeTimeBefore; 
       let rangeAfter=this.rangePickerAfter+ ' '+this.rangeTimeAfter; 
-      let entityId = {
+
+      if(rangeBefore>rangeAfter){
+
+        this.$toast({
+  component: ToastificationContent,
+  props: {
+    title: 'Error Formato Peticion!!',
+    icon: 'EditIcon',
+    variant: 'danger',
+    text: `Rango Fecha desde no puede ser menor que fecha hasta`,
+    
+ 
+  },
+})  
+
+      }else{
+
+
+        let entityId = {
       //   Entity:this.IdEntityOrigin,
       // RangeDate:this.rangePicker
       Entity:this.IdEntityOrigin,
@@ -818,6 +851,11 @@ xlsx(data, settings) // Will download the excel file
 }
 fetchEntityDetailsValuesDaily()
 
+
+
+      }
+    
+
 // var head = [['ID', 'Fecha dato', 'Valor Instantaneo m3/h', 'Valor totalizador m3/h']]
 // let doc = new jspdf()
 //       doc.text("hello world",10,10)
@@ -855,7 +893,7 @@ onReset(event) {
      
     },
 getAPIData () {
-
+  //console.log ( this.rangeTimeBefore)
  // console.log("holaaaaaaaa")
  this.isLoading =  true
 this.chartkey += 1;
@@ -898,7 +936,8 @@ fetchEntityDetailsValuesDaily()
 // }).catch(err => {
 //   console.log('Error', err)
 // })
-}
+},
+  
   },
   async created() {
     this.isLoading =  true
@@ -908,7 +947,15 @@ fetchEntityDetailsValuesDaily()
       this.promvalue=[]
       this.datachart= {}
       this.datachartTotalizer= {}
- 
+
+      if (screen.width <= 760) {
+      //console.log("mobile")
+      this.ItsMobile=true
+     
+    } else {
+      //console.log("computer")
+     
+    }
 
   let entityId=this.products.IdEntity
 
@@ -924,7 +971,7 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
   this.DeviceID=response.data.Entity
   this.isLoading =  false
-   console.log ( response.data)
+   //console.log ( response.data)
  })
 }
 fetchEntityDetailsValuesDaily()
@@ -990,11 +1037,19 @@ const { route } = useRouter()
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+::v-deep .apexcharts-menu-item.exportCSV {
+  display: none;
+}
+::v-deep .apexcharts-menu-item.exportSVG {
+  display: none;
+}
 @import "~@core/scss/base/pages/app-ecommerce.scss";
 //@import '@core/scss/vue/libs/vue-flatpicker.scss';
 @import '@core/scss/vue/libs/chart-apex.scss';
 //@import '@core/scss/vue/libs/vue-wizard.scss';
  // @import '@core/scss/vue/libs/vue-select.scss';
   @import '@core/scss/vue/pages/dashboard-ecommerce.scss';
+ 
 </style>
+ 

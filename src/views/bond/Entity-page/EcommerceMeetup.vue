@@ -28,7 +28,7 @@
           <b-card-text  class="item-name">
             Destino Entidad:  {{ data.DestinyEntity}}
           </b-card-text >
-          <b-card-text  class="item-name">
+          <!-- <b-card-text  class="item-name">
             Funcion:  {{ data.Function}}
           </b-card-text >
           <b-card-text  class="item-name">
@@ -48,7 +48,7 @@
           </b-card-text >
           <b-card-text  class="item-name">
             Area:  {{ data.Area}}
-          </b-card-text >
+          </b-card-text > -->
       
         </div>
       </div>

@@ -40,7 +40,7 @@ export default {
       })
     },
     fetchWishlistProducts() {
-    console.log("hola111111111")
+    //console.log("hola111111111")
       return new Promise((resolve, reject) => {
         axios
           .get(UrlApi+'/api/organization/MainPage')
@@ -77,7 +77,7 @@ export default {
     // ------------------------------------------------
     fetchOrganization() {
     // console.log("hola111111111")
-    console.log("hola222222222222")
+    //console.log("hola222222222222")
       return new Promise((resolve, reject) => {
         axios
          .get(UrlApi+'/api/organization/MainPage')
