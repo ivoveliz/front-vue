@@ -11,10 +11,19 @@
      
         <b-row class="match-height">
      
- <!-- card -->
+ <!-- mobile -->
  <b-col 
+ cols="14"
+ align-self="baseline"
+ v-if="ItsMobile"
+      >
+        <ecommerce-meetup :data="products" />
+      </b-col>
+      <!-- computer -->
+      <b-col 
  cols="6"
  align-self="baseline"
+ v-if="!ItsMobile"
       >
         <ecommerce-meetup :data="products" />
       </b-col>
@@ -744,6 +753,10 @@ export default {
         .map(f => ({ text: f.label, value: f.key }))
     },
   },
+  mounted(){
+
+ 
+  },
   methods: {
     async formSubmitted() {
       //console.log( this.IdEntityOrigin)
@@ -912,7 +925,35 @@ this.items=[]
 
       let entityId=this.products.IdEntity
 
-const fetchEntityDetailsValuesDaily = () => {
+      if (screen.width <= 760) {
+      //console.log("mobile")
+      let entityId=this.products.IdEntity
+
+  const fetchMobileEntityDetailsValuesDaily = () => {
+
+store.dispatch('app-bond/fetchMobileEntityDetailsValuesDaily' , { entityId})
+ .then(response => {
+  this.datachart=response.data.DataChart
+  this.items=response.data.TableValues
+  this.totalRows =response.data.total
+  this.datachartTotalizer=response.data.DataChartTotalize
+  this.ConsultDateToday =response.data.ConsultDateToday
+  this.ConsultDateYesterday = response.data.ConsultDateYesterday
+  this.DeviceID=response.data.Entity
+  this.isLoading =  false
+   //console.log ( response.data)
+ })
+}
+fetchMobileEntityDetailsValuesDaily()
+    
+      this.ItsMobile=true
+     
+    } else {
+      //console.log("computer")
+    
+  let entityId=this.products.IdEntity
+
+  const fetchEntityDetailsValuesDaily = () => {
 
 store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
  .then(response => {
@@ -922,11 +963,16 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
   this.datachartTotalizer=response.data.DataChartTotalize
   this.ConsultDateToday =response.data.ConsultDateToday
   this.ConsultDateYesterday = response.data.ConsultDateYesterday
+  this.DeviceID=response.data.Entity
   this.isLoading =  false
+   //console.log ( response.data)
  })
 }
 fetchEntityDetailsValuesDaily()
     
+  
+     
+    }
   
 
  // console.log(this.datachart)
@@ -950,13 +996,30 @@ fetchEntityDetailsValuesDaily()
 
       if (screen.width <= 760) {
       //console.log("mobile")
+      let entityId=this.products.IdEntity
+
+  const fetchMobileEntityDetailsValuesDaily = () => {
+
+store.dispatch('app-bond/fetchMobileEntityDetailsValuesDaily' , { entityId})
+ .then(response => {
+  this.datachart=response.data.DataChart
+  this.items=response.data.TableValues
+  this.totalRows =response.data.total
+  this.datachartTotalizer=response.data.DataChartTotalize
+  this.ConsultDateToday =response.data.ConsultDateToday
+  this.ConsultDateYesterday = response.data.ConsultDateYesterday
+  this.DeviceID=response.data.Entity
+  this.isLoading =  false
+   //console.log ( response.data)
+ })
+}
+fetchMobileEntityDetailsValuesDaily()
+    
       this.ItsMobile=true
      
     } else {
       //console.log("computer")
-     
-    }
-
+      console.log(process.env.FOO)
   let entityId=this.products.IdEntity
 
   const fetchEntityDetailsValuesDaily = () => {
@@ -977,6 +1040,9 @@ store.dispatch('app-bond/fetchEntityDetailsValuesDaily' , { entityId})
 fetchEntityDetailsValuesDaily()
     
   
+     
+    }
+    
  
    this.getAPIData()
 

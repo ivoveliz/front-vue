@@ -16,6 +16,7 @@
       :src="data.ImageEntity"
         alt="Meeting Pic"
         height="170"
+        
       />
     </div>
           </h6>

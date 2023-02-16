@@ -1,11 +1,15 @@
 import axios from '@axios'
+import dotenv from 'dotenv'
+
+dotenv.config()
 let secondaryGroup
 let EntityGroup
 let EntityDetailsGroup
 let DeviceDetailsGroup
 let LocalStorageEntity
-let UrlApi="https://apirest-sqm-gyarados.azurewebsites.net"
+//let UrlApi="https://apirest-sqm-gyarados.azurewebsites.net"
 //let UrlApi="http://localhost:3000"
+let UrlApi=process.env.VUE_APP_URL_API
 export default {
   namespaced: true,
   state: {
@@ -77,7 +81,9 @@ export default {
     // ------------------------------------------------
     fetchOrganization() {
     // console.log("hola111111111")
-    //console.log("hola222222222222")
+   console.log(process.env.VUE_APP_URL_API)
+   console.log(process.env.VUE_APP_URL_API2)
+   console.log(process.env.VUE_APP_URL_API3)
       return new Promise((resolve, reject) => {
         axios
          .get(UrlApi+'/api/organization/MainPage')
@@ -273,6 +279,19 @@ export default {
           .catch(error => reject(error))
       })
       },
+      fetchMobileEntityDetailsValuesDaily(ctx, { entityId }) {
+        const Entity={
+          Entity:entityId
+        }
+        return new Promise((resolve, reject) => {
+          axios
+            //.get('http://localhost:3000/api/uplinks/DailyValues', { params: Entity})
+            .get(UrlApi+'/api/uplinks/MobileDailyValues', { params: Entity})
+            .then(response => resolve(response))
+            //.then(response => console.log(response))
+            .catch(error => reject(error))
+        })
+        },
       fetchEntityDetailsValuesExport(ctx, { entityId }) {
        
       
